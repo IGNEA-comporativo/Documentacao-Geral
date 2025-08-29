@@ -1,0 +1,910 @@
+<!-- # 🔵 Backend
+Para essa aplicação, o backend é responsável por estabelecer o servidor de backend para as requisições e servir os arquivos estáticos do frontend.
+
+
+## 🔷 🔷 Stack e dependências
+
+Tecnologias Utilizadas 
+
+- `Python`: Linguagem de programação utilizada no backend
+- `FastAPI`: Framework Python para desenvolvimento de servidores backend
+- `SQLAlchemy`: Framework Python para utilização e conexeção com o banco de dados PostgreSQL
+- `uv`: Gerenciador de ambientes Python (substituto moderno do `venv`)
+
+--- 
+
+## 🔷 🔷 Estrutura  
+
+ ^#\s 
+-->
+
+
+# 🔵 Backend
+
+**Convenções gerais**
+- Formatos de dados: JSON, exceto upload de arquivos (multipart/form-data) e download binário.
+- Autenticação: baseada em sessão (cookies) para rotas protegidas de auth.
+- Códigos de status: 2xx sucesso; 4xx erro do cliente; 5xx erro do servidor.
+
+---
+
+## 🔷 Stack e dependências
+
+Tecnologias utilizadas no backend e serviços auxiliares. Esta lista reflete o que está implementado nos módulos do projeto.
+
+
+
+- `Python`: Linguagem principal do backend.
+
+- `FastAPI`: Framework para definição das rotas e injeção de dependências.
+
+- `Starlette`: Base utilizada pelo FastAPI (sessões via `SessionMiddleware`, `Request`, `Response`, `FileResponse`, `Config` para `.env`).
+
+- `Pydantic`: Modelagem e validação de dados (schemas de entrada/saída).
+
+- `SQLAlchemy ORM`: Acesso ao banco e mapeamento das entidades (`Session`, consultas, `text` SQL quando necessário).
+
+- `PostgreSQL`: Banco de dados relacional (uso de tipos JSON/JSONB em consultas e agregações).
+
+- `Google GenAI (Gemini)`: SDK `google.genai` e camada `app.services.AI` para geração de conteúdo de capítulos a partir de prompts e anexos.
+
+- `Manipulação de documentos`: Função `createDocument` (`app.services.documentManip.replaceDocument`) para compor o `.odt` e serviço externo do LibreOffice (processamento/headless) acionado via HTTP.
+
+- `Requests`: Cliente HTTP para integração com o serviço do LibreOffice.
+
+- `uv`: Gerenciador de ambientes/execução para projetos Python, alternativa moderna ao `venv`.
+
+Observações de configuração:
+- Variáveis de ambiente via `.env` com `starlette.config.Config` (ex.: `DEV_PASSWORD` para autenticação).  
+- Caminhos e endpoints de serviços externos (ex.: diretórios de template e documento temporário, endpoint do serviço LibreOffice) devem ser definidos na configuração da aplicação.
+
+
+## 🔷 Visão geral
+
+O backend do Gerador de Relatórios organiza todo o ciclo de vida de criação de relatórios corporativos. Ele oferece:
+
+- **Gestão de modelos e capítulos:** Rotas para criar/atualizar/excluir modelos de relatório e capítulos reutilizáveis.
+
+- **Ordenação e composição:** Definição da ordem dos capítulos por modelo e montagem de objetos de relatório prontos para edição.
+
+- **Área de trabalho persistida:** Criação e atualização de relatórios “construídos” (`built_reports`) com estado completo de edição.  
+
+- **Anexos por capítulo:** Upload de arquivos, armazenamento e associação consistente ao par `(report_title, chapter_title)`.
+
+- **Geração de conteúdo assistida por IA**: Produção de texto por capítulo com base no `prompt` e anexos, utilizando Gemini.
+
+- **Exportação para `.odt`**: Composição do documento a partir de template, seguida de pós-processamento pelo LibreOffice headless e download do arquivo final.  
+  
+- **Autenticação simples por sessão**: Proteção de rotas com senha de desenvolvimento e sessão baseada em cookies.  
+
+## 🔷 Estrutura
+Para mais informações sobre a geração de relatórios, `.odt` e a utilização do libreoffice, veja a seção [Geração de Documentos](geracao_documentos.md).
+
+### 🔹Roteadores (FastAPI)  
+  - `auth.py`: login/logout e endpoint protegido por sessão.  
+  - `reports.py`: CRUD de modelos de relatório.  
+  - `chapters.py`: CRUD de capítulos.  
+  - `relations.py`: CRUD da ordem de capítulos por modelo.  
+  - `desktop.py`: montagem/leitura/salvamento de relatórios construídos e agregação de metadados de arquivos.  
+  - `storage.py`: upload e download de arquivos e vínculo com capítulos/relatórios.  
+  - `report_generation.py`: geração de conteúdo com IA e exportação `.odt`.
+
+### 🔹Serviços  
+  - `app.services.AI`: encapsula chamadas ao Gemini.  
+  - `app.services.documentManip.replaceDocument.createDocument`: compõe o documento a partir do template.  
+  - Serviço externo LibreOffice: endpoint HTTP para pós-processamento do `.odt`.
+
+### 🔹Persistência (SQLAlchemy + PostgreSQL)  
+  - Entidades principais: `reports`, `chapters`, `relations`, `built_reports`, `object_storage`, `storage_relation`.  
+  - `built_reports.report_obj` mantém o estado editável do relatório (capítulos, textos, flags, etc.).  
+  - Consultas híbridas: ORM para CRUD e SQL textual para trechos específicos (JSON/JSONB).
+
+### 🔹Fluxo operacional típico  
+  1) Criar modelos e capítulos.  
+  2) Definir a ordem dos capítulos por modelo.  
+  3) Montar a área de trabalho do relatório (a partir do modelo ou de uma versão já construída).  
+  4) Anexar arquivos por capítulo conforme necessário.  
+  5) Gerar texto com IA por capítulo.  
+  6) Salvar/atualizar a versão construída do relatório.  
+  7) Exportar o `.odt` final.
+
+```{mermaid}
+flowchart LR
+    FE[Frontend] -->|REST/JSON| API[FastAPI App]
+
+    subgraph Routers
+      AUTH[auth.py Sessão/credenciais]
+      REPS[reports.py Modelos de relatório]
+      CHAP[chapters.py Capítulos]
+      REL[relations.py Ordem de capítulos]
+      DESK[desktop.py Área de trabalho]
+      STOR[storage.py Upload/Download]
+      GEN[report_generation.py IA/Exportação]
+    end
+
+    API --> AUTH
+    API --> REPS
+    API --> CHAP
+    API --> REL
+    API --> DESK
+    API --> STOR
+    API --> GEN
+
+
+    subgraph Serviços Externos
+      DOC[createDocument com template]
+      LO[LibreOffice headless pipeline HTTP]
+      AI[Google GenAI Gemini]
+    end
+
+    GEN --> DOC
+    DOC --> LO
+    GEN --> AI
+```
+
+## 🔷 Autenticação
+
+### 🔹POST `/login`
+
+Autentica o usuário via senha de desenvolvimento (`DEV_PASSWORD` no `.env`) usando comparação em tempo constante. Em caso de sucesso, grava `logged_in=True` e um `nonce` na sessão. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Corpo (JSON):
+  - `password`: string.
+
+**Respostas**
+
+- 200: `{ "success": true }`.
+- 401: credenciais inválidas.
+
+</blockquote>
+
+
+---
+
+### 🔹POST `/logout`
+
+Limpa a sessão, invalidando a autenticação atual. Requer estar autenticado. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Sem corpo. Requer cookie de sessão válido.
+
+**Respostas**
+
+- 200: `{ "success": true }`.
+- 401: se não autenticado (via dependência). 
+</blockquote>
+
+---
+
+### 🔹GET `/protected`
+
+Endpoint de exemplo que só responde quando autenticado; útil para health-check de sessão. 
+
+<blockquote>
+
+**Respostas**
+
+- 200: `{ "message": "You made it inside!" }`.
+- 401: se não autenticado.
+
+
+
+</blockquote>
+
+---
+
+## 🔷 Modelos de Relatório (`/ModelosRelatorios`)
+
+CRUD sobre o modelo de relatório (metadados e descrição).
+
+### 🔹POST `/ModelosRelatorios/`
+
+Cria um modelo de relatório, garantindo unicidade por título. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Corpo (JSON) `schemas.ReportCreate`:
+  - Campos esperados: `title` (string), `description` (string).  
+    Observação: tipos e obrigatoriedade seguem o schema do projeto.
+
+**Respostas**
+- 200: objeto `schemas.Report` criado.
+- 409: título já existente.
+
+
+</blockquote>
+
+
+
+### 🔹PUT `/ModelosRelatorios/{id:int}`
+
+Atualiza parcialmente um modelo existente via `model_dump(exclude_unset=True)`. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `id`: inteiro.
+- Corpo (JSON) `schemas.ReportCreate`:
+  - Campos a atualizar (não enviados não são alterados).
+
+**Respostas**
+
+- 200: objeto `schemas.Report` atualizado.
+- 404: id inexistente.
+
+</blockquote>
+
+
+
+### 🔹GET `/ModelosRelatorios/{title}`
+
+Lista todos os modelos com o título informado (pode retornar múltiplos, dependendo do banco). 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `title`: string.
+
+**Respostas**
+
+- 200: lista de `schemas.Report`.
+- 404: nenhum encontrado.
+
+</blockquote>
+
+
+
+### 🔹GET `/ModelosRelatorios/`
+
+Retorna todos os modelos cadastrados. 
+
+<blockquote>
+
+**Respostas**
+
+- 200: lista de `schemas.Report`.
+
+</blockquote>
+
+
+### 🔹DELETE `/ModelosRelatorios/{id:int}`
+
+Remove um modelo por id. 
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `id`: inteiro.
+
+**Respostas**
+
+- 200: `{ "message": "Report deleted", "id": <id> }`
+- 404: não encontrado.
+</blockquote>
+
+
+---
+
+## 🔷 Capítulos (`/CriadorCapitulos`)
+
+Gerência os capítulos reutilizáveis dos relatórios.
+
+### 🔹POST `/CriadorCapitulos/`
+
+Cria capítulo; título é obrigatório e único. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Corpo (JSON) `schemas.ChapterCreate`:
+  - Campos esperados: `title` (string), `prompt` (string), `description` (string).
+
+**Respostas**
+
+- 200: objeto `schemas.Chapter`.
+- 404: título ausente.
+- 409: título já existe.
+</blockquote>
+
+
+### 🔹PUT `/CriadorCapitulos/{id:int}`
+
+Atualiza capítulo existente. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `id`: inteiro.
+- Corpo (JSON) `schemas.ChapterCreate`:
+  - Campos a atualizar.
+
+**Respostas**
+
+- 200: `schemas.Chapter` atualizado.
+- 404: id não encontrado.
+
+</blockquote>
+
+
+### 🔹GET `/CriadorCapitulos/{title}`
+
+Retorna capítulos pelo título. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `title`: string.
+
+**Respostas**
+
+- 200: lista de `schemas.Chapter`.
+- 404: não encontrado.
+</blockquote>
+
+
+### 🔹GET `/CriadorCapitulos/`
+
+Retorna todos os capítulos. 
+
+<blockquote>
+
+**Respostas**
+
+- 200: lista de `schemas.Chapter`.
+- 404: nenhum capítulo cadastrado.
+</blockquote>
+
+
+### 🔹DELETE `/CriadorCapitulos/{id:int}`
+
+Apaga um capítulo por id. A função não retorna corpo explícito. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `id`: inteiro.
+
+**Respostas**
+
+- 200: sem corpo (vazio).
+- 404: não encontrado.
+</blockquote>
+
+---
+
+## 🔷 Relações entre Modelo e Capítulos (`/ModelosRelatorios/relation`)
+
+Define a ordem dos capítulos para um modelo de relatório.
+
+### 🔹GET `/ModelosRelatorios/relation/{report_title}`
+
+Retorna a lista de capítulos com suas posições para o modelo informado. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+
+**Respostas**
+
+- 200: `List[schemas.ChapterWithOrder]`.
+
+</blockquote>
+
+
+### 🔹POST `/ModelosRelatorios/relation/`
+
+Cria relações capítulo↔modelo a partir de `schemas.RelationCreate`. Gera erro se o `report_title` já possui relações. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Corpo (JSON) `schemas.RelationCreate`:
+  - `report_title`: string.
+  - `chapters`: lista de objetos com `title` e `position`.
+
+**Respostas**
+
+- 200: sem corpo.
+- 400: `report_title` ausente. 
+- 409: relações já existentes para o `report_title`. 
+
+</blockquote>
+
+
+### 🔹PUT `/ModelosRelatorios/relation/{report_id:int}`
+
+Substitui as relações de um modelo: apaga as atuais e cria as novas. O `report_title` é derivado do `report_id`. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_id`: inteiro.
+- Corpo (JSON) `schemas.RelationCreate`:
+  - Mesmo formato do POST.
+
+**Respostas**
+
+- 200: sem corpo.
+
+</blockquote>
+
+
+### 🔹DELETE `/ModelosRelatorios/relation/{report_title}`
+
+Apaga todas as relações de um modelo específico. Retorna `1` em caso de sucesso. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+
+**Respostas**
+
+- 200: `1`.
+- 404: título não encontrado.
+
+</blockquote>
+
+
+## 🔷 Área de Trabalho (`/AreaDeTrabalho`)
+
+Orquestra e expõe objetos compostos usados no front-end para montar relatórios, com metadados e arquivos associados.
+
+### 🔹GET `/AreaDeTrabalho/lastReport`
+
+Recupera o último relatório “inacabado” cujo título começa por `unnamedN` (maior `N`). Monta o objeto com capítulos e metadados de arquivos. 
+
+<blockquote>
+
+**Respostas**
+
+- 200: `schemas.ReportWithFiles` com:
+  - `id`, `title`, `description`, `completed`, `chapters`, `files`.
+- 404: nenhum relatório inacabado.
+- 200 com `{ "report": null }` em casos específicos de erro interno tratado. 
+</blockquote>
+
+**Fluxo**
+
+```{mermaid}
+sequenceDiagram
+  participant FE as Front-end
+  participant API as GET /AreaDeTrabalho/lastReport
+  participant DB as DB
+  participant S as Object Storage
+
+  FE->>API: Request
+  API->>DB: Buscar último built_report com title like "unnamed%"
+  DB-->>API: Título
+  API->>DB: get_report_model(title)
+  API->>DB: Agregar arquivos por capítulo
+  DB-->>API: Relatório Salvo
+  S-->>API: Lista de arquivos (id, nome, tipo, tamanho)
+  API-->>FE: ReportWithFiles (chapters + files)
+```
+
+---
+
+### 🔹GET `/AreaDeTrabalho/{report_title}`
+
+Monta e retorna o objeto de relatório para um `report_title`. Se existir em `built_reports`, retorna a versão construída; senão, monta a partir do modelo de relatório e das relações. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+
+**Respostas**
+
+- 200: objeto com `id`, `title`, `description`, `chapters` e campos auxiliares nos capítulos (`docs`, `links`, `images`, `filled`, `text`, `position`). 
+
+</blockquote>
+
+
+### 🔹GET `/AreaDeTrabalho/`
+
+Retorna a lista de objetos de relatório para todos os títulos distintos encontrados em `reports.Report`. 
+
+<blockquote>
+
+**Respostas**
+
+- 200: lista de objetos de relatório.
+
+</blockquote>
+
+
+### 🔹POST `/AreaDeTrabalho/`
+
+Converte um `schemas.ReportObject` vindo do front-end em uma entrada em `built_reports`. Se `title` estiver vazio, gera automaticamente `unnamed{N}`. Se `title` existir, retorna conflito. Retorna `{ "title": <final> }`. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Corpo (JSON) `schemas.ReportObject`:
+  - `title`, `description`, `completed`, `chapters` etc.
+
+**Regras**
+
+- Título vazio: auto-incremento `unnamedN` com base nos existentes. 
+- Título já existente: 409. 
+
+**Respostas**
+
+- 200: `{ "title": "unnamedN" | "<title>" }`.
+
+</blockquote>
+
+
+### 🔹PUT `/AreaDeTrabalho/{report_title}`
+
+Atualiza um relatório construído: remove a versão anterior e adiciona a nova. Exige que o relatório exista. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+- Corpo (JSON) `schemas.ReportObject`.
+
+**Respostas**
+
+- 200: objeto `built_reports.BuiltReports` persistido.
+- 404: `report_title` não existe. 
+
+</blockquote>
+
+
+**Fluxo de atualização**
+
+```{mermaid}
+sequenceDiagram
+  participant FE as Front-end
+  participant API as PUT /AreaDeTrabalho/{title}
+  participant DB as DB
+
+  FE->>API: ReportObject atualizado
+  API->>DB: Verifica existência por title
+
+  alt existe
+    API->>DB: Deleta BuiltReports atual
+    API->>DB: Insere nova versão (add_report_model)
+    DB-->>API: Novo registro
+    API-->>FE: 200 com objeto
+  else não existe
+    API-->>FE: 404
+  end
+```
+
+---
+
+## 🔷 Armazenamento de Objetos (`/objects`)
+
+Upload e associação de arquivos aos capítulos de um relatório. Os bytes são guardados em `ObjectStorage` e a associação capítulo↔relatório↔arquivo em `StorageRelation`.
+
+### 🔹POST `/objects/`
+
+Recebe múltiplos arquivos e associa cada um ao par `(report_title, chapter_title)`. Se o nome do arquivo já existir, atualiza o registro (tipo de conteúdo, bytes e tamanho). Caso a relação já exista para o arquivo, ignora; caso contrário, cria. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Form Data (multipart):
+  - `chapter_title`: string.
+  - `report_title`: string.
+  - `files`: lista de arquivos.
+
+**Respostas**
+
+- 200: sem corpo (operações realizadas com sucesso).
+
+
+</blockquote>
+
+**Fluxo**
+
+```{mermaid}
+
+sequenceDiagram
+  participant FE as Front-end
+  participant API as POST /objects/
+  participant DB as DB
+
+  FE->>API: multipart (report_title, chapter_title, files[])
+  loop para cada arquivo
+    API->>DB: upsert em ObjectStorage (filename único)
+    API->>DB: verificar StorageRelation(UUID, report_title, chapter_title)
+    alt relação inexistente
+      API->>DB: inserir StorageRelation
+    else já existe
+      API-->>DB: ignora
+    end
+  end
+  API-->>FE: 200
+
+
+  
+```
+
+---
+
+### 🔹GET `/objects/{report_title}`
+
+Retorna a lista de blobs (bytes) de arquivos associados ao relatório. Observação: o filtro usa o campo `title` em `StorageRelation`, o que aparentemente deveria ser `report_title`. Verifique no modelo. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+
+**Respostas**
+
+- 200: lista de blobs binários (não recomendado para consumo direto via JSON).
+
+
+</blockquote>
+
+---
+
+### 🔹GET `/objects/file/{file_id}`
+
+Download de um arquivo por UUID, com cabeçalho `Content-Disposition` para forçar nome original. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `file_id`: UUID.
+
+**Respostas**
+
+- 200: conteúdo binário com `media_type` do arquivo e `filename` original.
+- 404: arquivo não encontrado.
+
+</blockquote>
+
+
+
+---
+
+## 🔷 Geração de Relatórios e Conteúdo com IA (`/report`)
+
+### 🔹GET `/report/createReport/{report_title}`
+
+Gera um documento `.odt` a partir de um relatório “construído” (`built_reports`).  
+Fluxo: valida existência do título, extrai `title` e `text` dos capítulos via SQL sobre `report_obj`, chama `createDocument` com `TEMPLATE_PATH` e `TEMP_DOC_PATH`, aciona um serviço de LibreOffice para atualizações de numeração e sumário, e retorna o arquivo via streaming com nome `<report_title>.odt`. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string (deve existir em `built_reports`).
+
+**Respostas**
+
+- 200: arquivo `.odt` como `application/vnd.oasis.opendocument.text`.
+- 404: título não existe em `built_reports`.
+
+</blockquote>
+
+
+**Fluxo**
+
+```{mermaid}
+flowchart TD
+  A[GET /report/createReport/title] --> B{title existe em built_reports?}
+  B -- não --> E[404]
+  B -- sim --> C[Consulta capítulos: title/text]
+  C --> D[createDocument TEMPLATE_PATH, TEMP_DOC_PATH]
+  D --> F[Chama LO-RUNNER /libreoffice/process-file]
+  F --> G[FileResponse _temp_report.odt como title.odt]
+```
+
+---
+
+### 🔹GET `/report/AI/{report_title}/{chapter_title}`
+
+Gera texto para um capítulo usando IA (Gemini) com base no `prompt` do capítulo e arquivos anexados ao par `(report_title, chapter_title)`.  
+Fluxo: busca arquivos do capítulo, extrai o `prompt` do JSON `report_obj` via SQL e chama `AI.call_gemini(prompt, [""], files_query)`. Retorna `{ "generated_text": <texto> }`. 
+
+<blockquote>
+
+**Parâmetros**
+
+- Path:
+  - `report_title`: string.
+  - `chapter_title`: string.
+
+**Respostas**
+
+- 200: `{ "generated_text": "<texto gerado>" }`.
+
+</blockquote>
+
+
+**Fluxo**
+
+```{mermaid}
+sequenceDiagram
+  participant FE as Front-end
+  participant API as GET /report/AI/{report}/{chapter}
+  participant DB as DB
+  participant IA as AI.call_gemini
+
+  FE->>API: Request
+  API->>DB: Buscar arquivos vinculados (data, filename, content_type)
+  API->>DB: Buscar prompt do capítulo em built_reports.report_obj
+  DB-->>API: files_query + prompt
+  API->>IA: prompt + arquivos
+  IA-->>API: generated_text
+  API-->>FE: { generated_text }
+```
+
+---
+
+## 🔷 Observações sobre schemas usados
+
+Abaixo estão os contratos Pydantic que estruturam entradas e saídas dos endpoints. Os nomes refletem o domínio do projeto e são usados de forma consistente nas rotas descritas.
+
+**Mapeamento rápido para as rotas**
+
+- Modelos de Relatório: `ReportCreate` e `Report` em criação, atualização, listagem e deleção.
+- Capítulos: `ChapterCreate`, `Chapter` e, quando necessário, `ChapterWithOrder` na composição de relatórios.
+- Relações: `RelationCreate` e `ChapterHOrder` para criar/substituir a ordem de capítulos por relatório.
+- Área de Trabalho: `ReportObject` para criar/atualizar relatórios construídos, `ReportObjectOut` e `ReportWithFiles` para leituras que incluem capítulos e anexos, além de `FileMeta` nos pontos de listagem/download de arquivos.
+
+### Visão estrutural
+
+```{mermaid}
+classDiagram
+    namespace Reports{
+    class ReportCreate {
+      title: str
+      description: Optional[str]
+    }
+
+    class Report {
+      id: int
+      title: str
+      description: Optional[str]
+    }
+
+    class ReportObject {
+      id: Optional[int]
+      chapters: List~ChapterObject~
+      completed: bool
+    }
+
+    class ReportObjectOut {
+      chapters: List~ChapterObjectOut~
+    }
+
+    class FileMeta {
+      uuid: UUID
+      filename: str
+      content_type: str
+      size_bytes: int
+      download_url: str
+    }
+
+    class ReportWithFiles {
+      title: str
+      description: Optional[str]
+      completed: bool
+      chapters: List~ChapterObjectOut~
+      files: Dict~str, List~FileMeta~~
+    }
+
+    }
+
+    namespace Chapters{
+        class ChapterCreate {
+      title: str
+      prompt: str
+      description: Optional[str]
+    }
+
+    class Chapter {
+      id: int
+      title: str
+      prompt: str
+      description: Optional[str]
+    }
+
+    class ChapterWithOrder {
+      position: str
+    }
+
+    class ChapterHOrder {
+      title: str
+      prompt: str
+      description: Optional[str]
+      position: str
+    }
+
+    class ChapterObject {
+      id: Optional[int]
+      links: List~str~
+      filled: bool
+      text: str
+      position: str
+    }
+
+    class ChapterObjectOut {
+      docs: List
+      images: List
+    }
+    }
+
+    
+
+    class RelationCreate {
+      chapters: List~ChapterHOrder~
+      report_title: str
+    }
+
+    class Relation {
+      chapters_title: List
+      report_title: str
+      position: str
+    }
+
+    
+
+    
+
+    
+
+    ReportCreate <|-- Report
+    ChapterCreate <|-- Chapter
+    Chapter <|-- ChapterWithOrder
+    Chapter <|-- ChapterObject
+    ChapterObject <|-- ChapterObjectOut
+    Report <|-- ReportObject
+    Report <|-- ReportObjectOut
+    RelationCreate --> ChapterHOrder
+    ReportWithFiles o-- FileMeta
+    ReportWithFiles o-- ChapterObjectOut
+```
+
+
+---
+

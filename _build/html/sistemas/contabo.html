@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contabo — Guia de Uso da Plataforma - Guia de Desenvolvimento documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="test" href="aws.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Contabo — Guia de Uso da Plataforma"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>Guia de Desenvolvimento</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="aws.html">test</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contabo — Guia de Uso da Plataforma</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#o-que-esta-em-execucao">O que est&#225; em execu&#231;&#227;o</a></li>
+<li><a class="reference internal" href="#acesso-ao-painel-contabo">Acesso ao painel Contabo</a></li>
+<li><a class="reference internal" href="#acesso-por-ssh">Acesso por SSH</a></li>
+<li><a class="reference internal" href="#operar-os-projetos-visao-pratica">Operar os projetos (vis&#227;o pr&#225;tica)</a><ul>
+<li><a class="reference internal" href="#monitoramento-de-processos">1) Monitoramento de Processos</a></li>
+<li><a class="reference internal" href="#workana">2) Workana</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#diagrama-simples-o-que-gerenciamos-na-contabo">Diagrama simples (o que gerenciamos na Contabo)</a></li>
+<li><a class="reference internal" href="#migracao-obrigatoria-para-aws-lightsail-ec2">Migra&#231;&#227;o obrigat&#243;ria para AWS (Lightsail/EC2)</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Guia de Desenvolvimento</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Contabo — Guia de Uso da Plataforma</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="contabo-guia-de-uso-da-plataforma">
+<h1>Contabo — Guia de Uso da Plataforma<a class="headerlink" href="#contabo-guia-de-uso-da-plataforma" title="Link to this heading">¶</a></h1>
+<p>Guia para operar as VPS da <strong>Contabo</strong> usadas pelos projetos da equipe. Foca em <strong>como acessar</strong>, <strong>onde encontrar</strong> cada projeto e <strong>o que fazer no dia a dia</strong> pelo <strong>painel Contabo</strong> e por <strong>SSH</strong> quando necessário.</p>
+<blockquote>
+<div><p>Para detalhes finos de execução/rotina de cada projeto, consulte a documentação do respectivo sistema.</p>
+</div></blockquote>
+<hr class="docutils" />
+<section id="o-que-esta-em-execucao">
+<h2>O que está em execução<a class="headerlink" href="#o-que-esta-em-execucao" title="Link to this heading">¶</a></h2>
+<p>Temos <strong>duas VPS separadas</strong>, uma para cada projeto (referenciadas pelo <strong>nome do projeto</strong>):</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Projeto</p></th>
+<th class="head"><p>VPS/Identificação no painel</p></th>
+<th class="head"><p>IP</p></th>
+<th class="head"><p>Diretório principal</p></th>
+<th class="head"><p>Serviço (<code class="docutils literal notranslate"><span class="pre">systemd</span></code>)</p></th>
+<th class="head"><p>Repositório</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Monitoramento de Processos</p></td>
+<td><p>vmi2694728</p></td>
+<td><p>213.199.39.53</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/root/ANMScrapping</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">myscraper.service</span></code></p></td>
+<td><p>https://github.com/IGNEA-comporativo/CadastroMineiroScrapping</p></td>
+</tr>
+<tr class="row-odd"><td><p>Workana (projeto de terceiro)</p></td>
+<td><p>vmi2713330</p></td>
+<td><p>212.90.121.173</p></td>
+<td><p><em>a confirmar</em></p></td>
+<td><p><em>a confirmar</em></p></td>
+<td><p>https://github.com/IGNEA-comporativo/anm_api</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="acesso-ao-painel-contabo">
+<h2>Acesso ao painel Contabo<a class="headerlink" href="#acesso-ao-painel-contabo" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Como acessar</strong>: utilize o <strong>painel da Contabo</strong> pela <a class="reference external" href="https://new.contabo.com/servers/vps">nova versão</a>, ou pela <a class="reference external" href="https://my.contabo.com/abos#">versão legacy</a>,  com as <strong>credenciais disponíveis no Discord</strong>.</p></li>
+<li><p><strong>O que você encontra no painel</strong>:</p>
+<ul>
+<li><p><strong>Lista de VPS</strong> com status e recursos.</p></li>
+<li><p><strong>Ações rápidas</strong>: reiniciar/desligar/ligar a VPS.</p></li>
+<li><p><strong>Console remoto (NoVNC)</strong> para acesso emergencial.</p></li>
+<li><p><strong>Rede e IP público</strong> (visualização).</p></li>
+<li><p><strong>Histórico de atividades básicas da instância</strong>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="acesso-por-ssh">
+<h2>Acesso por SSH<a class="headerlink" href="#acesso-por-ssh" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Usuário</strong>: <code class="docutils literal notranslate"><span class="pre">root</span></code></p></li>
+<li><p><strong>Autenticação</strong>: <strong>senha</strong> disponível no <strong>Discord</strong></p></li>
+<li><p><strong>Host</strong>: use o <strong>IP público</strong> exibido no painel Contabo (e também no discord)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="operar-os-projetos-visao-pratica">
+<h2>Operar os projetos (visão prática)<a class="headerlink" href="#operar-os-projetos-visao-pratica" title="Link to this heading">¶</a></h2>
+<section id="monitoramento-de-processos">
+<h3>1) Monitoramento de Processos<a class="headerlink" href="#monitoramento-de-processos" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Diretório</strong>: <code class="docutils literal notranslate"><span class="pre">/root/ANMScrapping</span></code></p></li>
+<li><p><strong>Serviço</strong>: <code class="docutils literal notranslate"><span class="pre">myscraper.service</span></code> (gerencia a execução contínua).</p></li>
+<li><p><strong>Como operar</strong>: utilize os <strong>alvos do <code class="docutils literal notranslate"><span class="pre">Makefile</span></code></strong> e os passos descritos na <a class="reference external" href="https://github.com/IGNEA-comporativo/CadastroMineiroScrapping">documentação do sistema</a>(reiniciar serviço, verificar status, inspecionar logs, etc.).</p>
+<ul>
+<li><p>Para entendimento do fluxo e rotinas, consulte: <strong>Documentação do Monitoramento de Processos</strong> (neste repositório) e o repositório do projeto:</p>
+<ul>
+<li><p>GitHub: https://github.com/IGNEA-comporativo/CadastroMineiroScrapping</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="workana">
+<h3>2) Workana<a class="headerlink" href="#workana" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Projeto desenvolvido por <strong>terceiro contratado via Workana</strong>.</p></li>
+<li><p><strong>Mais informações são necessárias</strong> para operação detalhada (diretório, serviço, comandos).</p></li>
+<li><p>Repositório: https://github.com/IGNEA-comporativo/anm_api</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="diagrama-simples-o-que-gerenciamos-na-contabo">
+<h2>Diagrama simples (o que gerenciamos na Contabo)<a class="headerlink" href="#diagrama-simples-o-que-gerenciamos-na-contabo" title="Link to this heading">¶</a></h2>
+<pre  class="mermaid">
+        flowchart LR
+    C[Contabo - Painel] --&gt; V1[VPS - Monitoramento de Processos]
+    C --&gt; V2[VPS - Workana]
+    V1 --&gt; D1[/ /root/ANMScrapping /]
+    D1 --&gt; S1[Serviço systemd: myscraper.service]
+    V2 --&gt; D2[/ diretório a confirmar /]
+    D2 --&gt; S2[Serviço a confirmar]
+    </pre></section>
+<hr class="docutils" />
+<section id="migracao-obrigatoria-para-aws-lightsail-ec2">
+<h2>Migração obrigatória para AWS (Lightsail/EC2)<a class="headerlink" href="#migracao-obrigatoria-para-aws-lightsail-ec2" title="Link to this heading">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Todos os sistemas atualmente hospedados na <strong>Contabo</strong> devem ser <strong>transicionados para a AWS</strong>, preferencialmente como <strong>contêiner</strong> em <strong>Lightsail</strong> (quando for “VPS-like”) ou <strong>EC2</strong> (quando exigir maior flexibilidade). Essa mudança é <strong>prioritária</strong> por padronização, segurança, escalabilidade e governança de custos.</p>
+</div>
+<p><strong>Novos serviços</strong>: já nascer na <strong>AWS</strong> (não criar nada novo na Contabo).</p>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="aws.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">test</div></div>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    primaryColor: '#111827',   /* card bg */
+    primaryTextColor: '#e5e7eb',
+    lineColor: '#e5e7eb',
+    secondaryColor: '#1f2937',
+    tertiaryColor: '#374151'
+  }
+});
+</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script></body>
+</html>

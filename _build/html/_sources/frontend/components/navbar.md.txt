@@ -1,0 +1,9 @@
+## 🔷 NavBar
+O componente **NavBar** provê a navegação principal do frontend. Ele exibe a marca (logo + nome do sistema), organiza os links de páginas por meio de **`<router-link>`** e aplica destaque visual ao item ativo. Em telas pequenas, utiliza o comportamento de **collapse** do Bootstrap para alternar entre estados expandido/colapsado.
+
+
+### 🔹Visão geral do fluxo
+1. **Renderização**: a marca aponta para a rota inicial (`/`) e os itens de navegação são renderizados como **links de rota** (`<router-link>`).
+2. **Resolução de rota**: o Vue Router aplica a classe de ativo ao link correspondente à rota atual; o componente adiciona um destaque adicional via classe **`active-background`**.
+3. **Responsividade**: o botão **navbar-toggler** controla o **collapse** de navegação usando atributos `data-bs-*` do Bootstrap. Em telas pequenas, os itens ficam ocultos até o usuário expandir o menu.
+4. **Estilos**: a classe **`active-background`** (escopo local) define um gradiente de fundo e tipografia mais forte para o link ativo.

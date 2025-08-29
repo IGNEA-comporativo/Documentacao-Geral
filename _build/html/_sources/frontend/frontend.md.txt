@@ -1,0 +1,133 @@
+# 🔵 Frontend
+
+## ❗🔷 Necessidades
+Aqui vamos listar algumas necessidades do projeto.
+
+### 🔹 1. Geração de Documentos
+Para a geração adequada dos documentos, precisa-se informar mais algumas informações que ainda não estão presentes no frontend (não tem campos). São elas:
+- Número do processo
+- Preparado para quem
+- Local de para quem foi preparado
+- Data final
+- NUP
+
+Para acrescentar essas informações, elas apenas precisam ser coletadas no frontend e passadas para o backend na chamada da rota `/report/createReport/{report_title}`. Uma vez lá dentro basta completar o dicionário 
+```python
+  header_info = {
+        "report_title": report_title
+    }
+```
+que elas serão corretamento reproduzidas no documento final.
+
+
+## 🔷 Stack e dependências
+
+Tecnologias Utilizadas 
+
+- `Vue`: Framework principal para o desenvolvimento da aplicação.
+- `Node.js`: Ambiente de execução e gerenciador de pacotes (via npm).
+- `Axios`: Biblioteca para envio e recebimento de requisições HTTP.
+- `Bootstrap`: Biblioteca de CSS para interfaces modernas e responsivas.
+
+Módulos (ecossistema Vue)
+
+- `epic-spinners`: Animações de carregamento.
+- `vuedraggable`: Arrastar e soltar entre modelos.
+- `slugify`: Normalização/limpeza de nomes de arquivos.
+
+--- 
+
+A concepção visual do frontend segue o template disponível no [Canva](https://www.canva.com/design/DAGpTF2vrI8/FmRtpG-lRzjes-09MY_7YA/edit).
+
+## 🔷 Estrutura 
+Quatro páginas principais compõem a interface, mais algumas páginas auxiliares:
+
+**Páginas Principais**
+
+1. **Login**: Componente Vue para a página de autenticação.
+2. **Criador de Capítulos**: Componente Vue para criação de capítulos.
+3. **Criador de Modelos**: Essa página é composta por duas componentes Vue:
+   1. **ModelosRelatorios**: Componente principal que orquestra as demais e concentra a maior parte da lógica.
+   2. **TwoSideList**: Componente responsável por implementar a lista dupla para ordenação dos modelos. 
+4. **Área de Trabalho**: Página composta por três componentes Vue:
+   1. **ÁreaDeTrabalho**: Componente principal que orquestra as demais e concentra a maior parte da lógica.
+   2. **InputFields**: Componente responsável pelos campos de upload de documentos e inserção de links.
+   3. **PromptFields**: Componente responsável pelo campo de prompt e suas funcionalidades.
+
+**Páginas Auxiliares**
+1. **NavBar**: Componente responsável pela barra de navegação ao topo das demais componentes.
+2. **NotificationComp**: Pequena componente que implementa a lógica de notificações/avisos para todo o frontend. 
+
+**Em Desenvolvimento**
+1. **Resultados**: Página planejada para apresentar todos os relatórios já gerados pela plataforma (ainda não implementada). 
+
+
+## 🔷 Arquivos de Configuração
+Algumas configurações gerais para o frontend se encontram em alguns arquivos:
+
+### `axios.js`
+**Local:** `src/frontend/src/plugins/axios.js`.
+
+Define a URL base do Axios. Toda chamada adiciona o prefixo `/api` às rotas.
+
+Utiliza a variável de ambiente `VUE_APP_API_URL` para diferenciar desenvolvimento e produção. Os valores são definidos no `docker-compose`. 
+
+- **Desenvolvimento**: `http://${BACKEND_HOST}:${BACKEND_PORT}/api`
+- **Backend**: `/api`
+
+
+### `vue.config.js` 
+**Local:** `src/frontend/vue.config.js`
+Configura a integração entre o dev server do Vue e o backend (proxy para `/api`) e o WebSocket do cliente:
+
+```js
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://backend:8000',
+        changeOrigin: true,
+      },
+    },
+    client: {
+      webSocketURL: 'auto://0.0.0.0:0/ws',
+    },
+  },
+})
+```
+
+## 🔷 Roteamento (Vue Router)
+
+Centraliza a navegação. As rotas utilizam **metadados** (`requiresAuth`/`guest`) e **guards** (locais e globais) para controlar acesso autenticado.
+
+### 🔹Mapa de rotas
+| Path                 | Nome                | Componente          | Meta                     |
+| -------------------- | ------------------- | ------------------- | ------------------------ |
+| `/`                  | `Home`              | —                   | —                        |
+| `/login`             | `Login`             | `LoginComp`         | `{ guest: true }`        |
+| `/CriadorCapitulos`  | `CriadorCapitulos`  | `CriadorCapitulos`  | `{ requiresAuth: true }` |
+| `/ModelosRelatorios` | `ModelosRelatorios` | `ModelosRelatorios` | `{ requiresAuth: true }` |
+| `/AreaDeTrabalho`    | `AreaDeTrabalho`    | `AreaDeTrabalho`    | `{ requiresAuth: true }` |
+
+### 🔹Padrões de navegação
+As redireções e navegações utilizam **nomes de rota** (`{ name: "AreaDeTrabalho" }` / `{ name: "Login" }`).
+
+
+---
+
+## 🔷 Discussão das Componentes Vue
+Nesta seção, serão detalhadas a implementação e a lógica das diferentes componentes Vue utilizadas no projeto.
+
+```{toctree}
+:maxdepth: 3
+:caption: Contents
+
+components/login.md
+components/navbar.md
+components/notificationComp.md
+components/criadorCapitulos.md
+components/modelosRelatorios.md
+components/areaDeTrabalho.md
+```

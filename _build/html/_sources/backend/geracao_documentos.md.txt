@@ -1,0 +1,63 @@
+# 🔵 Geração de Documentos
+
+Embora seja um processo do backend, a geração de documentos exige separação das demais componentes e tem considerável complexidade. Por esse motivo, tratamos essa parte de forma independente.
+
+A geração dos relatórios deve ser realizada em um formato que permite edição pelo google docs (`.docx`ou `.odt`). Devido as dificuldades de utilizar um sistema windows para realizar automações com o *microsft word* optou-se por realizar a geração dos documentos no formato `.odt` com o auxílio do LibreOffice. 
+
+O LibreOffice possuí uma interface/API interna com Python, chamada [UNO](https://api.libreoffice.org/), que permite automação direta de documentos `.odt`.
+
+
+## 🔷 Stack e dependências
+
+Tecnologias Utilizadas 
+
+- `Python`: Linguagem de programação Python, com interpretador fornecido pelo pacote LibreOffice
+- `FastAPI`: Framework Python para desenvolvimento de servidores backend
+- `py3o`: Biblioteca Python para edição e templating de documentos `.odt`.
+- `UNO`: API do LibreOffice com python para edição de documentos `.odt`.
+
+--- 
+
+## 🔷 Estrutura
+A geração de relatório segue uma lógica relativamente simples. 
+
+### 🔹1. Template
+Para gerar o relatório se define um template base em `.odt` que contém eles como:
+- Formatação
+- Cabeçalho 
+- Rodapé 
+- Numeração de Páginas
+
+Nesse template definimos onde e como as informações serão substituídas. Para isso, utiliza-se o padrão definido pela biblioteca `py3o` que pode ser consultado [aqui](https://py3otemplate.readthedocs.io/en/latest/templating.html). De forma geral:
+- Estruturas (como `if` e `for`) são escritas utilizando hyperlinks
+- Variáveis para substituição são escritas utilizando variáveis do LibreOffice (acessíveis por `CTLR+F2`).
+
+**OBS:** Note que essa biblioteca, diferente de outras da área, não utiliza JINJA2 para templatting. 
+
+
+#### 🔹2. `py3o`
+Dentro do serviço `replaceDocument.py` define-se o código python, utilizando a biblioteca `py3o` que substitui as informações retiradas do banco de dados no documento. 
+
+Uma vez que esse documento é gerado, pela função `createDocument`, toda a informação armazenada no banco de dados, extraída do relatório armazenado como JSON, é substituída no documento.
+
+Entretanto, duas estruturas deixam de funcionar:
+1. Sumário
+2. Numeração Automática
+Ambas são funcionalidades do próprio leitor de arquivos (seja Office, google docs ou como nesse caso LibreOffice). Por esse motivo, elas não atualizam apenas peal edição do documento.
+
+
+#### 🔹3. LibreOffice
+Para atualizar os campos discutidos anteriormente, utilizamos uma integração com o Libreoffice pela biblioteca `UNO`. Nela, implementamos dois métodos, uma para atualizar o sumário e o outro a numeração dos capítulos. 
+
+Para realizar isso é necessário utilizar a biblioteca python que possuí uma linguagem bem específica, para mais informações acesse a [documentação oficial](https://py3otemplate.readthedocs.io/en/latest/templating.html). 
+
+Entretanto, alguns avisos são bem vindos:
+1. Sempre utilize caminhos absolutos dentro da biblioteca UNO
+2. Utilize o interpretador python fornecido pelo próprio LibreOffice, é a melhor forma de realizar a conexão com o UNO
+
+Por motivos como esse é necessário ter uma instalação do LibreOffice empacotada junto com o deploy da aplicação. Para que isso seja possível sem que altere a execução do `backend` e `frontend` e, em especial, não comprometa a segurança do site, separa-se essa aplicação em um container. Esse container deve ser publicado em conjunto com o `backend`, porém eles devem se comunicar, exclusivamente, por uma rede interna. Assim garante-se que o container com o LibreOffice não pode ser acessado externamente. 
+
+
+
+## 🔷 Discussão dos Métodos e Funções
+

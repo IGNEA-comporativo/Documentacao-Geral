@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔵 Frontend - GeradorRelatorios documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="🔷 Login" href="components/login.html" /><link rel="prev" title="Documentação do Gerador de Relatórios" href="../index.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="🔵 Frontend"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>GeradorRelatorios</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🔵 Frontend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components/login.html">🔷 Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/areaDeTrabalho.html">🔷 Área de Trabalho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/areaDeTrabalho.html#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/areaDeTrabalho.html#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../backend/backend.html">🔵 Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backend/geracao_documentos.html">🔵 Geração de Documentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/deploy.html">🔵 Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/database.html">🔵 Banco de Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/documentation.html">🔵 Guia da documentação</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#necessidades">&#10071;&#128311; Necessidades</a><ul>
+<li><a class="reference internal" href="#geracao-de-documentos">&#128313; 1. Gera&#231;&#227;o de Documentos</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#stack-e-dependencias">&#128311; Stack e depend&#234;ncias</a></li>
+<li><a class="reference internal" href="#estrutura">&#128311; Estrutura</a></li>
+<li><a class="reference internal" href="#arquivos-de-configuracao">&#128311; Arquivos de Configura&#231;&#227;o</a><ul>
+<li><a class="reference internal" href="#axios-js"><code class="docutils literal notranslate">js</span></code></a></li>
+<li><a class="reference internal" href="#vue-config-js"><code class="docutils literal notranslate">config.js</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#roteamento-vue-router">&#128311; Roteamento (Vue Router)</a><ul>
+<li><a class="reference internal" href="#mapa-de-rotas">&#128313;Mapa de rotas</a></li>
+<li><a class="reference internal" href="#padroes-de-navegacao">&#128313;Padr&#245;es de navega&#231;&#227;o</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#discussao-das-componentes-vue">&#128311; Discuss&#227;o das Componentes Vue</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">GeradorRelatorios</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">🔵 Frontend</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="frontend">
+<h1>🔵 Frontend<a class="headerlink" href="#frontend" title="Link to this heading">¶</a></h1>
+<section id="necessidades">
+<h2>❗🔷 Necessidades<a class="headerlink" href="#necessidades" title="Link to this heading">¶</a></h2>
+<p>Aqui vamos listar algumas necessidades do projeto.</p>
+<section id="geracao-de-documentos">
+<h3>🔹 1. Geração de Documentos<a class="headerlink" href="#geracao-de-documentos" title="Link to this heading">¶</a></h3>
+<p>Para a geração adequada dos documentos, precisa-se informar mais algumas informações que ainda não estão presentes no frontend (não tem campos). São elas:</p>
+<ul class="simple">
+<li><p>Número do processo</p></li>
+<li><p>Preparado para quem</p></li>
+<li><p>Local de para quem foi preparado</p></li>
+<li><p>Data final</p></li>
+<li><p>NUP</p></li>
+</ul>
+<p>Para acrescentar essas informações, elas apenas precisam ser coletadas no frontend e passadas para o backend na chamada da rota <code class="docutils literal notranslate"><span class="pre">/report/createReport/{report_title}</span></code>. Uma vez lá dentro basta completar o dicionário</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1">  <span class="n">header_info</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="2">        <span class="s2">&quot;report_title&quot;</span><span class="p">:</span> <span class="n">report_title</span>
+</span><span data-line="3">    <span class="p">}</span>
+</span></pre></div>
+</div>
+<p>que elas serão corretamento reproduzidas no documento final.</p>
+</section>
+</section>
+<section id="stack-e-dependencias">
+<h2>🔷 Stack e dependências<a class="headerlink" href="#stack-e-dependencias" title="Link to this heading">¶</a></h2>
+<p>Tecnologias Utilizadas</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Vue</span></code>: Framework principal para o desenvolvimento da aplicação.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Node.js</span></code>: Ambiente de execução e gerenciador de pacotes (via npm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Axios</span></code>: Biblioteca para envio e recebimento de requisições HTTP.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bootstrap</span></code>: Biblioteca de CSS para interfaces modernas e responsivas.</p></li>
+</ul>
+<p>Módulos (ecossistema Vue)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epic-spinners</span></code>: Animações de carregamento.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vuedraggable</span></code>: Arrastar e soltar entre modelos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slugify</span></code>: Normalização/limpeza de nomes de arquivos.</p></li>
+</ul>
+<hr class="docutils" />
+<p>A concepção visual do frontend segue o template disponível no <a class="reference external" href="https://www.canva.com/design/DAGpTF2vrI8/FmRtpG-lRzjes-09MY_7YA/edit">Canva</a>.</p>
+</section>
+<section id="estrutura">
+<h2>🔷 Estrutura<a class="headerlink" href="#estrutura" title="Link to this heading">¶</a></h2>
+<p>Quatro páginas principais compõem a interface, mais algumas páginas auxiliares:</p>
+<p><strong>Páginas Principais</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Login</strong>: Componente Vue para a página de autenticação.</p></li>
+<li><p><strong>Criador de Capítulos</strong>: Componente Vue para criação de capítulos.</p></li>
+<li><p><strong>Criador de Modelos</strong>: Essa página é composta por duas componentes Vue:</p>
+<ol class="arabic simple">
+<li><p><strong>ModelosRelatorios</strong>: Componente principal que orquestra as demais e concentra a maior parte da lógica.</p></li>
+<li><p><strong>TwoSideList</strong>: Componente responsável por implementar a lista dupla para ordenação dos modelos.</p></li>
+</ol>
+</li>
+<li><p><strong>Área de Trabalho</strong>: Página composta por três componentes Vue:</p>
+<ol class="arabic simple">
+<li><p><strong>ÁreaDeTrabalho</strong>: Componente principal que orquestra as demais e concentra a maior parte da lógica.</p></li>
+<li><p><strong>InputFields</strong>: Componente responsável pelos campos de upload de documentos e inserção de links.</p></li>
+<li><p><strong>PromptFields</strong>: Componente responsável pelo campo de prompt e suas funcionalidades.</p></li>
+</ol>
+</li>
+</ol>
+<p><strong>Páginas Auxiliares</strong></p>
+<ol class="arabic simple">
+<li><p><strong>NavBar</strong>: Componente responsável pela barra de navegação ao topo das demais componentes.</p></li>
+<li><p><strong>NotificationComp</strong>: Pequena componente que implementa a lógica de notificações/avisos para todo o frontend.</p></li>
+</ol>
+<p><strong>Em Desenvolvimento</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Resultados</strong>: Página planejada para apresentar todos os relatórios já gerados pela plataforma (ainda não implementada).</p></li>
+</ol>
+</section>
+<section id="arquivos-de-configuracao">
+<h2>🔷 Arquivos de Configuração<a class="headerlink" href="#arquivos-de-configuracao" title="Link to this heading">¶</a></h2>
+<p>Algumas configurações gerais para o frontend se encontram em alguns arquivos:</p>
+<section id="axios-js">
+<h3><code class="docutils literal notranslate"><span class="pre">axios.js</span></code><a class="headerlink" href="#axios-js" title="Link to this heading">¶</a></h3>
+<p><strong>Local:</strong> <code class="docutils literal notranslate"><span class="pre">src/frontend/src/plugins/axios.js</span></code>.</p>
+<p>Define a URL base do Axios. Toda chamada adiciona o prefixo <code class="docutils literal notranslate"><span class="pre">/api</span></code> às rotas.</p>
+<p>Utiliza a variável de ambiente <code class="docutils literal notranslate"><span class="pre">VUE_APP_API_URL</span></code> para diferenciar desenvolvimento e produção. Os valores são definidos no <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Desenvolvimento</strong>: <code class="docutils literal notranslate"><span class="pre">http://${BACKEND_HOST}:${BACKEND_PORT}/api</span></code></p></li>
+<li><p><strong>Backend</strong>: <code class="docutils literal notranslate"><span class="pre">/api</span></code></p></li>
+</ul>
+</section>
+<section id="vue-config-js">
+<h3><code class="docutils literal notranslate"><span class="pre">vue.config.js</span></code><a class="headerlink" href="#vue-config-js" title="Link to this heading">¶</a></h3>
+<p><strong>Local:</strong> <code class="docutils literal notranslate"><span class="pre">src/frontend/vue.config.js</span></code>
+Configura a integração entre o dev server do Vue e o backend (proxy para <code class="docutils literal notranslate"><span class="pre">/api</span></code>) e o WebSocket do cliente:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">defineConfig</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@vue/cli-service&#39;</span><span class="p">)</span>
+</span><span data-line="2"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">defineConfig</span><span class="p">({</span>
+</span><span data-line="3"><span class="w">  </span><span class="nx">transpileDependencies</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nx">devServer</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="5"><span class="w">    </span><span class="nx">proxy</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="6"><span class="w">      </span><span class="s1">&#39;/api&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="7"><span class="w">        </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;http://backend:8000&#39;</span><span class="p">,</span>
+</span><span data-line="8"><span class="w">        </span><span class="nx">changeOrigin</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span data-line="9"><span class="w">      </span><span class="p">},</span>
+</span><span data-line="10"><span class="w">    </span><span class="p">},</span>
+</span><span data-line="11"><span class="w">    </span><span class="nx">client</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="12"><span class="w">      </span><span class="nx">webSocketURL</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;auto://0.0.0.0:0/ws&#39;</span><span class="p">,</span>
+</span><span data-line="13"><span class="w">    </span><span class="p">},</span>
+</span><span data-line="14"><span class="w">  </span><span class="p">},</span>
+</span><span data-line="15"><span class="p">})</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="roteamento-vue-router">
+<h2>🔷 Roteamento (Vue Router)<a class="headerlink" href="#roteamento-vue-router" title="Link to this heading">¶</a></h2>
+<p>Centraliza a navegação. As rotas utilizam <strong>metadados</strong> (<code class="docutils literal notranslate"><span class="pre">requiresAuth</span></code>/<code class="docutils literal notranslate"><span class="pre">guest</span></code>) e <strong>guards</strong> (locais e globais) para controlar acesso autenticado.</p>
+<section id="mapa-de-rotas">
+<h3>🔹Mapa de rotas<a class="headerlink" href="#mapa-de-rotas" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Path</p></th>
+<th class="head"><p>Nome</p></th>
+<th class="head"><p>Componente</p></th>
+<th class="head"><p>Meta</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Home</span></code></p></td>
+<td><p>—</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/login</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Login</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LoginComp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">guest:</span> <span class="pre">true</span> <span class="pre">}</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CriadorCapitulos</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CriadorCapitulos</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">requiresAuth:</span> <span class="pre">true</span> <span class="pre">}</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ModelosRelatorios</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ModelosRelatorios</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">requiresAuth:</span> <span class="pre">true</span> <span class="pre">}</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AreaDeTrabalho</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AreaDeTrabalho</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">requiresAuth:</span> <span class="pre">true</span> <span class="pre">}</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="padroes-de-navegacao">
+<h3>🔹Padrões de navegação<a class="headerlink" href="#padroes-de-navegacao" title="Link to this heading">¶</a></h3>
+<p>As redireções e navegações utilizam <strong>nomes de rota</strong> (<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">name:</span> <span class="pre">&quot;AreaDeTrabalho&quot;</span> <span class="pre">}</span></code> / <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">name:</span> <span class="pre">&quot;Login&quot;</span> <span class="pre">}</span></code>).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="discussao-das-componentes-vue">
+<h2>🔷 Discussão das Componentes Vue<a class="headerlink" href="#discussao-das-componentes-vue" title="Link to this heading">¶</a></h2>
+<p>Nesta seção, serão detalhadas a implementação e a lógica das diferentes componentes Vue utilizadas no projeto.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="components/login.html">🔷 Login</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/areaDeTrabalho.html">🔷 Área de Trabalho</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/areaDeTrabalho.html#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/areaDeTrabalho.html#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../index.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Home</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="components/login.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">🔷 Login</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script></body>
+</html>

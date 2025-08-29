@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AWS (Lightsail) — Guia de Uso da Plataforma - Guia de Desenvolvimento documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contabo — Guia de Uso da Plataforma" href="contabo.html" /><link rel="prev" title="Informações Gerais de Desenvolvimento - ÍGNEA" href="../index.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="AWS (Lightsail) — Guia de Uso da Plataforma"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>Guia de Desenvolvimento</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AWS (Lightsail) — Guia de Uso da Plataforma</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contabo.html">Contabo — Guia de Uso da Plataforma</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#conta-regiao-e-escopo">Conta, Regi&#227;o e Escopo</a></li>
+<li><a class="reference internal" href="#recursos-em-uso-hoje">Recursos em uso (hoje)</a></li>
+<li><a class="reference internal" href="#acesso">Acesso</a><ul>
+<li><a class="reference internal" href="#console-aws">Console AWS</a></li>
+<li><a class="reference internal" href="#ssh-na-instancia">SSH na Inst&#226;ncia</a></li>
+<li><a class="reference internal" href="#uso-e-deploy">Uso e Deploy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custos-atencao">Custos &#8212; <strong>aten&#231;&#227;o</strong></a></li>
+<li><a class="reference internal" href="#diagrama-simples-visao-atual">Diagrama simples (vis&#227;o atual)</a></li>
+<li><a class="reference internal" href="#publickey">PublicKey</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Guia de Desenvolvimento</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">AWS (Lightsail) — Guia de Uso da Plataforma</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="aws-lightsail-guia-de-uso-da-plataforma">
+<h1>AWS (Lightsail) — Guia de Uso da Plataforma<a class="headerlink" href="#aws-lightsail-guia-de-uso-da-plataforma" title="Link to this heading">¶</a></h1>
+<p>Guia para operar a infraestrutura na <strong>AWS (Lightsail)</strong>.</p>
+<hr class="docutils" />
+<section id="conta-regiao-e-escopo">
+<h2>Conta, Região e Escopo<a class="headerlink" href="#conta-regiao-e-escopo" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Conta &amp; credenciais</strong>: disponíveis no <strong>Discord</strong>.</p></li>
+<li><p><strong>Região padrão</strong>: quando possível, <strong>Brasil (sa-east-1)</strong>; caso não, <strong>N. Virginia (us-east-1, Zone A / us-east-1a)</strong> por ser o segundo mais próximo.</p></li>
+<li><p><strong>Serviço utilizado</strong>: <strong>Lightsail</strong> (compute + banco gerenciado).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="recursos-em-uso-hoje">
+<h2>Recursos em uso (hoje)<a class="headerlink" href="#recursos-em-uso-hoje" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Recurso</p></th>
+<th class="head"><p>Tipo</p></th>
+<th class="head"><p>Nome/Identificação</p></th>
+<th class="head"><p>Região/AZ</p></th>
+<th class="head"><p>IP</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Instância de aplicação</p></td>
+<td><p>Lightsail (Linux)</p></td>
+<td><p><strong>GeradorRelatoriosV2</strong></p></td>
+<td><p>us-east-1a</p></td>
+<td><p><strong>34.205.142.142</strong> (IP estático)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Banco de dados</p></td>
+<td><p>Lightsail Managed DB</p></td>
+<td><p><strong>GeradorRelatoriosDatabase</strong></p></td>
+<td><p>us-east-1a</p></td>
+<td><p>Endereço/porta via <code class="docutils literal notranslate"><span class="pre">.env</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Aplicação</strong>: 2 contêineres Docker — <strong>backend + servidor de estáticos</strong> e <strong>LibreOffice (lo-runner)</strong>.<br />
+<strong>Banco</strong>: <strong>Lightsail Managed Database</strong>; informações de conexão em <strong><code class="docutils literal notranslate"><span class="pre">.env</span></code> do Gerador de Relatórios no Discord</strong>.</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="acesso">
+<h2>Acesso<a class="headerlink" href="#acesso" title="Link to this heading">¶</a></h2>
+<section id="console-aws">
+<h3>Console AWS<a class="headerlink" href="#console-aws" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Acesse o <strong>Console AWS</strong> com as credenciais do <strong>Discord</strong> como root.</p></li>
+<li><p>Abra <strong>Lightsail</strong> → <strong>Instâncias</strong> → <strong>GeradorRelatoriosV2</strong>.</p></li>
+</ol>
+</section>
+<section id="ssh-na-instancia">
+<h3>SSH na Instância<a class="headerlink" href="#ssh-na-instancia" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p><strong>Usuário</strong>: <code class="docutils literal notranslate"><span class="pre">ubuntu</span></code></p></li>
+<li><p><strong>Autenticação</strong>: chave <code class="docutils literal notranslate"><span class="pre">.pem</span></code> (public key) do Lightsail (armazenada na conta/região)</p>
+<ul class="simple">
+<li><p>Para mais informações sobre a public key veja <a class="reference internal" href="#publickey"><span class="xref myst">Publickey</span></a>.</p></li>
+</ul>
+</li>
+<li><p><strong>Comando (exemplo)</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">ssh<span class="w"> </span>-i<span class="w"> </span>/caminho/sua-chave-lightsail.pem<span class="w"> </span>ubuntu@34.205.142.142
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>Diretório do app</strong>: <code class="docutils literal notranslate"><span class="pre">/home/ubuntu/app</span></code></p></li>
+</ul>
+<blockquote>
+<div><p>Se necessário, use o <strong>browser-based SSH</strong> do próprio Lightsail (botão <strong>Connect</strong> na página da instância).</p>
+</div></blockquote>
+</section>
+<section id="uso-e-deploy">
+<h3>Uso e Deploy<a class="headerlink" href="#uso-e-deploy" title="Link to this heading">¶</a></h3>
+<p>Para informações de uso, deploy e um exemplo de como foi feito esse procesos até agora, veja a documentação do <a class="reference external" href="https://github.com/IGNEA-comporativo/GeradorDeRelatorios">Gerador de Relatórios</a>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="custos-atencao">
+<h2>Custos — <strong>atenção</strong><a class="headerlink" href="#custos-atencao" title="Link to this heading">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Monitore custos continuamente.</strong><br />
+Instâncias <strong>Lightsail</strong> e <strong>bancos gerenciados</strong> cobram <strong>por hora</strong> caso se ultrapasse os recursos contratados no plano e podem crescer com <strong>armazenamento</strong>, <strong>transferência de dados</strong> e <strong>snapshots</strong>.</p>
+<ul class="simple">
+<li><p><strong>Acompanhamento</strong>: verificar periodicamente o <strong>custo mensal</strong> e <strong>previsão</strong> no Console AWS.</p></li>
+<li><p><strong>Dimensionamento</strong>: valide se o plano da instância e o tamanho do banco estão <strong>adequados</strong> à demanda.</p></li>
+<li><p><strong>Dados/egresso</strong>: altas transferências podem <strong>elevar custos</strong>; monitore tráfego e políticas de retenção de logs.</p></li>
+<li><p><strong>Snapshots</strong>: gere com parcimônia e <strong>apague</strong> os desnecessários.</p></li>
+</ul>
+</div>
+<p><strong>Informações</strong>:</p>
+<ul class="simple">
+<li><p>Já existem <strong>alertas de custo</strong> (Budget) estabelecidos, mas sua manutenção e verificação devem ser mantidos e revisados.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="diagrama-simples-visao-atual">
+<h2>Diagrama simples (visão atual)<a class="headerlink" href="#diagrama-simples-visao-atual" title="Link to this heading">¶</a></h2>
+<p>Destaca-se os serviços em uso atual na AWS lightsail.</p>
+<pre  class="mermaid">
+        flowchart TD
+    A[Dev local] --&gt; B[Build &amp; Testcompose.prod.cloud.yaml]
+    B --&gt; C[Docker Hub   backend-vX, lo-runner-vX]
+    C --&gt; D[Lightsail  GeradorRelatoriosV2]
+    D --&gt; E[home/ubuntu/app compose.cloud.yaml]
+    E --&gt; F[Containers:  backend+static, lo-runner]
+    D --&gt; G[Lightsail DB:  .env no Discord]
+    </pre></section>
+<hr class="docutils" />
+<section id="publickey">
+<h2>PublicKey<a class="headerlink" href="#publickey" title="Link to this heading">¶</a></h2>
+<p>Para acessar uma instância da AWS Lightsail via SSH ou enviar arquivos via SCP é preciso criar uma <code class="docutils literal notranslate"><span class="pre">publickey</span></code>. Essa é a chave que dá acesso a máquina, uma vez que o lightsail não define uma senha pra SSH.</p>
+<p>Para criar uma <code class="docutils literal notranslate"><span class="pre">publickey</span></code> acesse:</p>
+<ol class="arabic simple">
+<li><p>https://lightsail.aws.amazon.com/ls/webapp/account/keys .</p></li>
+<li><p>Crie uma par de chave de acesso
+<img alt="" src="../_images/publickey_create.png" /></p></li>
+<li><p>Selecione a região da instância
+<img alt="" src="../_images/publickey_region.png" /></p></li>
+<li><p>Defina um nome para sua chave e crie
+<img alt="" src="../_images/publickey_name.png" /></p></li>
+<li><p>Faça um download da chave
+<img alt="" src="../_images/publickey_download.png" /></p></li>
+<li><p>Você irá baixar um arquivo <code class="docutils literal notranslate"><span class="pre">.pem</span></code>.</p></li>
+</ol>
+<p>Você deve deixá-lo em um lugar de fácil acesso. O caminho padrão (tanto no linux-wsl quanto no windows) é <code class="docutils literal notranslate"><span class="pre">~/.ssh/&lt;nome_da_chave&gt;.pem</span></code>, o recomendado é colocá-la nesse lugar.</p>
+<p>Quando for utilizar ssh ou scp faça da seguinte forma:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/&lt;nome_da_chave&gt;.pem<span class="w"> </span>&lt;ip&gt;
+</span><span data-line="2">
+</span><span data-line="3">scp<span class="w"> </span>-i<span class="w"> </span>~/.ssh/&lt;nome_da_chave&gt;.pem<span class="w"> </span>&lt;arquivo1&gt;<span class="w"> </span>&lt;arquivo2&gt;
+</span></pre></div>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../index.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Home</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="contabo.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Contabo — Guia de Uso da Plataforma</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    primaryColor: '#111827',   /* card bg */
+    primaryTextColor: '#e5e7eb',
+    lineColor: '#e5e7eb',
+    secondaryColor: '#1f2937',
+    tertiaryColor: '#374151'
+  }
+});
+</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script></body>
+</html>

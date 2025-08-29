@@ -1,0 +1,62 @@
+## 🔷 Login
+
+O componente **Login** é responsável pela autenticação inicial do usuário. Ele apresenta um formulário simples com campo de **senha** (obrigatório) e um campo de **email** (desabilitado, marcado como “coming soon”). Em caso de sucesso, o usuário é redirecionado para a rota **`AreaDeTrabalho`**.
+
+
+### 🔹 Workflow
+1. **Entrada de credenciais**: o usuário informa a **senha** (campo obrigatório). O campo **email** está presente, porém **desabilitado**.
+2. **Submissão**: ao enviar o formulário, o componente entra em estado **carregando**, bloqueia interações redundantes e dispara a tentativa de autenticação via **Axios** (prefixo `/api` herdado do plugin).
+3. **Resposta do backend**:
+   - **Sucesso (2xx)** → navegação programática para **`AreaDeTrabalho`**.
+   - **Falha (ex.: 401)** → mensagem de erro visível e **animação de “shake”** para reforço de feedback.
+4. **Recuperação de estado**: em qualquer falha, o estado de carregamento é desativado e o usuário pode tentar novamente.
+
+
+### 🔹 Variáveis do modelo 
+| Estado     | Tipo    | Uso principal                                                                   |
+| ---------- | ------- | ------------------------------------------------------------------------------- |
+| `email`    | String  | Mantido para futura evolução do login. **Desabilitado** na UI atual.            |
+| `password` | String  | Credencial ativa de autenticação; campo obrigatório.                            |
+| `loading`  | Boolean | Indica requisição em andamento; desabilita o botão de envio e mostra progresso. |
+| `error`    | String  | Mensagem de erro apresentada ao usuário (ex.: “Senha inválida.”).               |
+| `shake`    | Boolean | Controla a aplicação de animação visual no cartão em caso de falha.             |
+
+> Esses estados são suficientes para orquestrar envio, feedback e transições visuais sem dependências adicionais.
+
+--- 
+### 🔹 Contrato com o backend
+- **Endpoint**: `POST /api/login` *(prefixo `/api` fornecido pelo plugin do Axios)*  
+- **Payload**: `{ password: string }`  
+- **Respostas esperadas**:
+  - **2xx**: autenticação bem-sucedida → navegação para `AreaDeTrabalho`.
+  - **401**: credencial inválida → mensagem “Senha inválida.” e animação de erro.
+  - **Demais erros**: mensagem genérica “Erro inesperado. Tente novamente.”  
+
+
+---
+
+### 🔹Métodos
+
+#### 🔸`onSubmit() -> Promise<void>`
+> **Descrição**  
+> Método responsável pelas ações feitas ao submeter a tentativa de login. 
+> - Orquestra o envio das credenciais
+> - Controla os estados de UI (**loading**, **error**, **shake**)
+> - Realiza a chamada ao backend e, em caso de sucesso, navega para a rota **`AreaDeTrabalho`**
+>
+>
+>**Parâmetros**  
+> *(nenhum parâmetro explícito; o método consome o estado local `password`)*
+>
+>**Retorno**  
+>`Promise<void>`
+>
+>**Comportamento**  
+>1. Limpa erro anterior e ativa `loading`.
+>2. Executa `POST /api/login` com `{ password }` via Axios (plugin).
+	>1. Em **2xx**: navega para `AreaDeTrabalho`.
+	>2. Em **401**: define mensagem **“Senha inválida.”**, ativa `shake`, desativa `loading`.
+>3. Em qualquer outra falha: mensagem genérica, `shake`, desativa `loading`.
+>
+>**Uso**  
+>Formulário com `@submit.prevent="onSubmit"`; botão de envio desabilitado quando `loading` é verdadeiro e exibindo spinner padrão.

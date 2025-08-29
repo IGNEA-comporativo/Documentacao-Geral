@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔵 Geração de Documentos - GeradorRelatorios documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="🔵 Deploy" href="../outros/deploy.html" /><link rel="prev" title="🔵 Backend" href="backend.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="🔵 Geração de Documentos"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>GeradorRelatorios</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../frontend/frontend.html">🔵 Frontend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/login.html">🔷 Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html">🔷 Área de Trabalho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="backend.html">🔵 Backend</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🔵 Geração de Documentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/deploy.html">🔵 Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/database.html">🔵 Banco de Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/documentation.html">🔵 Guia da documentação</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#stack-e-dependencias">&#128311; Stack e depend&#234;ncias</a></li>
+<li><a class="reference internal" href="#estrutura">&#128311; Estrutura</a><ul>
+<li><a class="reference internal" href="#template">&#128313;1. Template</a><ul>
+<li><a class="reference internal" href="#py3o">&#128313;2. <code class="docutils literal notranslate"><span class="pre">py3o</span></code></a></li>
+<li><a class="reference internal" href="#libreoffice">&#128313;3. LibreOffice</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#discussao-dos-metodos-e-funcoes">&#128311; Discuss&#227;o dos M&#233;todos e Fun&#231;&#245;es</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">GeradorRelatorios</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">🔵 Geração de Documentos</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="geracao-de-documentos">
+<h1>🔵 Geração de Documentos<a class="headerlink" href="#geracao-de-documentos" title="Link to this heading">¶</a></h1>
+<p>Embora seja um processo do backend, a geração de documentos exige separação das demais componentes e tem considerável complexidade. Por esse motivo, tratamos essa parte de forma independente.</p>
+<p>A geração dos relatórios deve ser realizada em um formato que permite edição pelo google docs (<code class="docutils literal notranslate"><span class="pre">.docx</span></code>ou <code class="docutils literal notranslate"><span class="pre">.odt</span></code>). Devido as dificuldades de utilizar um sistema windows para realizar automações com o <em>microsft word</em> optou-se por realizar a geração dos documentos no formato <code class="docutils literal notranslate"><span class="pre">.odt</span></code> com o auxílio do LibreOffice.</p>
+<p>O LibreOffice possuí uma interface/API interna com Python, chamada <a class="reference external" href="https://api.libreoffice.org/">UNO</a>, que permite automação direta de documentos <code class="docutils literal notranslate"><span class="pre">.odt</span></code>.</p>
+<section id="stack-e-dependencias">
+<h2>🔷 Stack e dependências<a class="headerlink" href="#stack-e-dependencias" title="Link to this heading">¶</a></h2>
+<p>Tecnologias Utilizadas</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Python</span></code>: Linguagem de programação Python, com interpretador fornecido pelo pacote LibreOffice</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>: Framework Python para desenvolvimento de servidores backend</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">py3o</span></code>: Biblioteca Python para edição e templating de documentos <code class="docutils literal notranslate"><span class="pre">.odt</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UNO</span></code>: API do LibreOffice com python para edição de documentos <code class="docutils literal notranslate"><span class="pre">.odt</span></code>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="estrutura">
+<h2>🔷 Estrutura<a class="headerlink" href="#estrutura" title="Link to this heading">¶</a></h2>
+<p>A geração de relatório segue uma lógica relativamente simples.</p>
+<section id="template">
+<h3>🔹1. Template<a class="headerlink" href="#template" title="Link to this heading">¶</a></h3>
+<p>Para gerar o relatório se define um template base em <code class="docutils literal notranslate"><span class="pre">.odt</span></code> que contém eles como:</p>
+<ul class="simple">
+<li><p>Formatação</p></li>
+<li><p>Cabeçalho</p></li>
+<li><p>Rodapé</p></li>
+<li><p>Numeração de Páginas</p></li>
+</ul>
+<p>Nesse template definimos onde e como as informações serão substituídas. Para isso, utiliza-se o padrão definido pela biblioteca <code class="docutils literal notranslate"><span class="pre">py3o</span></code> que pode ser consultado <a class="reference external" href="https://py3otemplate.readthedocs.io/en/latest/templating.html">aqui</a>. De forma geral:</p>
+<ul class="simple">
+<li><p>Estruturas (como <code class="docutils literal notranslate"><span class="pre">if</span></code> e <code class="docutils literal notranslate"><span class="pre">for</span></code>) são escritas utilizando hyperlinks</p></li>
+<li><p>Variáveis para substituição são escritas utilizando variáveis do LibreOffice (acessíveis por <code class="docutils literal notranslate"><span class="pre">CTLR+F2</span></code>).</p></li>
+</ul>
+<p><strong>OBS:</strong> Note que essa biblioteca, diferente de outras da área, não utiliza JINJA2 para templatting.</p>
+<section id="py3o">
+<h4>🔹2. <code class="docutils literal notranslate"><span class="pre">py3o</span></code><a class="headerlink" href="#py3o" title="Link to this heading">¶</a></h4>
+<p>Dentro do serviço <code class="docutils literal notranslate"><span class="pre">replaceDocument.py</span></code> define-se o código python, utilizando a biblioteca <code class="docutils literal notranslate"><span class="pre">py3o</span></code> que substitui as informações retiradas do banco de dados no documento.</p>
+<p>Uma vez que esse documento é gerado, pela função <code class="docutils literal notranslate"><span class="pre">createDocument</span></code>, toda a informação armazenada no banco de dados, extraída do relatório armazenado como JSON, é substituída no documento.</p>
+<p>Entretanto, duas estruturas deixam de funcionar:</p>
+<ol class="arabic simple">
+<li><p>Sumário</p></li>
+<li><p>Numeração Automática
+Ambas são funcionalidades do próprio leitor de arquivos (seja Office, google docs ou como nesse caso LibreOffice). Por esse motivo, elas não atualizam apenas peal edição do documento.</p></li>
+</ol>
+</section>
+<section id="libreoffice">
+<h4>🔹3. LibreOffice<a class="headerlink" href="#libreoffice" title="Link to this heading">¶</a></h4>
+<p>Para atualizar os campos discutidos anteriormente, utilizamos uma integração com o Libreoffice pela biblioteca <code class="docutils literal notranslate"><span class="pre">UNO</span></code>. Nela, implementamos dois métodos, uma para atualizar o sumário e o outro a numeração dos capítulos.</p>
+<p>Para realizar isso é necessário utilizar a biblioteca python que possuí uma linguagem bem específica, para mais informações acesse a <a class="reference external" href="https://py3otemplate.readthedocs.io/en/latest/templating.html">documentação oficial</a>.</p>
+<p>Entretanto, alguns avisos são bem vindos:</p>
+<ol class="arabic simple">
+<li><p>Sempre utilize caminhos absolutos dentro da biblioteca UNO</p></li>
+<li><p>Utilize o interpretador python fornecido pelo próprio LibreOffice, é a melhor forma de realizar a conexão com o UNO</p></li>
+</ol>
+<p>Por motivos como esse é necessário ter uma instalação do LibreOffice empacotada junto com o deploy da aplicação. Para que isso seja possível sem que altere a execução do <code class="docutils literal notranslate"><span class="pre">backend</span></code> e <code class="docutils literal notranslate"><span class="pre">frontend</span></code> e, em especial, não comprometa a segurança do site, separa-se essa aplicação em um container. Esse container deve ser publicado em conjunto com o <code class="docutils literal notranslate"><span class="pre">backend</span></code>, porém eles devem se comunicar, exclusivamente, por uma rede interna. Assim garante-se que o container com o LibreOffice não pode ser acessado externamente.</p>
+</section>
+</section>
+</section>
+<section id="discussao-dos-metodos-e-funcoes">
+<h2>🔷 Discussão dos Métodos e Funções<a class="headerlink" href="#discussao-dos-metodos-e-funcoes" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="backend.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">🔵 Backend</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../outros/deploy.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">🔵 Deploy</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script></body>
+</html>

@@ -1,0 +1,190 @@
+## 🔷 Área de Trabalho
+
+A componente **AreaDeTrabalho** centraliza o fluxo de trabalho de geração e edição de conteúdo de capítulos pertencentes a um **modelo de relatório** previamente definido. Ele orquestra duas componentes internas — **InputFields** (entradas de arquivos/links) e **PromptFields** (prompt e ações de geração) — e coordena salvamento, auto-salvamento e geração de texto via backend. A página opera sobre um **modelo selecionado** e seus **capítulos**, permitindo alternar capítulos, editar o texto, anexar insumos e persistir o estado.
+
+O botão `Recarregar Último Relatório` recarrega o último relatório não completo salvo no banco de dados.
+- Essa foi a alternativa encontrada para salvar o estado de edição de um relatório, uma vez que não há um página dedicada a edição de cada relatório, e sim uma página geral com seletor de modelos. 
+
+A inserção de imagens no texto gerado pela IA ainda não foi implementando. 
+
+### 🔹Visão geral do fluxo
+1. **Seleção de modelo**  
+   O usuário seleciona um modelo de relatório. A listagem de capítulos é atualizada para refletir aquela do modelo selecionado (`selectedModel`). 
+
+   Uma lista com todos os modelos disponíveis é carregada na memória e guardada na variável `models`.
+2. **Seleção de capítulo**  
+   O usuário escolhe um capítulo do modelo. A área de edição passa a refletir o capítulo ativo (**`selectedChapter`**), incluindo texto atual e insumos associados.
+3. **Edição e insumos**  
+   - **Texto**: edição direta no editor do capítulo ativo.  
+   - **Valores**: **InputFields** emite mudanças de arquivos/links; o componente pai associa esses valores ao capítulo ativo.
+4. **Salvar**  
+   A ação de salvar consolida o estado do capítulo ativo no backend. O componente atualiza a lista local e marca o capítulo como “preenchido” quando aplicável.
+
+   Marca as circunferências ao lado de cada capítulo com um "check", indicando que a aquele capítulo já foi concluído.
+5. **Auto-salvar**  
+   Em intervalos/ações específicas, o componente executa um **auto-salvamento sequencial** percorrendo os capítulos do modelo, reduzindo o risco de perda de dados.
+6. **Gerar texto (IA)**  
+   A partir do **prompt** atual (fornecido por **PromptFields**) e do contexto do capítulo, o componente solicita ao backend a geração de texto. Antes de gerar, força um **salvar** do capítulo para garantir consistência. Em retorno, atualiza o texto do capítulo ativo.
+
+Esse fluxo privilegia **consistência** (salvar antes de gerar), **previsibilidade** (operações serializadas quando necessário) e **isolamento por capítulo** (cada capítulo tem seu próprio estado).
+
+### 🔹Variáveis do modelo 
+
+| Chave               | Tipo     | Descrição                                                                                                   |
+|---------------------|----------|-------------------------------------------------------------------------------------------------------------|
+| `models`     | Array   | Armazena todos os modelos disponíveis no banco de dados.     
+| `selectedModel`     | Object   | Modelo de relatório ativo. Contém `chapters: Array<Chapter>`.                                              |
+| `selectedChapter`   | Object   | Capítulo atualmente em edição/visualização.                                                                 |
+| `selectedChapterIdx`| Number   | Índice do capítulo ativo dentro de `selectedModel.chapters`.                                                |
+| `report_title`      | String   | Título do modelo (usado em chamadas ao backend).                                                            |
+| `generatedReport`      | Bool   | Flag para controlar se o relatório já foi gerado (permiting edição deste)                                  |
+| `tempReport`      | Bool   |  Flag para controlar se o relatório está como temporário (quando ainda não foi salvo com um título) |
+| `isGenerating`      | Boolean  | Estado de geração de texto (bloqueia UI quando verdadeiro).                                                 |
+| `errorMessage`      | String   | Mensagem de erro exibida por `NotificationComp`.                                                            |
+| `successMessage`    | String   | Mensagem de sucesso exibida por `NotificationComp`.                                                         |
+| `files`             | Array    | Arquivos anexados ao capítulo ativo (recebidos de **InputFields**).                                         |
+| `links`             | Array    | Links ou referências associadas ao capítulo ativo (recebidos de **InputFields**).                           |
+| `saveQueue` | Queue | Queue utilizada para o salvamento do estado |
+
+### 🔹Contrato com o backend
+- **Salvar capítulo**  
+  - **Criar/Atualizar**: `POST /AreaDeTrabalho/` ou `PUT /AreaDeTrabalho/{report_title}`  
+    **Payload (exemplo mínimo)**: `{ report_title, chapter_title, text, files?, links? }`  
+    **Efeito**: persiste o conteúdo do capítulo e seus insumos no contexto do modelo.
+- **Gerar texto (IA)**  
+  - `GET /AI/tests/{report_title}/{chapter_title}`  
+    **Efeito**: retorna texto gerado para o capítulo; o componente atualiza `selectedChapter.text`.
+
+Tratamento de erros típico:
+- **409**: nomes de relatórios duplicados
+- **400**: título ausente
+
+
+### 🔹❗ Observações e Melhorias
+
+#### 🔸Arquivos
+Atualmente, tanto os arquivos enviados pelo usuário, quanto aqueles que são regatados de relatórios anteriores incompletos são carregados e salvos em uma variável no frontend.
+
+Essa escolha de implementação não foi adequada, em especial ao considerar que arquivos de tamanho muito grande podem ser inseridos.
+- O frontend sofre uma carga muito elevada devido ao armazenamento dos arquivos.
+
+
+**Proposta de Solução**
+Os arquivos não mais devem ser armazenados no frontend. Assim que o usuário adicionar novos arquivos, eles devem ser enviados de forma assíncrona para o banco de dados. 
+
+Ao enviar o arquivo o backend deve retornar o seguinte objeto:
+```JSON
+{<UUID>: <nome_do_arquivo>}
+```
+
+Então o frontend armazena uma lista desses objetos.
+- Utiliza-se o valor `<nome_do_arquivo>` para mostrar os arquivos na listagem para o usuário.
+
+Ao carregar arquivos da última seção, carrega-se apenas a lista de objetos com `UUID` e `nome_do_arquivo`, assim não há necessidade de carregar os arquivos do banco de dados apenas para mostrá-los no frontend. 
+
+
+#### 🔸Estrutura da Área de Trabalho
+Atualmente a área de trabalho funciona de forma pouco convencional. Não é possível começar a trabalhar em um relatório, ir para outro, voltar e etc. Além disso, a visualização fica completamente dependente da página de resultados.
+
+Não há um "projeto" no qual se está trabalhando, a informação é totalmente guardada em uma única página com muitas funções. Sem a deifinição de um projeto, a distinção no backend é mais complexa, assim como no banco de dados. 
+
+Uma estrutura que funcionaria melhor, tanto para o backend + banco de dados (no sentido de salvar e recuperar o estado de gelatório não finalizados), quanto para a UX seria semelhante a do [overleaf](https://pt.overleaf.com/):
+
+**Proposta de Mudança**
+Mudar a página principal da área de trabalho a página de relatórios gerados para um molde de relatórios gerados. Quando você acessar um relatório criado ou apertar para criar um novo relatório você será redirecionado para uma página responsável pela edição daquele documento.
+- Ao criar o relatório decidimos o template (o que remove o problema de poder trocar de template no meio da edição de um relatório)
+- Isso permite uma separação entre o que é menu da página e edição do documento
+- Isso também libera mais espaço na página de edição, o que permite uma repaginação mais eficiente 
+- O salvamento de estados de edição é mais direto e claro, tanto no backend quanto no frontend. 
+
+O funcionamento é semelhante a maioria dos aplicativos de edição de documentos - como o google docs ou o overleaf. 
+
+
+### 🔹Métodos
+
+#### 🔸`changeChapter(idx: number) -> void`
+> **Descrição**: torna o capítulo de índice `idx` o capítulo ativo, atualizando `selectedChapter` e `selectedChapterIdx`.  
+> 
+> Também recarrega as imagens e links que eram utilizados nesse relatório. 
+> **Retorno**: `void`.
+
+#### 🔸`reloadLastReport() -> void`
+> **Descrição**: Executa `GET /AreaDeTrabalho/lastReport` para pegar o último relatório não completado no banco de dados.
+> **Retorno**: `void`.
+> 
+> #### 🔸`saveChapter(chapter?: Chapter) -> Promise<void>`
+> **Descrição**: salva o conteúdo do capítulo fornecido (ou do capítulo ativo, se omitido) no backend. Consolida `text`, `files` e `links`.  
+> 
+> O salvamento do capítulo automático ou manual é adicionado a `saveQueue` e então processados em ordem. Esse comportamento evita sobreposição de salvamentos. 
+> 
+> **Parâmetros**: `chapter` opcional (se ausente, usa `selectedChapter`).  
+> **Retorno**: `Promise<void>`.  
+> **Efeitos**: atualiza o capítulo em `selectedModel.chapters`; quando aplicável, define `chapter.filled = true`; em caso de erro, popula `errorMessage`.
+
+#### 🔸`saveReport() -> Promise<void>`
+> **Descrição**: salva o relatório gerado ou atualiza um relatório que já foi enviado nessa seção.
+> **Retorno**: `Promise<void>`.  
+
+
+#### 🔸`runAutoSave() -> Promise<void>`
+> **Descrição**: executa auto-salvamento sequencial percorrendo `selectedModel.chapters`, chamando `saveChapter` **com `await`** para cada item.  
+> **Retorno**: `Promise<void>`.  
+
+#### 🔸`gerarTexto() -> Promise<void>`
+> **Descrição**: garante persistência do capítulo ativo e solicita geração de texto ao backend.  
+> **Fluxo**:  
+> 1. Define `isGenerating = true`.  
+> 2. Executa `await saveChapter()` para sincronizar estado.  
+> 3. Chama `GET /AI/tests/{report_title}/{selectedChapter.title}`.  
+> 4. Atualiza `selectedChapter.text` com a resposta.  
+> 5. Restaura `isGenerating = false`; define `successMessage`/`errorMessage` conforme o resultado.  
+> **Retorno**: `Promise<void>`.
+
+#### 🔸`onFilesChange(files: File[]) -> void`
+> **Descrição**: manipula o evento emitido por **InputFields** ao alterar anexos; associa `files` ao capítulo ativo.  
+> **Retorno**: `void`.
+
+#### 🔸`onLinksChange(links: Array) -> void`
+> **Descrição**: manipula o evento emitido por **InputFields** ao alterar links; associa `links` ao capítulo ativo.  
+> **Retorno**: `void`.
+
+--- 
+
+## 🔷 InputFields (interno a AreaDeTrabalho)
+
+Gerencia **insumos** do capítulo ativo: seleção/remoção de **arquivos** e captura de **links**. Dispara eventos de alteração para o pai (**AreaDeTrabalho**) salva o estado e inclui esses dados em operações de **salvar** e **gerar**.
+
+Aplica um algoritmo de **slugify** para padronização do nome dos arquivos enviados. Como esse processo é realizado assim que o arquivo é carregado, para todos os efeitos (incluindo o banco de dados) o nome do arquivo é aquele produzido pelo **slugify**. 
+
+### 🔹Protocolo de dados
+- **Emissões**:  
+  - `files-change: File[]` — lista completa atualizada de arquivos.  
+  - `links-change: Array` — coleção atualizada de links/referências.
+- **Comportamento**:  
+  - Normalização de nomes de arquivos com **slugify** antes de emitir.  
+  - Limpeza de seletores após seleção para permitir reenvio do mesmo arquivo.
+
+### 🔹Comportamento principal
+- Adiciona arquivos à coleção atual, emite `files-change`.
+- Remove arquivos individuais, emite `files-change`.
+- Captura e valida formato básico de links, emite `links-change`.
+
+---
+
+## 🔷 PromptFields (interno a AreaDeTrabalho)
+
+Centraliza o **prompt** usado na geração de texto para o capítulo ativo e expõe a ação de **gerar**. Pode incluir visualizações auxiliares (ex.: tamanho do prompt) e bloqueios quando `isGenerating` é verdadeiro.
+
+### 🔹Protocolo de dados
+- **Entradas**:  
+  - `modelTitle?: string` — título do modelo atual (para exibição contextual).  
+  - `chapterTitle?: string` — título do capítulo ativo.
+- **Emissões**:  
+  - `generate` — sinaliza ao pai para executar `gerarTexto()` com o estado atual.  
+  - `prompt-change: string` — texto do prompt atualizado (se o pai persistir/observar o prompt).
+
+### 🔹Comportamento principal
+- Mantém o valor do **prompt** corrente do capítulo ativo.  
+- Desabilita controles de geração quando `isGenerating` é verdadeiro.  
+- Ao acionar **Gerar**, emite `generate`; o pai (AreaDeTrabalho) coordena salvar + chamada de IA + atualização do texto.
+

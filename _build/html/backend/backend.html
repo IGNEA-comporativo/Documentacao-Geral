@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔵 Backend - GeradorRelatorios documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="🔵 Geração de Documentos" href="geracao_documentos.html" /><link rel="prev" title="🔷 Área de Trabalho" href="../frontend/components/areaDeTrabalho.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="🔵 Backend"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>GeradorRelatorios</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../frontend/frontend.html">🔵 Frontend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/login.html">🔷 Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html">🔷 Área de Trabalho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🔵 Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geracao_documentos.html">🔵 Geração de Documentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/deploy.html">🔵 Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/database.html">🔵 Banco de Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outros/documentation.html">🔵 Guia da documentação</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#stack-e-dependencias">&#128311; Stack e depend&#234;ncias</a></li>
+<li><a class="reference internal" href="#visao-geral">&#128311; Vis&#227;o geral</a></li>
+<li><a class="reference internal" href="#estrutura">&#128311; Estrutura</a><ul>
+<li><a class="reference internal" href="#roteadores-fastapi">&#128313;Roteadores (FastAPI)</a></li>
+<li><a class="reference internal" href="#servicos">&#128313;Servi&#231;os</a></li>
+<li><a class="reference internal" href="#persistencia-sqlalchemy-postgresql">&#128313;Persist&#234;ncia (SQLAlchemy + PostgreSQL)</a></li>
+<li><a class="reference internal" href="#fluxo-operacional-tipico">&#128313;Fluxo operacional t&#237;pico</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#autenticacao">&#128311; Autentica&#231;&#227;o</a><ul>
+<li><a class="reference internal" href="#post-login">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/login</span></code></a></li>
+<li><a class="reference internal" href="#post-logout">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/logout</span></code></a></li>
+<li><a class="reference internal" href="#get-protected">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/protected</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modelos-de-relatorio-modelosrelatorios">&#128311; Modelos de Relat&#243;rio (<code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios</span></code>)</a><ul>
+<li><a class="reference internal" href="#post-modelosrelatorios">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/</span></code></a></li>
+<li><a class="reference internal" href="#put-modelosrelatorios-id-int">&#128313;PUT <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{id:int}</span></code></a></li>
+<li><a class="reference internal" href="#get-modelosrelatorios-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{title}</span></code></a></li>
+<li><a class="reference internal" href="#get-modelosrelatorios">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/</span></code></a></li>
+<li><a class="reference internal" href="#delete-modelosrelatorios-id-int">&#128313;DELETE <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{id:int}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#capitulos-criadorcapitulos">&#128311; Cap&#237;tulos (<code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos</span></code>)</a><ul>
+<li><a class="reference internal" href="#post-criadorcapitulos">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/</span></code></a></li>
+<li><a class="reference internal" href="#put-criadorcapitulos-id-int">&#128313;PUT <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{id:int}</span></code></a></li>
+<li><a class="reference internal" href="#get-criadorcapitulos-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{title}</span></code></a></li>
+<li><a class="reference internal" href="#get-criadorcapitulos">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/</span></code></a></li>
+<li><a class="reference internal" href="#delete-criadorcapitulos-id-int">&#128313;DELETE <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{id:int}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#relacoes-entre-modelo-e-capitulos-modelosrelatorios-relation">&#128311; Rela&#231;&#245;es entre Modelo e Cap&#237;tulos (<code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation</span></code>)</a><ul>
+<li><a class="reference internal" href="#get-modelosrelatorios-relation-report-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_title}</span></code></a></li>
+<li><a class="reference internal" href="#post-modelosrelatorios-relation">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/</span></code></a></li>
+<li><a class="reference internal" href="#put-modelosrelatorios-relation-report-id-int">&#128313;PUT <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_id:int}</span></code></a></li>
+<li><a class="reference internal" href="#delete-modelosrelatorios-relation-report-title">&#128313;DELETE <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_title}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#area-de-trabalho-areadetrabalho">&#128311; &#193;rea de Trabalho (<code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho</span></code>)</a><ul>
+<li><a class="reference internal" href="#get-areadetrabalho-lastreport">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/lastReport</span></code></a></li>
+<li><a class="reference internal" href="#get-areadetrabalho-report-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/{report_title}</span></code></a></li>
+<li><a class="reference internal" href="#get-areadetrabalho">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/</span></code></a></li>
+<li><a class="reference internal" href="#post-areadetrabalho">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/</span></code></a></li>
+<li><a class="reference internal" href="#put-areadetrabalho-report-title">&#128313;PUT <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/{report_title}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#armazenamento-de-objetos-objects">&#128311; Armazenamento de Objetos (<code class="docutils literal notranslate"><span class="pre">/objects</span></code>)</a><ul>
+<li><a class="reference internal" href="#post-objects">&#128313;POST <code class="docutils literal notranslate"><span class="pre">/objects/</span></code></a></li>
+<li><a class="reference internal" href="#get-objects-report-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/objects/{report_title}</span></code></a></li>
+<li><a class="reference internal" href="#get-objects-file-file-id">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/objects/file/{file_id}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#geracao-de-relatorios-e-conteudo-com-ia-report">&#128311; Gera&#231;&#227;o de Relat&#243;rios e Conte&#250;do com IA (<code class="docutils literal notranslate"><span class="pre">/report</span></code>)</a><ul>
+<li><a class="reference internal" href="#get-report-createreport-report-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/report/createReport/{report_title}</span></code></a></li>
+<li><a class="reference internal" href="#get-report-ai-report-title-chapter-title">&#128313;GET <code class="docutils literal notranslate"><span class="pre">/report/AI/{report_title}/{chapter_title}</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#observacoes-sobre-schemas-usados">&#128311; Observa&#231;&#245;es sobre schemas usados</a><ul>
+<li><a class="reference internal" href="#visao-estrutural">Vis&#227;o estrutural</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">GeradorRelatorios</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">🔵 Backend</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <!-- # 🔵 Backend
+Para essa aplicação, o backend é responsável por estabelecer o servidor de backend para as requisições e servir os arquivos estáticos do frontend.
+
+
+## 🔷 🔷 Stack e dependências
+
+Tecnologias Utilizadas 
+
+- `Python`: Linguagem de programação utilizada no backend
+- `FastAPI`: Framework Python para desenvolvimento de servidores backend
+- `SQLAlchemy`: Framework Python para utilização e conexeção com o banco de dados PostgreSQL
+- `uv`: Gerenciador de ambientes Python (substituto moderno do `venv`)
+
+--- 
+
+## 🔷 🔷 Estrutura  
+
+ ^#\s 
+-->
+<section id="backend">
+<h1>🔵 Backend<a class="headerlink" href="#backend" title="Link to this heading">¶</a></h1>
+<p><strong>Convenções gerais</strong></p>
+<ul class="simple">
+<li><p>Formatos de dados: JSON, exceto upload de arquivos (multipart/form-data) e download binário.</p></li>
+<li><p>Autenticação: baseada em sessão (cookies) para rotas protegidas de auth.</p></li>
+<li><p>Códigos de status: 2xx sucesso; 4xx erro do cliente; 5xx erro do servidor.</p></li>
+</ul>
+<hr class="docutils" />
+<section id="stack-e-dependencias">
+<h2>🔷 Stack e dependências<a class="headerlink" href="#stack-e-dependencias" title="Link to this heading">¶</a></h2>
+<p>Tecnologias utilizadas no backend e serviços auxiliares. Esta lista reflete o que está implementado nos módulos do projeto.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Python</span></code>: Linguagem principal do backend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>: Framework para definição das rotas e injeção de dependências.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Starlette</span></code>: Base utilizada pelo FastAPI (sessões via <code class="docutils literal notranslate"><span class="pre">SessionMiddleware</span></code>, <code class="docutils literal notranslate"><span class="pre">Request</span></code>, <code class="docutils literal notranslate"><span class="pre">Response</span></code>, <code class="docutils literal notranslate"><span class="pre">FileResponse</span></code>, <code class="docutils literal notranslate"><span class="pre">Config</span></code> para <code class="docutils literal notranslate"><span class="pre">.env</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pydantic</span></code>: Modelagem e validação de dados (schemas de entrada/saída).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span> <span class="pre">ORM</span></code>: Acesso ao banco e mapeamento das entidades (<code class="docutils literal notranslate"><span class="pre">Session</span></code>, consultas, <code class="docutils literal notranslate"><span class="pre">text</span></code> SQL quando necessário).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PostgreSQL</span></code>: Banco de dados relacional (uso de tipos JSON/JSONB em consultas e agregações).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Google</span> <span class="pre">GenAI</span> <span class="pre">(Gemini)</span></code>: SDK <code class="docutils literal notranslate"><span class="pre">google.genai</span></code> e camada <code class="docutils literal notranslate"><span class="pre">app.services.AI</span></code> para geração de conteúdo de capítulos a partir de prompts e anexos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Manipulação</span> <span class="pre">de</span> <span class="pre">documentos</span></code>: Função <code class="docutils literal notranslate"><span class="pre">createDocument</span></code> (<code class="docutils literal notranslate"><span class="pre">app.services.documentManip.replaceDocument</span></code>) para compor o <code class="docutils literal notranslate"><span class="pre">.odt</span></code> e serviço externo do LibreOffice (processamento/headless) acionado via HTTP.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Requests</span></code>: Cliente HTTP para integração com o serviço do LibreOffice.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">uv</span></code>: Gerenciador de ambientes/execução para projetos Python, alternativa moderna ao <code class="docutils literal notranslate"><span class="pre">venv</span></code>.</p></li>
+</ul>
+<p>Observações de configuração:</p>
+<ul class="simple">
+<li><p>Variáveis de ambiente via <code class="docutils literal notranslate"><span class="pre">.env</span></code> com <code class="docutils literal notranslate"><span class="pre">starlette.config.Config</span></code> (ex.: <code class="docutils literal notranslate"><span class="pre">DEV_PASSWORD</span></code> para autenticação).</p></li>
+<li><p>Caminhos e endpoints de serviços externos (ex.: diretórios de template e documento temporário, endpoint do serviço LibreOffice) devem ser definidos na configuração da aplicação.</p></li>
+</ul>
+</section>
+<section id="visao-geral">
+<h2>🔷 Visão geral<a class="headerlink" href="#visao-geral" title="Link to this heading">¶</a></h2>
+<p>O backend do Gerador de Relatórios organiza todo o ciclo de vida de criação de relatórios corporativos. Ele oferece:</p>
+<ul class="simple">
+<li><p><strong>Gestão de modelos e capítulos:</strong> Rotas para criar/atualizar/excluir modelos de relatório e capítulos reutilizáveis.</p></li>
+<li><p><strong>Ordenação e composição:</strong> Definição da ordem dos capítulos por modelo e montagem de objetos de relatório prontos para edição.</p></li>
+<li><p><strong>Área de trabalho persistida:</strong> Criação e atualização de relatórios “construídos” (<code class="docutils literal notranslate"><span class="pre">built_reports</span></code>) com estado completo de edição.</p></li>
+<li><p><strong>Anexos por capítulo:</strong> Upload de arquivos, armazenamento e associação consistente ao par <code class="docutils literal notranslate"><span class="pre">(report_title,</span> <span class="pre">chapter_title)</span></code>.</p></li>
+<li><p><strong>Geração de conteúdo assistida por IA</strong>: Produção de texto por capítulo com base no <code class="docutils literal notranslate"><span class="pre">prompt</span></code> e anexos, utilizando Gemini.</p></li>
+<li><p><strong>Exportação para <code class="docutils literal notranslate"><span class="pre">.odt</span></code></strong>: Composição do documento a partir de template, seguida de pós-processamento pelo LibreOffice headless e download do arquivo final.</p></li>
+<li><p><strong>Autenticação simples por sessão</strong>: Proteção de rotas com senha de desenvolvimento e sessão baseada em cookies.</p></li>
+</ul>
+</section>
+<section id="estrutura">
+<h2>🔷 Estrutura<a class="headerlink" href="#estrutura" title="Link to this heading">¶</a></h2>
+<p>Para mais informações sobre a geração de relatórios, <code class="docutils literal notranslate"><span class="pre">.odt</span></code> e a utilização do libreoffice, veja a seção <a class="reference internal" href="geracao_documentos.html"><span class="std std-doc">Geração de Documentos</span></a>.</p>
+<section id="roteadores-fastapi">
+<h3>🔹Roteadores (FastAPI)<a class="headerlink" href="#roteadores-fastapi" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">auth.py</span></code>: login/logout e endpoint protegido por sessão.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reports.py</span></code>: CRUD de modelos de relatório.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapters.py</span></code>: CRUD de capítulos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">relations.py</span></code>: CRUD da ordem de capítulos por modelo.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">desktop.py</span></code>: montagem/leitura/salvamento de relatórios construídos e agregação de metadados de arquivos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">storage.py</span></code>: upload e download de arquivos e vínculo com capítulos/relatórios.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_generation.py</span></code>: geração de conteúdo com IA e exportação <code class="docutils literal notranslate"><span class="pre">.odt</span></code>.</p></li>
+</ul>
+</section>
+<section id="servicos">
+<h3>🔹Serviços<a class="headerlink" href="#servicos" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">app.services.AI</span></code>: encapsula chamadas ao Gemini.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app.services.documentManip.replaceDocument.createDocument</span></code>: compõe o documento a partir do template.</p></li>
+<li><p>Serviço externo LibreOffice: endpoint HTTP para pós-processamento do <code class="docutils literal notranslate"><span class="pre">.odt</span></code>.</p></li>
+</ul>
+</section>
+<section id="persistencia-sqlalchemy-postgresql">
+<h3>🔹Persistência (SQLAlchemy + PostgreSQL)<a class="headerlink" href="#persistencia-sqlalchemy-postgresql" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Entidades principais: <code class="docutils literal notranslate"><span class="pre">reports</span></code>, <code class="docutils literal notranslate"><span class="pre">chapters</span></code>, <code class="docutils literal notranslate"><span class="pre">relations</span></code>, <code class="docutils literal notranslate"><span class="pre">built_reports</span></code>, <code class="docutils literal notranslate"><span class="pre">object_storage</span></code>, <code class="docutils literal notranslate"><span class="pre">storage_relation</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">built_reports.report_obj</span></code> mantém o estado editável do relatório (capítulos, textos, flags, etc.).</p></li>
+<li><p>Consultas híbridas: ORM para CRUD e SQL textual para trechos específicos (JSON/JSONB).</p></li>
+</ul>
+</section>
+<section id="fluxo-operacional-tipico">
+<h3>🔹Fluxo operacional típico<a class="headerlink" href="#fluxo-operacional-tipico" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Criar modelos e capítulos.</p></li>
+<li><p>Definir a ordem dos capítulos por modelo.</p></li>
+<li><p>Montar a área de trabalho do relatório (a partir do modelo ou de uma versão já construída).</p></li>
+<li><p>Anexar arquivos por capítulo conforme necessário.</p></li>
+<li><p>Gerar texto com IA por capítulo.</p></li>
+<li><p>Salvar/atualizar a versão construída do relatório.</p></li>
+<li><p>Exportar o <code class="docutils literal notranslate"><span class="pre">.odt</span></code> final.</p></li>
+</ol>
+<pre  class="mermaid">
+        flowchart LR
+    FE[Frontend] --&gt;|REST/JSON| API[FastAPI App]
+
+    subgraph Routers
+      AUTH[auth.py Sessão/credenciais]
+      REPS[reports.py Modelos de relatório]
+      CHAP[chapters.py Capítulos]
+      REL[relations.py Ordem de capítulos]
+      DESK[desktop.py Área de trabalho]
+      STOR[storage.py Upload/Download]
+      GEN[report_generation.py IA/Exportação]
+    end
+
+    API --&gt; AUTH
+    API --&gt; REPS
+    API --&gt; CHAP
+    API --&gt; REL
+    API --&gt; DESK
+    API --&gt; STOR
+    API --&gt; GEN
+
+
+    subgraph Serviços Externos
+      DOC[createDocument com template]
+      LO[LibreOffice headless pipeline HTTP]
+      AI[Google GenAI Gemini]
+    end
+
+    GEN --&gt; DOC
+    DOC --&gt; LO
+    GEN --&gt; AI
+    </pre></section>
+</section>
+<section id="autenticacao">
+<h2>🔷 Autenticação<a class="headerlink" href="#autenticacao" title="Link to this heading">¶</a></h2>
+<section id="post-login">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/login</span></code><a class="headerlink" href="#post-login" title="Link to this heading">¶</a></h3>
+<p>Autentica o usuário via senha de desenvolvimento (<code class="docutils literal notranslate"><span class="pre">DEV_PASSWORD</span></code> no <code class="docutils literal notranslate"><span class="pre">.env</span></code>) usando comparação em tempo constante. Em caso de sucesso, grava <code class="docutils literal notranslate"><span class="pre">logged_in=True</span></code> e um <code class="docutils literal notranslate"><span class="pre">nonce</span></code> na sessão.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Corpo (JSON):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">password</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;success&quot;:</span> <span class="pre">true</span> <span class="pre">}</span></code>.</p></li>
+<li><p>401: credenciais inválidas.</p></li>
+</ul>
+</blockquote>
+</section>
+<hr class="docutils" />
+<section id="post-logout">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/logout</span></code><a class="headerlink" href="#post-logout" title="Link to this heading">¶</a></h3>
+<p>Limpa a sessão, invalidando a autenticação atual. Requer estar autenticado.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Sem corpo. Requer cookie de sessão válido.</p></li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;success&quot;:</span> <span class="pre">true</span> <span class="pre">}</span></code>.</p></li>
+<li><p>401: se não autenticado (via dependência).</p></li>
+</ul>
+</blockquote>
+</section>
+<hr class="docutils" />
+<section id="get-protected">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/protected</span></code><a class="headerlink" href="#get-protected" title="Link to this heading">¶</a></h3>
+<p>Endpoint de exemplo que só responde quando autenticado; útil para health-check de sessão.</p>
+<blockquote>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;message&quot;:</span> <span class="pre">&quot;You</span> <span class="pre">made</span> <span class="pre">it</span> <span class="pre">inside!&quot;</span> <span class="pre">}</span></code>.</p></li>
+<li><p>401: se não autenticado.</p></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="modelos-de-relatorio-modelosrelatorios">
+<h2>🔷 Modelos de Relatório (<code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios</span></code>)<a class="headerlink" href="#modelos-de-relatorio-modelosrelatorios" title="Link to this heading">¶</a></h2>
+<p>CRUD sobre o modelo de relatório (metadados e descrição).</p>
+<section id="post-modelosrelatorios">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/</span></code><a class="headerlink" href="#post-modelosrelatorios" title="Link to this heading">¶</a></h3>
+<p>Cria um modelo de relatório, garantindo unicidade por título.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ReportCreate</span></code>:</p>
+<ul>
+<li><p>Campos esperados: <code class="docutils literal notranslate"><span class="pre">title</span></code> (string), <code class="docutils literal notranslate"><span class="pre">description</span></code> (string).<br />
+Observação: tipos e obrigatoriedade seguem o schema do projeto.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: objeto <code class="docutils literal notranslate"><span class="pre">schemas.Report</span></code> criado.</p></li>
+<li><p>409: título já existente.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="put-modelosrelatorios-id-int">
+<h3>🔹PUT <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{id:int}</span></code><a class="headerlink" href="#put-modelosrelatorios-id-int" title="Link to this heading">¶</a></h3>
+<p>Atualiza parcialmente um modelo existente via <code class="docutils literal notranslate"><span class="pre">model_dump(exclude_unset=True)</span></code>.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: inteiro.</p></li>
+</ul>
+</li>
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ReportCreate</span></code>:</p>
+<ul>
+<li><p>Campos a atualizar (não enviados não são alterados).</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: objeto <code class="docutils literal notranslate"><span class="pre">schemas.Report</span></code> atualizado.</p></li>
+<li><p>404: id inexistente.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="get-modelosrelatorios-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{title}</span></code><a class="headerlink" href="#get-modelosrelatorios-title" title="Link to this heading">¶</a></h3>
+<p>Lista todos os modelos com o título informado (pode retornar múltiplos, dependendo do banco).</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de <code class="docutils literal notranslate"><span class="pre">schemas.Report</span></code>.</p></li>
+<li><p>404: nenhum encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="get-modelosrelatorios">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/</span></code><a class="headerlink" href="#get-modelosrelatorios" title="Link to this heading">¶</a></h3>
+<p>Retorna todos os modelos cadastrados.</p>
+<blockquote>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de <code class="docutils literal notranslate"><span class="pre">schemas.Report</span></code>.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="delete-modelosrelatorios-id-int">
+<h3>🔹DELETE <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/{id:int}</span></code><a class="headerlink" href="#delete-modelosrelatorios-id-int" title="Link to this heading">¶</a></h3>
+<p>Remove um modelo por id.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: inteiro.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;message&quot;:</span> <span class="pre">&quot;Report</span> <span class="pre">deleted&quot;,</span> <span class="pre">&quot;id&quot;:</span> <span class="pre">&lt;id&gt;</span> <span class="pre">}</span></code></p></li>
+<li><p>404: não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="capitulos-criadorcapitulos">
+<h2>🔷 Capítulos (<code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos</span></code>)<a class="headerlink" href="#capitulos-criadorcapitulos" title="Link to this heading">¶</a></h2>
+<p>Gerência os capítulos reutilizáveis dos relatórios.</p>
+<section id="post-criadorcapitulos">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/</span></code><a class="headerlink" href="#post-criadorcapitulos" title="Link to this heading">¶</a></h3>
+<p>Cria capítulo; título é obrigatório e único.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ChapterCreate</span></code>:</p>
+<ul>
+<li><p>Campos esperados: <code class="docutils literal notranslate"><span class="pre">title</span></code> (string), <code class="docutils literal notranslate"><span class="pre">prompt</span></code> (string), <code class="docutils literal notranslate"><span class="pre">description</span></code> (string).</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: objeto <code class="docutils literal notranslate"><span class="pre">schemas.Chapter</span></code>.</p></li>
+<li><p>404: título ausente.</p></li>
+<li><p>409: título já existe.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="put-criadorcapitulos-id-int">
+<h3>🔹PUT <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{id:int}</span></code><a class="headerlink" href="#put-criadorcapitulos-id-int" title="Link to this heading">¶</a></h3>
+<p>Atualiza capítulo existente.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: inteiro.</p></li>
+</ul>
+</li>
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ChapterCreate</span></code>:</p>
+<ul>
+<li><p>Campos a atualizar.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">schemas.Chapter</span></code> atualizado.</p></li>
+<li><p>404: id não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="get-criadorcapitulos-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{title}</span></code><a class="headerlink" href="#get-criadorcapitulos-title" title="Link to this heading">¶</a></h3>
+<p>Retorna capítulos pelo título.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de <code class="docutils literal notranslate"><span class="pre">schemas.Chapter</span></code>.</p></li>
+<li><p>404: não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="get-criadorcapitulos">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/</span></code><a class="headerlink" href="#get-criadorcapitulos" title="Link to this heading">¶</a></h3>
+<p>Retorna todos os capítulos.</p>
+<blockquote>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de <code class="docutils literal notranslate"><span class="pre">schemas.Chapter</span></code>.</p></li>
+<li><p>404: nenhum capítulo cadastrado.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="delete-criadorcapitulos-id-int">
+<h3>🔹DELETE <code class="docutils literal notranslate"><span class="pre">/CriadorCapitulos/{id:int}</span></code><a class="headerlink" href="#delete-criadorcapitulos-id-int" title="Link to this heading">¶</a></h3>
+<p>Apaga um capítulo por id. A função não retorna corpo explícito.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: inteiro.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: sem corpo (vazio).</p></li>
+<li><p>404: não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="relacoes-entre-modelo-e-capitulos-modelosrelatorios-relation">
+<h2>🔷 Relações entre Modelo e Capítulos (<code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation</span></code>)<a class="headerlink" href="#relacoes-entre-modelo-e-capitulos-modelosrelatorios-relation" title="Link to this heading">¶</a></h2>
+<p>Define a ordem dos capítulos para um modelo de relatório.</p>
+<section id="get-modelosrelatorios-relation-report-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_title}</span></code><a class="headerlink" href="#get-modelosrelatorios-relation-report-title" title="Link to this heading">¶</a></h3>
+<p>Retorna a lista de capítulos com suas posições para o modelo informado.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">List[schemas.ChapterWithOrder]</span></code>.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="post-modelosrelatorios-relation">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/</span></code><a class="headerlink" href="#post-modelosrelatorios-relation" title="Link to this heading">¶</a></h3>
+<p>Cria relações capítulo↔modelo a partir de <code class="docutils literal notranslate"><span class="pre">schemas.RelationCreate</span></code>. Gera erro se o <code class="docutils literal notranslate"><span class="pre">report_title</span></code> já possui relações.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.RelationCreate</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapters</span></code>: lista de objetos com <code class="docutils literal notranslate"><span class="pre">title</span></code> e <code class="docutils literal notranslate"><span class="pre">position</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: sem corpo.</p></li>
+<li><p>400: <code class="docutils literal notranslate"><span class="pre">report_title</span></code> ausente.</p></li>
+<li><p>409: relações já existentes para o <code class="docutils literal notranslate"><span class="pre">report_title</span></code>.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="put-modelosrelatorios-relation-report-id-int">
+<h3>🔹PUT <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_id:int}</span></code><a class="headerlink" href="#put-modelosrelatorios-relation-report-id-int" title="Link to this heading">¶</a></h3>
+<p>Substitui as relações de um modelo: apaga as atuais e cria as novas. O <code class="docutils literal notranslate"><span class="pre">report_title</span></code> é derivado do <code class="docutils literal notranslate"><span class="pre">report_id</span></code>.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_id</span></code>: inteiro.</p></li>
+</ul>
+</li>
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.RelationCreate</span></code>:</p>
+<ul>
+<li><p>Mesmo formato do POST.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: sem corpo.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="delete-modelosrelatorios-relation-report-title">
+<h3>🔹DELETE <code class="docutils literal notranslate"><span class="pre">/ModelosRelatorios/relation/{report_title}</span></code><a class="headerlink" href="#delete-modelosrelatorios-relation-report-title" title="Link to this heading">¶</a></h3>
+<p>Apaga todas as relações de um modelo específico. Retorna <code class="docutils literal notranslate"><span class="pre">1</span></code> em caso de sucesso.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p>404: título não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<section id="area-de-trabalho-areadetrabalho">
+<h2>🔷 Área de Trabalho (<code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho</span></code>)<a class="headerlink" href="#area-de-trabalho-areadetrabalho" title="Link to this heading">¶</a></h2>
+<p>Orquestra e expõe objetos compostos usados no front-end para montar relatórios, com metadados e arquivos associados.</p>
+<section id="get-areadetrabalho-lastreport">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/lastReport</span></code><a class="headerlink" href="#get-areadetrabalho-lastreport" title="Link to this heading">¶</a></h3>
+<p>Recupera o último relatório “inacabado” cujo título começa por <code class="docutils literal notranslate"><span class="pre">unnamedN</span></code> (maior <code class="docutils literal notranslate"><span class="pre">N</span></code>). Monta o objeto com capítulos e metadados de arquivos.</p>
+<blockquote>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">schemas.ReportWithFiles</span></code> com:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">completed</span></code>, <code class="docutils literal notranslate"><span class="pre">chapters</span></code>, <code class="docutils literal notranslate"><span class="pre">files</span></code>.</p></li>
+</ul>
+</li>
+<li><p>404: nenhum relatório inacabado.</p></li>
+<li><p>200 com <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;report&quot;:</span> <span class="pre">null</span> <span class="pre">}</span></code> em casos específicos de erro interno tratado.</p></li>
+</ul>
+</blockquote>
+<p><strong>Fluxo</strong></p>
+<pre  class="mermaid">
+        sequenceDiagram
+  participant FE as Front-end
+  participant API as GET /AreaDeTrabalho/lastReport
+  participant DB as DB
+  participant S as Object Storage
+
+  FE-&gt;&gt;API: Request
+  API-&gt;&gt;DB: Buscar último built_report com title like &quot;unnamed%&quot;
+  DB--&gt;&gt;API: Título
+  API-&gt;&gt;DB: get_report_model(title)
+  API-&gt;&gt;DB: Agregar arquivos por capítulo
+  DB--&gt;&gt;API: Relatório Salvo
+  S--&gt;&gt;API: Lista de arquivos (id, nome, tipo, tamanho)
+  API--&gt;&gt;FE: ReportWithFiles (chapters + files)
+    </pre></section>
+<hr class="docutils" />
+<section id="get-areadetrabalho-report-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/{report_title}</span></code><a class="headerlink" href="#get-areadetrabalho-report-title" title="Link to this heading">¶</a></h3>
+<p>Monta e retorna o objeto de relatório para um <code class="docutils literal notranslate"><span class="pre">report_title</span></code>. Se existir em <code class="docutils literal notranslate"><span class="pre">built_reports</span></code>, retorna a versão construída; senão, monta a partir do modelo de relatório e das relações.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: objeto com <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">chapters</span></code> e campos auxiliares nos capítulos (<code class="docutils literal notranslate"><span class="pre">docs</span></code>, <code class="docutils literal notranslate"><span class="pre">links</span></code>, <code class="docutils literal notranslate"><span class="pre">images</span></code>, <code class="docutils literal notranslate"><span class="pre">filled</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">position</span></code>).</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="get-areadetrabalho">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/</span></code><a class="headerlink" href="#get-areadetrabalho" title="Link to this heading">¶</a></h3>
+<p>Retorna a lista de objetos de relatório para todos os títulos distintos encontrados em <code class="docutils literal notranslate"><span class="pre">reports.Report</span></code>.</p>
+<blockquote>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de objetos de relatório.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="post-areadetrabalho">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/</span></code><a class="headerlink" href="#post-areadetrabalho" title="Link to this heading">¶</a></h3>
+<p>Converte um <code class="docutils literal notranslate"><span class="pre">schemas.ReportObject</span></code> vindo do front-end em uma entrada em <code class="docutils literal notranslate"><span class="pre">built_reports</span></code>. Se <code class="docutils literal notranslate"><span class="pre">title</span></code> estiver vazio, gera automaticamente <code class="docutils literal notranslate"><span class="pre">unnamed{N}</span></code>. Se <code class="docutils literal notranslate"><span class="pre">title</span></code> existir, retorna conflito. Retorna <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;title&quot;:</span> <span class="pre">&lt;final&gt;</span> <span class="pre">}</span></code>.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ReportObject</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">completed</span></code>, <code class="docutils literal notranslate"><span class="pre">chapters</span></code> etc.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Regras</strong></p>
+<ul class="simple">
+<li><p>Título vazio: auto-incremento <code class="docutils literal notranslate"><span class="pre">unnamedN</span></code> com base nos existentes.</p></li>
+<li><p>Título já existente: 409.</p></li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;title&quot;:</span> <span class="pre">&quot;unnamedN&quot;</span> <span class="pre">|</span> <span class="pre">&quot;&lt;title&gt;&quot;</span> <span class="pre">}</span></code>.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="put-areadetrabalho-report-title">
+<h3>🔹PUT <code class="docutils literal notranslate"><span class="pre">/AreaDeTrabalho/{report_title}</span></code><a class="headerlink" href="#put-areadetrabalho-report-title" title="Link to this heading">¶</a></h3>
+<p>Atualiza um relatório construído: remove a versão anterior e adiciona a nova. Exige que o relatório exista.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+</ul>
+</li>
+<li><p>Corpo (JSON) <code class="docutils literal notranslate"><span class="pre">schemas.ReportObject</span></code>.</p></li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: objeto <code class="docutils literal notranslate"><span class="pre">built_reports.BuiltReports</span></code> persistido.</p></li>
+<li><p>404: <code class="docutils literal notranslate"><span class="pre">report_title</span></code> não existe.</p></li>
+</ul>
+</blockquote>
+<p><strong>Fluxo de atualização</strong></p>
+<pre  class="mermaid">
+        sequenceDiagram
+  participant FE as Front-end
+  participant API as PUT /AreaDeTrabalho/{title}
+  participant DB as DB
+
+  FE-&gt;&gt;API: ReportObject atualizado
+  API-&gt;&gt;DB: Verifica existência por title
+
+  alt existe
+    API-&gt;&gt;DB: Deleta BuiltReports atual
+    API-&gt;&gt;DB: Insere nova versão (add_report_model)
+    DB--&gt;&gt;API: Novo registro
+    API--&gt;&gt;FE: 200 com objeto
+  else não existe
+    API--&gt;&gt;FE: 404
+  end
+    </pre></section>
+</section>
+<hr class="docutils" />
+<section id="armazenamento-de-objetos-objects">
+<h2>🔷 Armazenamento de Objetos (<code class="docutils literal notranslate"><span class="pre">/objects</span></code>)<a class="headerlink" href="#armazenamento-de-objetos-objects" title="Link to this heading">¶</a></h2>
+<p>Upload e associação de arquivos aos capítulos de um relatório. Os bytes são guardados em <code class="docutils literal notranslate"><span class="pre">ObjectStorage</span></code> e a associação capítulo↔relatório↔arquivo em <code class="docutils literal notranslate"><span class="pre">StorageRelation</span></code>.</p>
+<section id="post-objects">
+<h3>🔹POST <code class="docutils literal notranslate"><span class="pre">/objects/</span></code><a class="headerlink" href="#post-objects" title="Link to this heading">¶</a></h3>
+<p>Recebe múltiplos arquivos e associa cada um ao par <code class="docutils literal notranslate"><span class="pre">(report_title,</span> <span class="pre">chapter_title)</span></code>. Se o nome do arquivo já existir, atualiza o registro (tipo de conteúdo, bytes e tamanho). Caso a relação já exista para o arquivo, ignora; caso contrário, cria.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Form Data (multipart):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapter_title</span></code>: string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">files</span></code>: lista de arquivos.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: sem corpo (operações realizadas com sucesso).</p></li>
+</ul>
+</blockquote>
+<p><strong>Fluxo</strong></p>
+<pre  class="mermaid">
+        sequenceDiagram
+  participant FE as Front-end
+  participant API as POST /objects/
+  participant DB as DB
+
+  FE-&gt;&gt;API: multipart (report_title, chapter_title, files[])
+  loop para cada arquivo
+    API-&gt;&gt;DB: upsert em ObjectStorage (filename único)
+    API-&gt;&gt;DB: verificar StorageRelation(UUID, report_title, chapter_title)
+    alt relação inexistente
+      API-&gt;&gt;DB: inserir StorageRelation
+    else já existe
+      API--&gt;&gt;DB: ignora
+    end
+  end
+  API--&gt;&gt;FE: 200
+
+
+  
+    </pre></section>
+<hr class="docutils" />
+<section id="get-objects-report-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/objects/{report_title}</span></code><a class="headerlink" href="#get-objects-report-title" title="Link to this heading">¶</a></h3>
+<p>Retorna a lista de blobs (bytes) de arquivos associados ao relatório. Observação: o filtro usa o campo <code class="docutils literal notranslate"><span class="pre">title</span></code> em <code class="docutils literal notranslate"><span class="pre">StorageRelation</span></code>, o que aparentemente deveria ser <code class="docutils literal notranslate"><span class="pre">report_title</span></code>. Verifique no modelo.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: lista de blobs binários (não recomendado para consumo direto via JSON).</p></li>
+</ul>
+</blockquote>
+</section>
+<hr class="docutils" />
+<section id="get-objects-file-file-id">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/objects/file/{file_id}</span></code><a class="headerlink" href="#get-objects-file-file-id" title="Link to this heading">¶</a></h3>
+<p>Download de um arquivo por UUID, com cabeçalho <code class="docutils literal notranslate"><span class="pre">Content-Disposition</span></code> para forçar nome original.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_id</span></code>: UUID.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: conteúdo binário com <code class="docutils literal notranslate"><span class="pre">media_type</span></code> do arquivo e <code class="docutils literal notranslate"><span class="pre">filename</span></code> original.</p></li>
+<li><p>404: arquivo não encontrado.</p></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="geracao-de-relatorios-e-conteudo-com-ia-report">
+<h2>🔷 Geração de Relatórios e Conteúdo com IA (<code class="docutils literal notranslate"><span class="pre">/report</span></code>)<a class="headerlink" href="#geracao-de-relatorios-e-conteudo-com-ia-report" title="Link to this heading">¶</a></h2>
+<section id="get-report-createreport-report-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/report/createReport/{report_title}</span></code><a class="headerlink" href="#get-report-createreport-report-title" title="Link to this heading">¶</a></h3>
+<p>Gera um documento <code class="docutils literal notranslate"><span class="pre">.odt</span></code> a partir de um relatório “construído” (<code class="docutils literal notranslate"><span class="pre">built_reports</span></code>).<br />
+Fluxo: valida existência do título, extrai <code class="docutils literal notranslate"><span class="pre">title</span></code> e <code class="docutils literal notranslate"><span class="pre">text</span></code> dos capítulos via SQL sobre <code class="docutils literal notranslate"><span class="pre">report_obj</span></code>, chama <code class="docutils literal notranslate"><span class="pre">createDocument</span></code> com <code class="docutils literal notranslate"><span class="pre">TEMPLATE_PATH</span></code> e <code class="docutils literal notranslate"><span class="pre">TEMP_DOC_PATH</span></code>, aciona um serviço de LibreOffice para atualizações de numeração e sumário, e retorna o arquivo via streaming com nome <code class="docutils literal notranslate"><span class="pre">&lt;report_title&gt;.odt</span></code>.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string (deve existir em <code class="docutils literal notranslate"><span class="pre">built_reports</span></code>).</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: arquivo <code class="docutils literal notranslate"><span class="pre">.odt</span></code> como <code class="docutils literal notranslate"><span class="pre">application/vnd.oasis.opendocument.text</span></code>.</p></li>
+<li><p>404: título não existe em <code class="docutils literal notranslate"><span class="pre">built_reports</span></code>.</p></li>
+</ul>
+</blockquote>
+<p><strong>Fluxo</strong></p>
+<pre  class="mermaid">
+        flowchart TD
+  A[GET /report/createReport/title] --&gt; B{title existe em built_reports?}
+  B -- não --&gt; E[404]
+  B -- sim --&gt; C[Consulta capítulos: title/text]
+  C --&gt; D[createDocument TEMPLATE_PATH, TEMP_DOC_PATH]
+  D --&gt; F[Chama LO-RUNNER /libreoffice/process-file]
+  F --&gt; G[FileResponse _temp_report.odt como title.odt]
+    </pre></section>
+<hr class="docutils" />
+<section id="get-report-ai-report-title-chapter-title">
+<h3>🔹GET <code class="docutils literal notranslate"><span class="pre">/report/AI/{report_title}/{chapter_title}</span></code><a class="headerlink" href="#get-report-ai-report-title-chapter-title" title="Link to this heading">¶</a></h3>
+<p>Gera texto para um capítulo usando IA (Gemini) com base no <code class="docutils literal notranslate"><span class="pre">prompt</span></code> do capítulo e arquivos anexados ao par <code class="docutils literal notranslate"><span class="pre">(report_title,</span> <span class="pre">chapter_title)</span></code>.<br />
+Fluxo: busca arquivos do capítulo, extrai o <code class="docutils literal notranslate"><span class="pre">prompt</span></code> do JSON <code class="docutils literal notranslate"><span class="pre">report_obj</span></code> via SQL e chama <code class="docutils literal notranslate"><span class="pre">AI.call_gemini(prompt,</span> <span class="pre">[&quot;&quot;],</span> <span class="pre">files_query)</span></code>. Retorna <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;generated_text&quot;:</span> <span class="pre">&lt;texto&gt;</span> <span class="pre">}</span></code>.</p>
+<blockquote>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>Path:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code>: string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapter_title</span></code>: string.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Respostas</strong></p>
+<ul class="simple">
+<li><p>200: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">&quot;generated_text&quot;:</span> <span class="pre">&quot;&lt;texto</span> <span class="pre">gerado&gt;&quot;</span> <span class="pre">}</span></code>.</p></li>
+</ul>
+</blockquote>
+<p><strong>Fluxo</strong></p>
+<pre  class="mermaid">
+        sequenceDiagram
+  participant FE as Front-end
+  participant API as GET /report/AI/{report}/{chapter}
+  participant DB as DB
+  participant IA as AI.call_gemini
+
+  FE-&gt;&gt;API: Request
+  API-&gt;&gt;DB: Buscar arquivos vinculados (data, filename, content_type)
+  API-&gt;&gt;DB: Buscar prompt do capítulo em built_reports.report_obj
+  DB--&gt;&gt;API: files_query + prompt
+  API-&gt;&gt;IA: prompt + arquivos
+  IA--&gt;&gt;API: generated_text
+  API--&gt;&gt;FE: { generated_text }
+    </pre></section>
+</section>
+<hr class="docutils" />
+<section id="observacoes-sobre-schemas-usados">
+<h2>🔷 Observações sobre schemas usados<a class="headerlink" href="#observacoes-sobre-schemas-usados" title="Link to this heading">¶</a></h2>
+<p>Abaixo estão os contratos Pydantic que estruturam entradas e saídas dos endpoints. Os nomes refletem o domínio do projeto e são usados de forma consistente nas rotas descritas.</p>
+<p><strong>Mapeamento rápido para as rotas</strong></p>
+<ul class="simple">
+<li><p>Modelos de Relatório: <code class="docutils literal notranslate"><span class="pre">ReportCreate</span></code> e <code class="docutils literal notranslate"><span class="pre">Report</span></code> em criação, atualização, listagem e deleção.</p></li>
+<li><p>Capítulos: <code class="docutils literal notranslate"><span class="pre">ChapterCreate</span></code>, <code class="docutils literal notranslate"><span class="pre">Chapter</span></code> e, quando necessário, <code class="docutils literal notranslate"><span class="pre">ChapterWithOrder</span></code> na composição de relatórios.</p></li>
+<li><p>Relações: <code class="docutils literal notranslate"><span class="pre">RelationCreate</span></code> e <code class="docutils literal notranslate"><span class="pre">ChapterHOrder</span></code> para criar/substituir a ordem de capítulos por relatório.</p></li>
+<li><p>Área de Trabalho: <code class="docutils literal notranslate"><span class="pre">ReportObject</span></code> para criar/atualizar relatórios construídos, <code class="docutils literal notranslate"><span class="pre">ReportObjectOut</span></code> e <code class="docutils literal notranslate"><span class="pre">ReportWithFiles</span></code> para leituras que incluem capítulos e anexos, além de <code class="docutils literal notranslate"><span class="pre">FileMeta</span></code> nos pontos de listagem/download de arquivos.</p></li>
+</ul>
+<section id="visao-estrutural">
+<h3>Visão estrutural<a class="headerlink" href="#visao-estrutural" title="Link to this heading">¶</a></h3>
+<pre  class="mermaid">
+        classDiagram
+    namespace Reports{
+    class ReportCreate {
+      title: str
+      description: Optional[str]
+    }
+
+    class Report {
+      id: int
+      title: str
+      description: Optional[str]
+    }
+
+    class ReportObject {
+      id: Optional[int]
+      chapters: List~ChapterObject~
+      completed: bool
+    }
+
+    class ReportObjectOut {
+      chapters: List~ChapterObjectOut~
+    }
+
+    class FileMeta {
+      uuid: UUID
+      filename: str
+      content_type: str
+      size_bytes: int
+      download_url: str
+    }
+
+    class ReportWithFiles {
+      title: str
+      description: Optional[str]
+      completed: bool
+      chapters: List~ChapterObjectOut~
+      files: Dict~str, List~FileMeta~~
+    }
+
+    }
+
+    namespace Chapters{
+        class ChapterCreate {
+      title: str
+      prompt: str
+      description: Optional[str]
+    }
+
+    class Chapter {
+      id: int
+      title: str
+      prompt: str
+      description: Optional[str]
+    }
+
+    class ChapterWithOrder {
+      position: str
+    }
+
+    class ChapterHOrder {
+      title: str
+      prompt: str
+      description: Optional[str]
+      position: str
+    }
+
+    class ChapterObject {
+      id: Optional[int]
+      links: List~str~
+      filled: bool
+      text: str
+      position: str
+    }
+
+    class ChapterObjectOut {
+      docs: List
+      images: List
+    }
+    }
+
+    
+
+    class RelationCreate {
+      chapters: List~ChapterHOrder~
+      report_title: str
+    }
+
+    class Relation {
+      chapters_title: List
+      report_title: str
+      position: str
+    }
+
+    
+
+    
+
+    
+
+    ReportCreate &lt;|-- Report
+    ChapterCreate &lt;|-- Chapter
+    Chapter &lt;|-- ChapterWithOrder
+    Chapter &lt;|-- ChapterObject
+    ChapterObject &lt;|-- ChapterObjectOut
+    Report &lt;|-- ReportObject
+    Report &lt;|-- ReportObjectOut
+    RelationCreate --&gt; ChapterHOrder
+    ReportWithFiles o-- FileMeta
+    ReportWithFiles o-- ChapterObjectOut
+    </pre><hr class="docutils" />
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../frontend/components/areaDeTrabalho.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">🔷 Área de Trabalho</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="geracao_documentos.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">🔵 Geração de Documentos</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    primaryColor: '#111827',   /* card bg */
+    primaryTextColor: '#e5e7eb',
+    lineColor: '#e5e7eb',
+    secondaryColor: '#1f2937',
+    tertiaryColor: '#374151'
+  }
+});
+</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script></body>
+</html>

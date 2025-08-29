@@ -1,0 +1,21 @@
+# registro.br — Guia de Uso (DNS)
+
+## Acesso ao painel
+- Entre no **painel do registro.br** com as **credenciais disponíveis no Discord**.
+- Localize o domínio desejado na sua lista de domínios e clique para abrir os **detalhes**.
+
+---
+
+## Onde adicionar os IPs (configuração DNS)
+1. No domínio escolhido, acesse a área de **DNS** e clique em **Editar zona** (ou opção equivalente).
+2. Para apontar o **endereço IPv4** do seu serviço, **adicione um registro do tipo “A”**:  
+   - **Nome/Host**: use `@` para a raiz do domínio (ex.: `seu-dominio.com.br`) ou informe o subdomínio (ex.: `www`).  
+   - **Valor**: informe o **IPv4** do servidor.  
+3. **Salve** as alterações. A atualização pode levar alguns minutos para propagar.
+
+
+```{note}
+**Observação — considerar migração do DNS para a AWS (Lightsail/Route 53)**
+
+Pode ser interessante **centralizar o DNS na AWS**, especialmente usando o **Lightsail (DNS integrado)** ou **Route 53**, para alinhar operação e automação com a infraestrutura já hospedada lá.
+```

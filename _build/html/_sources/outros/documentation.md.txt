@@ -1,0 +1,53 @@
+# 🔵 Guia da documentação
+
+Página-guia para entender como a documentação é estruturada, como escrever, visualizar, editar e contribuir. O objetivo é manter um padrão claro, direto e consistente.
+
+## 🔷Estrutura e fluxo em alto nível
+
+A documentação é escrita em arquivos Markdown (.md). A partir deles são gerados dois artefatos principais: um site estático em HTML e um documento em PDF.
+
+```{mermaid}
+flowchart LR
+    A[Arquivos .md] --> B[Build Sphinx → HTML]
+    A --> C[Pandoc → PDF]
+    B --> D[Site de Documentação]
+    C --> E[Documento PDF]
+```
+
+## 🔷Stack e dependências
+
+- `Sphinx`: transforma os arquivos Markdown em um site responsivo no estilo read-the-docs.
+- `MyST Parser`: permite escrever páginas em Markdown com diretivas do Sphinx.
+- `sphinxcontrib-mermaid`: habilita blocos Mermaid para diagramas.
+- `Pandoc`: converte Markdown em PDF por meio de um template LaTeX.
+- `LaTeX disponível localmente`: necessário para o Pandoc gerar PDF (por exemplo, TeX Live ou MikTeX).
+- `Make`: necessário para execucar comandos automáticos do makefile
+
+## 🔷Como visualizar localmente
+Para facilitar a usabilidade da ferramenta, diversos comandos foram criados na `Makefile`. 
+
+### 🔹Gerar site HTML
+
+```bash
+make build-html
+```
+
+### 🔹Desenvolvimento
+Para atualização automática da página com edição
+
+```bash
+make live-html
+```
+
+### 🔹Gerar PDF via Pandoc
+
+```bash
+make build-pdf
+```
+
+Observações:
+- Para a geração de PDFs utiliza-se um template LaTeX que pode ser modificado para alterar a formatação, dentre outras características.
+
+## 🔷Inclusão no índice e navegação
+
+Crie o arquivo .md e adicione sua rota na árvore de navegação (toctree) da página relevante. Com MyST, o toctree pode ser incluído em Markdown.

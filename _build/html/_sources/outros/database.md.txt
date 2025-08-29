@@ -1,0 +1,283 @@
+# 🔵 Banco de Dados
+
+Documentação de referência do subsistema de persistência do **Gerador de Relatórios**.  
+Estrutura baseada em **SQLAlchemy (Declarative)** e **PostgreSQL**.
+
+O banco de dados é desenvolvido em PostgreSQL e hospedado na AWS Lightsail. As informações sobre o banco estão a seguir:
+
+| Campo | Valor |
+| ----- | ----- |
+| `DB_USER` | dbmasteruser |
+| `DB_PASS` | *0G8^qqb`kOuW~b1TS#|Gcau]kblljf[ |
+| `DB_HOST` | ls-6c91ee6007055f9ff152e646713483c83cbaa2d7.cez4ccce2p5m.us-east-1.rds.amazonaws.com |
+| `DB_PORT` | 5432 |
+| `DB_NAME`| dbgerador_relatorios |
+
+Todo a estruturação das tabelas, desde da criação, implementação até a usabilidade é realizado via a biblioteca `SQLAlchemy`. A definição de cada tabela é feita em um arquivo exclusivo, sob o diretório `src/backend/app/models/`.
+
+## 🔷 Stack e Dependências
+Tecnologias Utilizadas 
+
+- `PostgreSQL`: Tecnologia SQL usada para o banco de dados.
+- `JSONB`: Tipo de coluna específico ao PostgreSQL, cujo formato é utilizado para guardar os relatórios gerados (não é uma extensão). 
+- `SQLAlchemy`: Framework Python para utilização, criação e conexeção com o banco de dados PostgreSQL
+
+
+## 🔷 Visão Geral 
+Temos 6 tabelas no banco de dados e lógica entre elas é bem direta. 
+
+Um **modelo de relatório** é composto por uma combinação específica de **capítulos** e diversos modelos podem reutilizar o mesmo capítulo (pense em introdução ou conclusão). Por esse motivo, para não criar elementos repetidos no banco de dados temos a tabela `chapters`, que armazena os capítulos, e a tabela `reports` que armazena os modelos criados. Para conectá-los utiliza-se a tabela `relations` que estipula uma relação muitos para muitos (many to many) entre qual capítulo está em qual modelo. 
+
+Agora com relação a criação dos relatórios também temos 3 partes. Primeiro, relatórios criados são armazenados na tabela `built_reports`. Nela, guardamos informações do relatório produzido, como título, descrição, se está completo e data. Além disso, o próprio relatório é armazenado nessa tabela, sob a coluna `report_obj` no formato `JSONB`. Ou seja, relatórios são armazenados como JSON, na seguinte estrutura:
+```JSON
+{
+  "title": "unnamed",
+  "chapters": [
+    {
+      "text": "",
+      "links": [],
+      "title": "",
+      "filled": true,
+      "prompt": "",
+      "position": "1",
+      "description": ""
+    },
+    {
+      "text": "",
+      "links": [],
+      "title": "",
+      "filled": true,
+      "prompt": "",
+      "position": "2",
+      "description": ""
+    }
+  ],
+  "completed": false,
+  "description": ""
+}
+```
+
+Além disso, armazenamos também os arquivos que foram utilizados para gerar essa relatório. Para isso, inicialmente foi criado uma tabela que simula um `object_storage`, onde os arquivos são armazenados como binários, em conjunto com outras informações importantes sobre o arquivo. Ademais, para não manter arquivos repetidos no banco de dados, também se estabelece uma conexão muitos para muitos (many-to-many) entre `built_reports` e `object_storage`. 
+
+
+**❗OBS: Object Storage**
+Inicialmente não se havia acesso a um object storage real. Entretanto, com a transição para a AWS, o serviço de object storage (`S3`) pode ser implementado sem custo adicional no Lightsail.
+
+O código foi desenvolvido com essa possiblidade em mente. Dessa forma, a transição para um object storage real deve ser direta.
+
+
+```mermaid
+erDiagram
+  BUILT_REPORTS ||--o{ STORAGE_RELATION : has
+  OBJECT_STORAGE ||--o{ STORAGE_RELATION : contains
+  CHAPTERS ||--o{ RELATIONS : maps
+  REPORTS  ||--o{ RELATIONS : maps
+
+  BUILT_REPORTS {
+    int id PK
+    string title UK
+    string description
+    json  report_obj
+    boolean completed
+    timestamp datetime
+  }
+
+  OBJECT_STORAGE {
+    uuid id PK
+    string filename UK
+    string content_type
+    bigint size_bytes
+    bytes  data
+    timestamp created_at
+    timestamp updated_at
+  }
+
+  STORAGE_RELATION {
+    uuid   UUID PK  
+    string report_title PK 
+    string chapter_title PK
+  }
+
+  CHAPTERS {
+    int id PK
+    string title UK
+    text   prompt
+    string description
+  }
+
+  REPORTS {
+    int id PK
+    string title UK
+    string description
+  }
+
+  RELATIONS {
+    string chapter_title PK 
+    string report_title  PK 
+    string position
+  }
+``` 
+
+- **Tabelas**
+  - `chapters` — Armazena o título, prompt e descrição dos capítulos criados
+  - `reports` — Armazena o título e descrição dos modelos criados
+  - `relations` — Relação muitos para muitos (many to many) entre os modelos e os capítulos, também contém a informação da ordem em que aquele capítulo aparece no modelo
+  - `built_reports` — Armazena os relatórios prontos, com as informações substituídas. Relatórios são armazenados em colunas `JSONB` do PostgreSQL. 
+  - `object_storage` — Simula um object storage para armazenar os arquivos enviados para elaboração do relatório.
+  - `storage_relation` — Conexão muitos para muitos entre os relatórios construídos e os arquivos.
+
+
+---
+
+
+## 🔶 Referência das Tabelas / Modelos
+
+### 🔸`chapters` — `app.models.chapters.Chapter`
+
+| Campo       | Tipo           | Chave | Restrições / Notas                  |
+|-------------|----------------|-------|-------------------------------------|
+| `id`        | Integer        | PK    | Autoincremento                      |
+| `title`     | String(255)    | UK    | `nullable=False`                    |
+| `prompt`    | Text           | —     | `nullable=False`                    |
+| `description`| String(255)   | —     | Opcional                            |
+
+
+**Relacionamentos**
+- `relations: List[Relation]` — junção com `reports` (`back_populates="chapter"`, `cascade="all, delete-orphan"`).
+
+**Invariantes**
+- `title` único.
+- Remoção de um capítulo remove suas relações.
+
+**Exemplo**
+``` python
+# recuperar capítulos com suas posições em um report
+q = (
+    session.query(Relation)
+    .filter(Relation.report_title == "Relatório Técnico")
+    .order_by(Relation.position.asc())
+    .all()
+)
+```
+
+---
+
+### 🔸 `reports` — `app.models.reports.Report`
+
+| Campo         | Tipo        | Chave | Restrições / Notas |
+| ------------- | ----------- | ----- | ------------------ |
+| `id`          | Integer     | PK    | Autoincremento     |
+| `title`       | String(255) | UK    | `nullable=False`   |
+| `description` | String(255) | —     | Opcional           |
+
+**Relacionamentos**
+- `relations: List[Relation]` — junção com `chapters` (`back_populates="report"`, `cascade="all, delete-orphan"`).
+
+**Invariantes**
+- `title` único.
+
+---
+
+### 🔸`relations` — `app.models.relations.Relation`
+
+| Campo           | Tipo        | Chave | Restrições / Notas                                 |
+|-----------------|-------------|-------|----------------------------------------------------|
+| `chapter_title` | String(255) | PK    | FK → `chapters.title`                              |
+| `report_title`  | String(255) | PK    | FK → `reports.title`                               |
+| `position`      | String      | —     | `nullable=False` (avaliar migração para `Integer`) 
+
+**Relacionamentos**
+- `chapter: Chapter` (`back_populates="relations"`).
+- `report: Report` (`back_populates="relations"`).
+
+**Notas**
+- `position` é `String`; caso a ordenação seja numérica, considerar migração para `Integer`.
+- Como as FKs são por `title`, renomeações de títulos exigem atualização transacional das junções.
+
+---
+
+### 🔸 `built_reports` — `app.models.built_reports.BuiltReports`
+
+| Campo       | Tipo                     | Chave | Restrições / Notas                                             |
+|-------------|---------------------------|-------|-----------------------------------------------------------------|
+| `id`        | Integer                  | PK    | Autoincremento                                                  |
+| `title`     | String                   | UK    | —                                                               |
+| `description`| String                  | —     | Opcional                                                        |
+| `report_obj`| JSONB (MutableDict)      | —     | `default=dict`; alterações *in-place* são rastreadas            |
+| `completed` | Boolean                  | —     | Opcional                                                        |
+| `datetime`  | DateTime(timezone=True)  | —     | `server_default=func.now()`, `nullable=False`                   |
+
+**Índices**
+- `ix_built_reports_report_obj` (`report_obj`) com `postgresql_using="gin"`.
+
+**Relacionamentos**
+- `storage_relation: List[StorageRelation]` — anexos por capítulo (`back_populates="built_report"`, `cascade="all, delete-orphan"`).
+
+**Notas**
+- `MutableDict` habilita rastreamento de alterações *in-place* no JSON.
+
+**Exemplos**
+```sql
+-- consulta por conteúdo JSONB (aproveita o índice GIN)
+SELECT
+ch ->> 'title' AS title_field,
+ch ->> 'text' AS text_field
+FROM
+built_reports AS r
+CROSS JOIN LATERAL
+jsonb_array_elements(r.report_obj->'chapters') AS ch
+```
+
+### 🔸 `object_storage` — `app.models.object_storage.ObjectStorage`
+
+**Papel**: armazenamento de blobs com metadados.
+
+**Campos**
+
+| Campo        | Tipo                     | Chave | Restrições / Notas                                  |
+|--------------|--------------------------|-------|-----------------------------------------------------|
+| `id`         | UUID (as_uuid=True)      | PK    | `default=uuid.uuid4`                                |
+| `filename`   | String                   | UK    | —                                                   |
+| `content_type`| String                  | —     | MIME type                                           |
+| `size_bytes` | BigInteger               | —     | Tamanho em bytes                                    |
+| `data`       | LargeBinary              | —     | Conteúdo binário                                    |
+| `created_at` | DateTime(timezone=True)  | —     | `server_default=func.now()`, `nullable=False`       |
+| `updated_at` | DateTime(timezone=True)  | —     | `server_default=func.now()`, `onupdate=func.now()`  |
+
+**Relacionamentos**
+- `storage_relation: List[StorageRelation]` (`back_populates="object_storage"`, `cascade="all, delete-orphan"`).
+
+**Exemplo**
+```python
+obj = ObjectStorage(
+    filename="intro.odt",
+    content_type="application/vnd.oasis.opendocument.text",
+    size_bytes=len(data_bytes),
+    data=data_bytes,
+)
+session.add(obj); session.commit()
+```
+
+---
+
+### 🔸 `storage_relation` — `app.models.storage_relation.StorageRelation`
+
+| Campo           | Tipo        | Chave | Restrições / Notas                               |
+| --------------- | ----------- | ----- | ------------------------------------------------ |
+| `UUID`          | UUID        | PK    | FK → `object_storage.id`; `index=True`           |
+| `report_title`  | String(255) | PK    | FK → `built_reports.title`                       |
+| `chapter_title` | String(255) | PK    | **Sem FK explícita** (recomenda-se adicionar FK) |
+
+**Relacionamentos**
+- `built_report: BuiltReports` (`back_populates="storage_relation"`).
+- `object_storage: ObjectStorage` (`back_populates="storage_relation"`).
+
+**Exemplo**
+```python
+link = StorageRelation(
+    UUID=obj.id,
+    report_title=br.title,
+    chapter_title="Introdução",
+)
+session.add(link); session.commit()
+```

@@ -1,0 +1,73 @@
+## 🔷 NotificationComp
+
+O componente **NotificationComp** exibe notificações temporárias de **erro** e **sucesso** no topo da interface. Ele é controlado externamente via `v-model:errorMessage` e `v-model:successMessage` e emite os respectivos eventos de atualização para limpar as mensagens.
+
+
+### 🔹Visão geral do fluxo
+1. **Recebimento de mensagens**: quando `errorMessage` ou `successMessage` recebem um valor não vazio, a notificação correspondente é renderizada.
+2. **Exibição**: a mensagem aparece no topo, com transição de entrada/saída (`slide-fade`) e contexto visual do Bootstrap (`alert-warning` para erro, `alert-success` para sucesso).
+3. **Fechamento**:
+   - **Automático**: um *timer* é iniciado sempre que uma nova mensagem chega; após **3 s**, a mensagem é limpa automaticamente.
+   - **Manual**: o usuário pode fechar clicando no botão de fechar; o componente emite `update:*` com string vazia para limpar o estado externo.
+
+Esse fluxo permite integração simples: qualquer componente pai pode definir as mensagens via `v-model` e deixar o **auto-fechamento** e o **fechamento manual** a cargo do `NotificationComp`.
+
+
+### 🔹Variáveis do modelo 
+
+**Entradas controladas (via `v-model`)**
+
+| Chave            | Tipo   | Uso                                                        |
+| ---------------- | ------ | ---------------------------------------------------------- |
+| `errorMessage`   | String | Mensagem de erro a exibir. Notificação `alert-warning`.    |
+| `successMessage` | String | Mensagem de sucesso a exibir. Notificação `alert-success`. |
+
+
+**Estado interno**
+
+| Chave            | Tipo               | Uso                                                         |
+| ---------------- | ------------------ | ----------------------------------------------------------- |
+| `autoCloseTimer` | `number` \| `null` | *Handle* do `setTimeout` usado para auto-fechamento em 3 s. |
+
+> Quando qualquer uma das mensagens muda para um valor não vazio, o componente reinicia o `autoCloseTimer` e agendará a limpeza automática daquela mensagem.
+
+### 🔹 Métodos e *watchers*
+
+#### 🔸`watch.errorMessage(newVal) -> void`
+<blockquote>
+
+**Descrição**  
+Monitora mudanças em `errorMessage`. Quando recebe valor não vazio, limpa qualquer *timer* pendente e agenda novo *timer* de **3 s** para emitir `update:errorMessage`.
+
+**Parâmetros**  
+- `newVal: string`
+
+**Retorno**  
+`void`
+</blockquote>
+
+#### 🔸`watch.successMessage(newVal) -> void`
+<blockquote>
+
+**Descrição**  
+Monitora mudanças em `successMessage`. Quando recebe valor não vazio, limpa qualquer *timer* pendente e agenda novo *timer* de **3 s** para emitir `update:successMessage`.
+
+**Parâmetros**  
+- `newVal: string`
+
+**Retorno**  
+`void`
+</blockquote>
+
+#### 🔸`beforeUnmount() -> void`
+<blockquote>
+
+**Descrição**  
+Limpa o `autoCloseTimer` antes de o componente ser desmontado, evitando *callbacks* pendentes após a remoção.
+
+**Parâmetros**  
+—  
+
+**Retorno**  
+`void`
+</blockquote>

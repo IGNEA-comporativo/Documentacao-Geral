@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔵 Deploy - GeradorRelatorios documentation</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="🔵 Banco de Dados" href="database.html" /><link rel="prev" title="🔵 Geração de Documentos" href="../backend/geracao_documentos.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="🔵 Deploy"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>GeradorRelatorios</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../frontend/frontend.html">🔵 Frontend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/login.html">🔷 Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html">🔷 Área de Trabalho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../frontend/components/areaDeTrabalho.html#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../backend/backend.html">🔵 Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backend/geracao_documentos.html">🔵 Geração de Documentos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🔵 Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">🔵 Banco de Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">🔵 Guia da documentação</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#teste-e-build-localmente">1. Teste e Build Localmente</a></li>
+<li><a class="reference internal" href="#envio-para-docker-hub">2. Envio para Docker Hub</a></li>
+<li><a class="reference internal" href="#teste-localmente">3. Teste Localmente</a></li>
+<li><a class="reference internal" href="#deploy-na-aws">4. Deploy na AWS</a></li>
+<li><a class="reference internal" href="#publickey">PublicKey</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">GeradorRelatorios</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">🔵 Deploy</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="deploy">
+<h1>🔵 Deploy<a class="headerlink" href="#deploy" title="Link to this heading">¶</a></h1>
+<p>O deploy desse projeto é baseado na construção docker desenvolvida. A seguir vamos descrever a rotina para realizar o deploy da aplicação na AWS, considerando que alterações foram feitas nos diferentes sistemas containers da aplicação.</p>
+<section id="teste-e-build-localmente">
+<h2>1. Teste e Build Localmente<a class="headerlink" href="#teste-e-build-localmente" title="Link to this heading">¶</a></h2>
+<p>O primeiro passo é testar se o projeto funciona localmente (ou seja, sem baixar a imagem do dockerhub), através do build da imagem local. Para isso, execute o arquivo <code class="docutils literal notranslate"><span class="pre">compose.prod.cloud.yaml</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose.prod.cloud.yaml<span class="w"> </span>up<span class="w"> </span>--build
+</span></pre></div>
+</div>
+<p>Espere o serviço container buildar e iniciar. Se tudo ocorrer como esperado, você deve conseguir acessar a informação pelo ip fornecido pelo <code class="docutils literal notranslate"><span class="pre">uvicorn</span></code> (definido como <code class="docutils literal notranslate"><span class="pre">BACKEND_PORT</span></code> no <code class="docutils literal notranslate"><span class="pre">.env</span></code>).</p>
+</section>
+<section id="envio-para-docker-hub">
+<h2>2. Envio para Docker Hub<a class="headerlink" href="#envio-para-docker-hub" title="Link to this heading">¶</a></h2>
+<p>Uma vez que a imagem tenha sido corretamente construída no passo anterior, deve-se exportar-las para o dockerhub.</p>
+<blockquote>
+<div><p>OBS: Apenas as images de <code class="docutils literal notranslate"><span class="pre">backend</span></code> e <code class="docutils literal notranslate"><span class="pre">lo-runner</span></code> são exportadas, pois o <code class="docutils literal notranslate"><span class="pre">frontend</span></code> é utilizado apenas para realizar o build dos arquivos estáticos durante o início do container.</p>
+</div></blockquote>
+<p>Primeiro, cheque a atual versão das duas images com</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">docker<span class="w"> </span>images
+</span></pre></div>
+</div>
+<p>Espera-se o que o seguinte formato apareça:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">REPOSITORY</span>                      <span class="n">TAG</span>             <span class="n">IMAGE</span> <span class="n">ID</span>       <span class="n">CREATED</span>          <span class="n">SIZE</span>
+</span><span data-line="2"><span class="n">geradorrelatorios</span><span class="o">-</span><span class="n">backend</span>       <span class="n">latest</span>          <span class="n">b45ffffacba3</span>   <span class="mi">13</span> <span class="n">minutes</span> <span class="n">ago</span>   <span class="mi">478</span><span class="n">MB</span>
+</span><span data-line="3"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">backend</span><span class="o">-</span><span class="n">v11</span>     <span class="n">b45ffffacba3</span>   <span class="mi">13</span> <span class="n">minutes</span> <span class="n">ago</span>   <span class="mi">478</span><span class="n">MB</span>
+</span><span data-line="4"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">backend</span><span class="o">-</span><span class="n">v10</span>     <span class="mi">0</span><span class="n">ffbcccf47eb</span>   <span class="mi">22</span> <span class="n">minutes</span> <span class="n">ago</span>   <span class="mi">479</span><span class="n">MB</span>
+</span><span data-line="5"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">backend</span><span class="o">-</span><span class="n">v9</span>      <span class="n">af3bf2244e0e</span>   <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>      <span class="mi">479</span><span class="n">MB</span>
+</span><span data-line="6"><span class="n">geradorrelatorios</span><span class="o">-</span><span class="n">frontend</span>      <span class="n">latest</span>          <span class="mi">367</span><span class="n">f22870f8c</span>   <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>      <span class="mi">569</span><span class="n">MB</span>
+</span><span data-line="7"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">lo</span><span class="o">-</span><span class="n">runner</span><span class="o">-</span><span class="n">v1</span>    <span class="mi">6</span><span class="n">a1b667a0080</span>   <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>      <span class="mf">1.02</span><span class="n">GB</span>
+</span><span data-line="8"><span class="n">geradorrelatorios</span><span class="o">-</span><span class="n">lo</span><span class="o">-</span><span class="n">runner</span>     <span class="n">latest</span>          <span class="mi">28</span><span class="n">f8bf0c82bb</span>   <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>      <span class="mf">1.02</span><span class="n">GB</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p>Note que as imagens que estamos interessados iniciam com <code class="docutils literal notranslate"><span class="pre">geradorrelatorios-*</span></code>.</p></li>
+</ul>
+<p>Caso você já tenha feito a atualização via docker anteriormente, será possível encontrar a informação da versão anterior dessas images olhando as seguintes linhas:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">backend</span><span class="o">-</span><span class="n">v11</span>     <span class="n">b45ffffacba3</span>   <span class="mi">13</span> <span class="n">minutes</span> <span class="n">ago</span>   <span class="mi">478</span><span class="n">MB</span>
+</span><span data-line="2"><span class="n">pdignea</span><span class="o">/</span><span class="n">relatorios</span>              <span class="n">lo</span><span class="o">-</span><span class="n">runner</span><span class="o">-</span><span class="n">v1</span>    <span class="mi">6</span><span class="n">a1b667a0080</span>   <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>      <span class="mf">1.02</span><span class="n">GB</span>
+</span></pre></div>
+</div>
+<p>Nesse caso, a imagem <code class="docutils literal notranslate"><span class="pre">backend</span></code> está na versão <code class="docutils literal notranslate"><span class="pre">v11</span></code> e a imagem <code class="docutils literal notranslate"><span class="pre">lo-runner</span></code> na versão <code class="docutils literal notranslate"><span class="pre">v1</span></code>.</p>
+<ul class="simple">
+<li><p>Caso não apareça essa informação, acesse o repositório (privado) no dockerhub, por meio da conta de pesquisa e desenvolvimento, e procure a última versão enviada.</p></li>
+</ul>
+<p>Agora, vamos enviar a versão atualizada das imagens para o repositório com os seguintes comandos:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">docker<span class="w"> </span>tag<span class="w"> </span>&lt;ID_da_imagem_backend&gt;<span class="w"> </span>docker.io/pdignea/relatorios:backend-v&lt;versão_backend&gt;
+</span><span data-line="2">docker<span class="w"> </span>push<span class="w"> </span>docker.io/pdignea/relatorios:backend-v&lt;versão_backend&gt;
+</span><span data-line="3">
+</span><span data-line="4">docker<span class="w"> </span>tag<span class="w"> </span>&lt;ID_da_imagem_lo-runner&gt;<span class="w"> </span>docker.io/pdignea/relatorios:lo-runner-v&lt;versão_lo-runner&gt;
+</span><span data-line="5">docker<span class="w"> </span>push<span class="w"> </span>docker.io/pdignea/relatorios:lo-runner-v&lt;versão_lo-runner&gt;
+</span></pre></div>
+</div>
+<p>Deve-se substituir as informações entre <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code>:</p>
+<ul class="simple">
+<li><p>O <code class="docutils literal notranslate"><span class="pre">ID_da_imagem_*</span></code> pode ser encontrado na tabela gerado por <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">image</span></code>.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">versão</span></code> deve ser uma versão acima da anterior. Exemplo, no caso acima para <code class="docutils literal notranslate"><span class="pre">backend</span></code> seria <code class="docutils literal notranslate"><span class="pre">v12</span></code> e <code class="docutils literal notranslate"><span class="pre">lo-runner</span></code> seria <code class="docutils literal notranslate"><span class="pre">v2</span></code>.</p></li>
+</ul>
+</section>
+<section id="teste-localmente">
+<h2>3. Teste Localmente<a class="headerlink" href="#teste-localmente" title="Link to this heading">¶</a></h2>
+<p>Antes de modificar o código em produção na AWS Lightsail, é possível testar localmente com o mesmo ambiente.</p>
+<p>Para isso, acesse o diretório <code class="docutils literal notranslate"><span class="pre">deploy/</span></code> e faça:</p>
+<ol class="arabic simple">
+<li><p>Altere as tags no <code class="docutils literal notranslate"><span class="pre">docker.cloud.yaml</span></code> para a versão mais recentens enviadas no item anterior.</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nt">backend</span><span class="p">:</span>
+</span><span data-line="2"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/pdignea/relatorios:backend-v&lt;última_versão&gt;</span>
+</span><span data-line="3"><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="nt">lo-runner</span><span class="p">:</span>
+</span><span data-line="6"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/pdignea/relatorios:lo-runner-v&lt;última_versão&gt;</span>
+</span><span data-line="7"><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span></pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Faça o <code class="docutils literal notranslate"><span class="pre">pull</span></code> da imagem recentemente enviada para o dockerhub</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose.cloud.yaml<span class="w"> </span>pull
+</span></pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Suba a imagem localmente:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose.cloud.yaml<span class="w"> </span>up
+</span></pre></div>
+</div>
+<p>Se tudo ocorrer corretamente, você deve conseguir acessar a aplicação (como será na AWS) acessando <code class="docutils literal notranslate"><span class="pre">localhost:80</span></code> em seu navegador.</p>
+<blockquote>
+<div><p>OBS: Esse processo pode levar alguns minutos.</p>
+</div></blockquote>
+</section>
+<section id="deploy-na-aws">
+<h2>4. Deploy na AWS<a class="headerlink" href="#deploy-na-aws" title="Link to this heading">¶</a></h2>
+<p>Uma vez que todos os passos anteriores tenham ocorrido corretamente, podemos realizar o deploy na AWS Lightsail. Para isso, certifique-se de ter criado e estabelecido sua <code class="docutils literal notranslate"><span class="pre">publickey</span></code> (mais informações na em <a class="reference internal" href="#publickey"><span class="xref myst">Publickey</span></a>
+).</p>
+<p>Primeiro, envie todos os arquivos que forma anterados para a lightsail. Dentre eles, o <code class="docutils literal notranslate"><span class="pre">compose.cloud.yaml</span></code> sempre é alterado, mas dependendo da sua mudança pode ser necessário enviar outros arquivos.</p>
+<p>Para enviá-los faça:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">scp<span class="w"> </span>-i<span class="w"> </span>&lt;caminho_para_sua_publickey&gt;<span class="w"> </span>deploy/compose.cloud.yaml<span class="w"> </span>ubuntu@3.85.238.151:/home/ubuntu/app
+</span></pre></div>
+</div>
+<p>Agora acesse a instância do Lightsail (via SSH ou pelo terminal online disponibilizado no site). Para maior facilidade vamos utilizar a Makefile presenten. Uma vez lá:</p>
+<ol class="arabic simple">
+<li><p>Navegue para <code class="docutils literal notranslate"><span class="pre">/app</span></code></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">cd</span><span class="w"> </span>app
+</span></pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Pare a execução atual</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">make<span class="w"> </span>stop_server
+</span></pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Realize o pull da imagem docker</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">make<span class="w"> </span>pull_image
+</span></pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Teste se a execução do container funciona corretamente (sem ativar execução contínua)</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose.cloud.yaml<span class="w"> </span>up
+</span></pre></div>
+</div>
+<p>Se tudo ocorrer bem e a aplicação funcionar como esperado, realize o último passo.</p>
+<ol class="arabic simple">
+<li><p>Inicie a execução da nova imagem</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">make<span class="w"> </span>start_server
+</span></pre></div>
+</div>
+<p>Com isso, você deve conseguir acessar o site pelo ip ou domínio esperado.</p>
+</section>
+<section id="publickey">
+<h2>PublicKey<a class="headerlink" href="#publickey" title="Link to this heading">¶</a></h2>
+<p>Para acessar uma instância da AWS Lightsail via SSH ou enviar arquivos via SCP é preciso criar uma <code class="docutils literal notranslate"><span class="pre">publickey</span></code>. Essa é a chave que dá acesso a máquina, uma vez que o lightsail não define uma senha pra SSH.</p>
+<p>Para criar uma <code class="docutils literal notranslate"><span class="pre">publickey</span></code> acesse:</p>
+<ol class="arabic simple">
+<li><p>https://lightsail.aws.amazon.com/ls/webapp/account/keys .</p></li>
+<li><p>Crie uma par de chave de acesso
+<img alt="" src="../_images/publickey_create.png" /></p></li>
+<li><p>Selecione a região da instância
+<img alt="" src="../_images/publickey_region.png" /></p></li>
+<li><p>Defina um nome para sua chave e crie
+<img alt="" src="../_images/publickey_name.png" /></p></li>
+<li><p>Faça um download da chave
+<img alt="" src="../_images/publickey_download.png" /></p></li>
+<li><p>Você irá baixar um arquivo <code class="docutils literal notranslate"><span class="pre">.pem</span></code>.</p></li>
+</ol>
+<p>Você deve deixá-lo em um lugar de fácil acesso. O caminho padrão (tanto no linux-wsl quanto no windows) é <code class="docutils literal notranslate"><span class="pre">~/.ssh/&lt;nome_da_chave&gt;.pem</span></code>, o recomendado é colocá-la nesse lugar.</p>
+<p>Quando for utilizar ssh ou scp faça da seguinte forma:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/&lt;nome_da_chave&gt;.pem<span class="w"> </span>&lt;ip&gt;
+</span><span data-line="2">
+</span><span data-line="3">scp<span class="w"> </span>-i<span class="w"> </span>~/.ssh/&lt;nome_da_chave&gt;.pem<span class="w"> </span>&lt;arquivo1&gt;<span class="w"> </span>&lt;arquivo2&gt;
+</span></pre></div>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../backend/geracao_documentos.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">🔵 Geração de Documentos</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="database.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">🔵 Banco de Dados</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/shibuya.js?v=e730760c"></script></body>
+</html>

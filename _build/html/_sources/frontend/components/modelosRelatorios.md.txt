@@ -1,0 +1,125 @@
+## 🔷 Modelos de Relatórios
+A página **ModelosRelatorios** gerencia o ciclo de vida de **modelos de relatórios** e a sua relação com **capítulos**. Permite listar, criar, editar e excluir modelos, além de montar a lista de capítulos pertencentes a cada modelo (com ordenação). A componente **TwoSideList** é usada **internamente** para manipular os capítulos de um modelo por arrastar/soltar ou por cliques.
+
+### 🔹Visão geral do fluxo
+1. **Carregamento inicial**  
+   - Busca os modelos existentes em `GET /ModelosRelatorios/` e popula `reports`.  
+   - Busca os capítulos disponíveis em `GET /CriadorCapitulos/` e popula `list1` (lado esquerdo da TwoSideList).  
+   - `list2` inicia vazia (capítulos selecionados para o modelo atual).
+
+2. **Criação/Edição do modelo**  
+   - O formulário recebe **nome** (`name`) e **descrição** (`description`).  
+   - A TwoSideList gerencia a seleção e a ordem dos capítulos em `list2`.  
+   - **Salvar**:
+     - Monta `newReport = { title: name, description }`.
+     - Monta `newRelation = { chapters: list2, report_title: name }`.
+   - **Atualizar** (`id >= 0`):  
+       - `PUT /ModelosRelatorios/{id}` → atualiza `reports`;  
+       - `PUT /ModelosRelatorios/relation/{id}` → atualiza relações capítulo ↔ modelo.
+   - **Criar** (`id < 0`):  
+       `POST /ModelosRelatorios/` → adiciona ao `reports`;  
+       `POST /ModelosRelatorios/relation/` → cria relação capítulo ↔ modelo.
+   - Em sucesso, define mensagem de sucesso e limpa o formulário/seleções.  
+   - Em erros:
+     - `409`: nome do modelo já existe.
+     - `400`: nome do modelo ausente.
+
+3. **Edição de um modelo existente**  
+   - Ao selecionar **editar**, define `id`, `name`, `description`.  
+   - Busca relações via `GET /ModelosRelatorios/relation/{name}` → popula `list2`.  
+   - Recalcula `list1` removendo itens presentes em `list2`.
+
+4. **Exclusão**  
+   - `DELETE /ModelosRelatorios/{id}` → remove o modelo de `reports`.
+
+### 🔹Variáveis do modelo 
+
+| Chave            | Tipo   | Descrição                                                                |
+| ---------------- | ------ | ------------------------------------------------------------------------ |
+| `reports`        | Array  | Modelos cadastrados (lista apresentada com ações de editar/excluir).     |
+| `list1`          | Array  | Capítulos **disponíveis** (esquerda da TwoSideList).                     |
+| `list2`          | Array  | Capítulos **selecionados** para o modelo atual (direita da TwoSideList). |
+| `name`           | String | Nome do modelo (enviado como `title`).                                   |
+| `description`    | String | Descrição opcional do modelo.                                            |
+| `id`             | Number | Sentinela de edição: `-1` para criação, `>= 0` para atualização.         |
+| `errorMessage`   | String | Mensagem de erro (exibida por `NotificationComp`).                       |
+| `successMessage` | String | Mensagem de sucesso (exibida por `NotificationComp`).                    |
+
+> Os itens de capítulo manipulados em `list1`/`list2` incluem ao menos `id` e `title`. Na lista da direita, há um campo de entrada ligado a `element.position`, permitindo registrar a posição/ordem do capítulo no modelo.
+
+### 🔹Contrato com o backend
+- **Listar modelos**: `GET /ModelosRelatorios/` → `reports: Array`.  
+- **Listar capítulos disponíveis**: `GET /CriadorCapitulos/` → `list1: Array`.  
+- **Criar modelo**: `POST /ModelosRelatorios/` com `{ title, description }`.  
+- **Atualizar modelo**: `PUT /ModelosRelatorios/{id}` com `{ title, description }`.  
+- **Relações capítulo ↔ modelo (criar)**: `POST /ModelosRelatorios/relation/` com `{ chapters: list2, report_title: name }`.  
+- **Relações capítulo ↔ modelo (atualizar)**: `PUT /ModelosRelatorios/relation/{id}` com `{ chapters: list2, report_title: name }`.  
+- **Obter relações de um modelo**: `GET /ModelosRelatorios/relation/{name}` → popula `list2`.  
+- **Excluir modelo**: `DELETE /ModelosRelatorios/{id}`.
+
+---
+
+### 🔹Métodos 
+
+#### 🔸`created() -> Promise<void>`
+<blockquote>
+
+**Descrição**: carrega `reports` e `list1` com chamadas iniciais aos endpoints de modelos e capítulos.  
+**Retorno**: `Promise<void>`.
+</blockquote>
+
+#### 🔸`resetFields() -> void`
+<blockquote>
+
+**Descrição**: limpa `name`, `description` e `id`, e restaura as listas (`list1` recebe de volta os itens de `list2`, `list2` é esvaziada).  
+**Retorno**: `void`.
+</blockquote>
+
+#### 🔸`salvarCapitulo() -> Promise<void>`
+<blockquote>
+
+**Descrição**: cria ou atualiza o modelo atual e persiste as relações capítulo ↔ modelo com base em `id`.  
+**Entradas**: estado interno (`name`, `description`, `list2`, `id`).  
+**Retorno**: `Promise<void>`.  
+</blockquote>
+
+#### 🔸`editReport(report) -> Promise<void>`
+<blockquote>
+
+**Descrição**: entra em modo de edição de um modelo. Seta `id`, `name`, `description` e busca as relações para popular `list2`, filtrando `list1` para não conter capítulos já selecionados.  
+**Parâmetros**: `report` (nome do modelo).  
+**Retorno**: `Promise<void>`.
+</blockquote>
+
+#### 🔸`onDelete(report) -> Promise<void>`
+<blockquote>
+
+**Descrição**: remove o modelo do backend e sincroniza `reports`.  
+**Parâmetros**: `report` (nome do modelo).  
+**Retorno**: `Promise<void>`.
+
+</blockquote>
+
+
+
+## 🔷 TwoSideList (interno a ModelosRelatorios)
+
+Componente interno responsável por **selecionar** e **ordenar** capítulos de um modelo. Trabalha com duas listas controladas: `list1` (disponíveis) e `list2` (selecionados). Suporta **arrastar e soltar** entre listas e **movimento por clique**.
+
+### 🔹Variáveis do modelo 
+- **Props controladas**: `list1: Array`, `list2: Array`.  
+- **Emissão de estado**: `update:list1`, `update:list2` (para suportar `v-model:list1` / `v-model:list2`).  
+- **Campos dos itens**: `id`, `title`; na lista da direita, o campo `position` é editável (`v-model="element.position"`), permitindo registrar a ordem.
+
+### 🔹Visão geral do fluxo
+- **Mover para a direita** (`moveToRight(item)`)  
+  Remove `item` de `list1` e o anexa ao fim de `list2`. Emite `update:list1` e `update:list2`.
+- **Mover para a esquerda** (`moveToLeft(item)`)  
+  Remove `item` de `list2` e o devolve a `list1`. Emite `update:list1` e `update:list2`.
+- **Arrastar/soltar**  
+  A troca dentro e entre listas é habilitada pelo `draggable`, e o componente expõe um *handler* de log (`log(evt)`) para depuração.
+- **Altura das caixas**  
+  Calculada para manter alinhamento visual entre as duas listas:
+  - `maxCount = Math.max(list1.length, list2.length)`.
+  - `itemHeightPx`: ajusta conforme a presença do campo de entrada na lista da direita.
+  - `listBoxHeight = headerHeightPx + maxCount * itemHeightPx`.

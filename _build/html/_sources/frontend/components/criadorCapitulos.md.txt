@@ -1,0 +1,127 @@
+## 🔷 Criador de Capítulos 
+A componente **CriadorCapitulos** gerencia o ciclo de vida de capítulos da aplicação. Ele lista capítulos existentes, permite criar novos, editar existentes e remover. Fornece feedback de sucesso/erro por meio da **NotificationComp** (via `v-model:errorMessage` e `v-model:successMessage`) e integra-se ao backend por meio de endpoints REST dedicados.
+
+### 🔹 Visão geral do fluxo
+1. **Carregamento inicial**: ao criar o componente, uma chamada `GET /CriadorCapitulos/` popula a lista local de capítulos.
+2. **Listagem e ações**: a UI exibe cada capítulo com ações de **editar** e **excluir**.
+3. **Edição/Criação**:
+   - **Editar**: o clique em “editar” preenche o formulário com os dados do capítulo, definindo o `id` em edição.
+   - **Salvar**:
+     - Se `id >= 0`: atualiza o capítulo via `PUT /CriadorCapitulos/{id}`.
+     - Se `id < 0`: cria novo capítulo via `POST /CriadorCapitulos/`.
+   - Em sucesso: atualiza o estado local e informa por `successMessage`.
+   - Em erro: exibe `errorMessage` conforme o status HTTP.
+4. **Remoção**: o clique em “excluir” envia `DELETE /CriadorCapitulos/{id}` e remove o item da lista local.
+
+Esse fluxo centraliza as operações em um único formulário e utiliza o parâmetro `id` para alternar entre criar e atualizar.
+
+### 🔹Variáveis do modelo 
+
+| Chave            | Tipo   | Uso principal                                                              |
+| ---------------- | ------ | -------------------------------------------------------------------------- |
+| `chapters`       | Array  | Coleção local de capítulos exibidos na lista.                              |
+| `name`           | String | Título do capítulo no formulário (enviado como `title`).                   |
+| `description`    | String | Descrição opcional do capítulo.                                            |
+| `prompt`         | String | Prompt associado ao capítulo.                                              |
+| `id`             | Number | Sentinela de edição: `-1` para criação, `>= 0` para edição do capítulo.    |
+| `errorMessage`   | String | Mensagem de erro (bound à `NotificationComp`).                             |
+| `successMessage` | String | Mensagem de sucesso (bound à `NotificationComp`).                          |
+| `li_classes`     | String | Conjunto de classes utilitárias aplicado aos itens da lista (estilização). |
+
+
+### 🔹Contrato com o backend
+- **Listar**: `GET /CriadorCapitulos/` → retorna a lista de capítulos criados `Chapter[]`.
+- **Criar**: `POST /CriadorCapitulos/` com payload `{ title, description, prompt }` → retorna `Chapter`.
+- **Atualizar**: `PUT /CriadorCapitulos/{id}` com payload `{ title, description, prompt }` → retorna `Chapter`.
+- **Remover**: `DELETE /CriadorCapitulos/{id}` 
+
+
+> **Shape de `Chapter` (mínimo utilizado)**: `{ id: number, title: string, description?: string, prompt?: string }`.
+
+
+
+### 🔹 Métodos
+
+#### 🔸`async created() -> Promise<void>`
+<blockquote>
+
+**Descrição**  
+Carrega a lista inicial de capítulos ao iniciar a componente.
+
+**Comportamento**  
+- Executa `GET /CriadorCapitulos/`.
+- Atribui o resultado a `chapters`.
+</blockquote>
+
+#### 🔸`async fetchChapters() -> Promise<void>`
+<blockquote>
+
+**Descrição**  
+Carrega a lista de capítulos, chamando o backend. 
+
+**Comportamento**  
+- Executa `GET /CriadorCapitulos/`.
+- Seta `this.chapters` com o resultado.
+
+**Retorno**  
+`Promise<void>`
+</blockquote>
+
+#### 🔸`async salvarCapitulo() -> Promise<void>`
+<blockquote>
+
+**Descrição**  
+Cria ou atualiza um capítulo com base no `id` em edição. 
+- Ligada a execução do botão de salvar capítulo. 
+
+**Entrada**  
+```json
+{ name, description, prompt, id }
+```
+
+**Comportamento**  
+1. Limpa mensagens (`errorMessage`, `successMessage`).
+2. Monta `newChapter = { title: name, prompt, description }` com as informações atualmente na tela. 
+3. **Update**: se `id >= 0` (significa que estamos em edição de um capítulo)  
+   - `PUT /CriadorCapitulos/{id}` → substitui item correspondente em `chapters`.
+4. **Create**: se `id < 0` (significa que é um capítulo novo)
+   - `POST /CriadorCapitulos/` → `push` no array `chapters`.
+5. **Reset** do formulário: `name`, `description`, `prompt` e `id = -1`.
+
+**Retorno**  
+`Promise<void>`
+
+</blockquote>
+
+#### 🔸`editChapter(chapter: Chapter) -> void`
+<blockquote>
+
+**Descrição**  
+Entra em modo de edição preenchendo o formulário com os dados do capítulo selecionado.
+- Essa ação torna `id >= 0`, o que sinaliza a atualização de capítulos no método `salvarCapitulo`.
+
+**Parâmetros**  
+`chapter` — objeto `{ id, title, description, prompt }`.
+
+**Comportamento**  
+- Seta `id = chapter.id`.
+- Seta `name`, `description`, `prompt` com os valores do capítulo.
+
+**Retorno**  
+`void`
+</blockquote>
+
+#### 🔸`onDelete(id: number) -> Promise<void>`
+<blockquote>
+
+**Descrição**  
+Remove o capítulo identificado por `id` no backend e sincroniza a lista local.
+
+**Comportamento**  
+- `DELETE /CriadorCapitulos/{id}`.
+- Atualiza `chapters = chapters.filter(c => c.id !== id)`.
+
+**Retorno**  
+`Promise<void>`
+
+</blockquote>

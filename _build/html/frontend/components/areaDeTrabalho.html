@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-accent-color="violet" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>🔷 Área de Trabalho - GeradorRelatorios documentation</title><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="🔵 Backend" href="../../backend/backend.html" /><link rel="prev" title="🔷 Modelos de Relatórios" href="modelosRelatorios.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=397bb51e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=d48c410d" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="🔷 Área de Trabalho"/>
+<meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../index.html">
+      
+      
+      <strong>GeradorRelatorios</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials"></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2 -translate-x-2"></span>
+          <span class="hamburger_3 -translate-x-1"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../frontend.html">🔵 Frontend</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="login.html">🔷 Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="navbar.html">🔷 NavBar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notificationComp.html">🔷 NotificationComp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="criadorCapitulos.html">🔷 Criador de Capítulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelosRelatorios.html">🔷 Modelos de Relatórios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelosRelatorios.html#twosidelist-interno-a-modelosrelatorios">🔷 TwoSideList (interno a ModelosRelatorios)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">🔷 Área de Trabalho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../backend/backend.html">🔵 Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backend/geracao_documentos.html">🔵 Geração de Documentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../outros/deploy.html">🔵 Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../outros/database.html">🔵 Banco de Dados</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../outros/documentation.html">🔵 Guia da documentação</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#">🔷 Área de Trabalho</a><ul>
+<li><a class="reference internal" href="#visao-geral-do-fluxo">🔹Visão geral do fluxo</a></li>
+<li><a class="reference internal" href="#variaveis-do-modelo">🔹Variáveis do modelo</a></li>
+<li><a class="reference internal" href="#contrato-com-o-backend">🔹Contrato com o backend</a></li>
+<li><a class="reference internal" href="#observacoes-e-melhorias">🔹❗ Observações e Melhorias</a><ul>
+<li><a class="reference internal" href="#arquivos">🔸Arquivos</a></li>
+<li><a class="reference internal" href="#estrutura-da-area-de-trabalho">🔸Estrutura da Área de Trabalho</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#metodos">🔹Métodos</a><ul>
+<li><a class="reference internal" href="#changechapter-idx-number-void">🔸<code class="docutils literal notranslate"><span class="pre">changeChapter(idx:</span> <span class="pre">number)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></a></li>
+<li><a class="reference internal" href="#reloadlastreport-void">🔸<code class="docutils literal notranslate"><span class="pre">reloadLastReport()</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></a></li>
+<li><a class="reference internal" href="#savereport-promise-void">🔸<code class="docutils literal notranslate"><span class="pre">saveReport()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code></a></li>
+<li><a class="reference internal" href="#runautosave-promise-void">🔸<code class="docutils literal notranslate"><span class="pre">runAutoSave()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code></a></li>
+<li><a class="reference internal" href="#gerartexto-promise-void">🔸<code class="docutils literal notranslate"><span class="pre">gerarTexto()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code></a></li>
+<li><a class="reference internal" href="#onfileschange-files-file-void">🔸<code class="docutils literal notranslate"><span class="pre">onFilesChange(files:</span> <span class="pre">File[])</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></a></li>
+<li><a class="reference internal" href="#onlinkschange-links-array-void">🔸<code class="docutils literal notranslate"><span class="pre">onLinksChange(links:</span> <span class="pre">Array)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inputfields-interno-a-areadetrabalho">🔷 InputFields (interno a AreaDeTrabalho)</a><ul>
+<li><a class="reference internal" href="#protocolo-de-dados">🔹Protocolo de dados</a></li>
+<li><a class="reference internal" href="#comportamento-principal">🔹Comportamento principal</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#promptfields-interno-a-areadetrabalho">🔷 PromptFields (interno a AreaDeTrabalho)</a><ul>
+<li><a class="reference internal" href="#id1">🔹Protocolo de dados</a></li>
+<li><a class="reference internal" href="#id2">🔹Comportamento principal</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">GeradorRelatorios</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../frontend.html"><span itemprop="name">🔵 Frontend</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">🔷 Área de Trabalho</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+        <article class="yue" role="main">
+          <section id="area-de-trabalho">
+<h1>🔷 Área de Trabalho<a class="headerlink" href="#area-de-trabalho" title="Link to this heading">¶</a></h1>
+<p>A componente <strong>AreaDeTrabalho</strong> centraliza o fluxo de trabalho de geração e edição de conteúdo de capítulos pertencentes a um <strong>modelo de relatório</strong> previamente definido. Ele orquestra duas componentes internas — <strong>InputFields</strong> (entradas de arquivos/links) e <strong>PromptFields</strong> (prompt e ações de geração) — e coordena salvamento, auto-salvamento e geração de texto via backend. A página opera sobre um <strong>modelo selecionado</strong> e seus <strong>capítulos</strong>, permitindo alternar capítulos, editar o texto, anexar insumos e persistir o estado.</p>
+<p>O botão <code class="docutils literal notranslate"><span class="pre">Recarregar</span> <span class="pre">Último</span> <span class="pre">Relatório</span></code> recarrega o último relatório não completo salvo no banco de dados.</p>
+<ul class="simple">
+<li><p>Essa foi a alternativa encontrada para salvar o estado de edição de um relatório, uma vez que não há um página dedicada a edição de cada relatório, e sim uma página geral com seletor de modelos.</p></li>
+</ul>
+<p>A inserção de imagens no texto gerado pela IA ainda não foi implementando.</p>
+<section id="visao-geral-do-fluxo">
+<h2>🔹Visão geral do fluxo<a class="headerlink" href="#visao-geral-do-fluxo" title="Link to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Seleção de modelo</strong><br />
+O usuário seleciona um modelo de relatório. A listagem de capítulos é atualizada para refletir aquela do modelo selecionado (<code class="docutils literal notranslate"><span class="pre">selectedModel</span></code>).</p>
+<p>Uma lista com todos os modelos disponíveis é carregada na memória e guardada na variável <code class="docutils literal notranslate"><span class="pre">models</span></code>.</p>
+</li>
+<li><p><strong>Seleção de capítulo</strong><br />
+O usuário escolhe um capítulo do modelo. A área de edição passa a refletir o capítulo ativo (<strong><code class="docutils literal notranslate"><span class="pre">selectedChapter</span></code></strong>), incluindo texto atual e insumos associados.</p></li>
+<li><p><strong>Edição e insumos</strong></p>
+<ul class="simple">
+<li><p><strong>Texto</strong>: edição direta no editor do capítulo ativo.</p></li>
+<li><p><strong>Valores</strong>: <strong>InputFields</strong> emite mudanças de arquivos/links; o componente pai associa esses valores ao capítulo ativo.</p></li>
+</ul>
+</li>
+<li><p><strong>Salvar</strong><br />
+A ação de salvar consolida o estado do capítulo ativo no backend. O componente atualiza a lista local e marca o capítulo como “preenchido” quando aplicável.</p>
+<p>Marca as circunferências ao lado de cada capítulo com um “check”, indicando que a aquele capítulo já foi concluído.</p>
+</li>
+<li><p><strong>Auto-salvar</strong><br />
+Em intervalos/ações específicas, o componente executa um <strong>auto-salvamento sequencial</strong> percorrendo os capítulos do modelo, reduzindo o risco de perda de dados.</p></li>
+<li><p><strong>Gerar texto (IA)</strong><br />
+A partir do <strong>prompt</strong> atual (fornecido por <strong>PromptFields</strong>) e do contexto do capítulo, o componente solicita ao backend a geração de texto. Antes de gerar, força um <strong>salvar</strong> do capítulo para garantir consistência. Em retorno, atualiza o texto do capítulo ativo.</p></li>
+</ol>
+<p>Esse fluxo privilegia <strong>consistência</strong> (salvar antes de gerar), <strong>previsibilidade</strong> (operações serializadas quando necessário) e <strong>isolamento por capítulo</strong> (cada capítulo tem seu próprio estado).</p>
+</section>
+<section id="variaveis-do-modelo">
+<h2>🔹Variáveis do modelo<a class="headerlink" href="#variaveis-do-modelo" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Chave</p></th>
+<th class="head"><p>Tipo</p></th>
+<th class="head"><p>Descrição</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">models</span></code></p></td>
+<td><p>Array</p></td>
+<td><p>Armazena todos os modelos disponíveis no banco de dados.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">selectedModel</span></code></p></td>
+<td><p>Object</p></td>
+<td><p>Modelo de relatório ativo. Contém <code class="docutils literal notranslate"><span class="pre">chapters:</span> <span class="pre">Array&lt;Chapter&gt;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">selectedChapter</span></code></p></td>
+<td><p>Object</p></td>
+<td><p>Capítulo atualmente em edição/visualização.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">selectedChapterIdx</span></code></p></td>
+<td><p>Number</p></td>
+<td><p>Índice do capítulo ativo dentro de <code class="docutils literal notranslate"><span class="pre">selectedModel.chapters</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">report_title</span></code></p></td>
+<td><p>String</p></td>
+<td><p>Título do modelo (usado em chamadas ao backend).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">generatedReport</span></code></p></td>
+<td><p>Bool</p></td>
+<td><p>Flag para controlar se o relatório já foi gerado (permiting edição deste)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tempReport</span></code></p></td>
+<td><p>Bool</p></td>
+<td><p>Flag para controlar se o relatório está como temporário (quando ainda não foi salvo com um título)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">isGenerating</span></code></p></td>
+<td><p>Boolean</p></td>
+<td><p>Estado de geração de texto (bloqueia UI quando verdadeiro).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">errorMessage</span></code></p></td>
+<td><p>String</p></td>
+<td><p>Mensagem de erro exibida por <code class="docutils literal notranslate"><span class="pre">NotificationComp</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">successMessage</span></code></p></td>
+<td><p>String</p></td>
+<td><p>Mensagem de sucesso exibida por <code class="docutils literal notranslate"><span class="pre">NotificationComp</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">files</span></code></p></td>
+<td><p>Array</p></td>
+<td><p>Arquivos anexados ao capítulo ativo (recebidos de <strong>InputFields</strong>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">links</span></code></p></td>
+<td><p>Array</p></td>
+<td><p>Links ou referências associadas ao capítulo ativo (recebidos de <strong>InputFields</strong>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">saveQueue</span></code></p></td>
+<td><p>Queue</p></td>
+<td><p>Queue utilizada para o salvamento do estado</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="contrato-com-o-backend">
+<h2>🔹Contrato com o backend<a class="headerlink" href="#contrato-com-o-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Salvar capítulo</strong></p>
+<ul>
+<li><p><strong>Criar/Atualizar</strong>: <code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/AreaDeTrabalho/</span></code> ou <code class="docutils literal notranslate"><span class="pre">PUT</span> <span class="pre">/AreaDeTrabalho/{report_title}</span></code><br />
+<strong>Payload (exemplo mínimo)</strong>: <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">report_title,</span> <span class="pre">chapter_title,</span> <span class="pre">text,</span> <span class="pre">files?,</span> <span class="pre">links?</span> <span class="pre">}</span></code><br />
+<strong>Efeito</strong>: persiste o conteúdo do capítulo e seus insumos no contexto do modelo.</p></li>
+</ul>
+</li>
+<li><p><strong>Gerar texto (IA)</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/AI/tests/{report_title}/{chapter_title}</span></code><br />
+<strong>Efeito</strong>: retorna texto gerado para o capítulo; o componente atualiza <code class="docutils literal notranslate"><span class="pre">selectedChapter.text</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<p>Tratamento de erros típico:</p>
+<ul class="simple">
+<li><p><strong>409</strong>: nomes de relatórios duplicados</p></li>
+<li><p><strong>400</strong>: título ausente</p></li>
+</ul>
+</section>
+<section id="observacoes-e-melhorias">
+<h2>🔹❗ Observações e Melhorias<a class="headerlink" href="#observacoes-e-melhorias" title="Link to this heading">¶</a></h2>
+<section id="arquivos">
+<h3>🔸Arquivos<a class="headerlink" href="#arquivos" title="Link to this heading">¶</a></h3>
+<p>Atualmente, tanto os arquivos enviados pelo usuário, quanto aqueles que são regatados de relatórios anteriores incompletos são carregados e salvos em uma variável no frontend.</p>
+<p>Essa escolha de implementação não foi adequada, em especial ao considerar que arquivos de tamanho muito grande podem ser inseridos.</p>
+<ul class="simple">
+<li><p>O frontend sofre uma carga muito elevada devido ao armazenamento dos arquivos.</p></li>
+</ul>
+<p><strong>Proposta de Solução</strong>
+Os arquivos não mais devem ser armazenados no frontend. Assim que o usuário adicionar novos arquivos, eles devem ser enviados de forma assíncrona para o banco de dados.</p>
+<p>Ao enviar o arquivo o backend deve retornar o seguinte objeto:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span><span class="err">&lt;UUID&gt;</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;</span><span class="kc">n</span><span class="err">ome_do_arquivo&gt;</span><span class="p">}</span>
+</span></pre></div>
+</div>
+<p>Então o frontend armazena uma lista desses objetos.</p>
+<ul class="simple">
+<li><p>Utiliza-se o valor <code class="docutils literal notranslate"><span class="pre">&lt;nome_do_arquivo&gt;</span></code> para mostrar os arquivos na listagem para o usuário.</p></li>
+</ul>
+<p>Ao carregar arquivos da última seção, carrega-se apenas a lista de objetos com <code class="docutils literal notranslate"><span class="pre">UUID</span></code> e <code class="docutils literal notranslate"><span class="pre">nome_do_arquivo</span></code>, assim não há necessidade de carregar os arquivos do banco de dados apenas para mostrá-los no frontend.</p>
+</section>
+<section id="estrutura-da-area-de-trabalho">
+<h3>🔸Estrutura da Área de Trabalho<a class="headerlink" href="#estrutura-da-area-de-trabalho" title="Link to this heading">¶</a></h3>
+<p>Atualmente a área de trabalho funciona de forma pouco convencional. Não é possível começar a trabalhar em um relatório, ir para outro, voltar e etc. Além disso, a visualização fica completamente dependente da página de resultados.</p>
+<p>Não há um “projeto” no qual se está trabalhando, a informação é totalmente guardada em uma única página com muitas funções. Sem a deifinição de um projeto, a distinção no backend é mais complexa, assim como no banco de dados.</p>
+<p>Uma estrutura que funcionaria melhor, tanto para o backend + banco de dados (no sentido de salvar e recuperar o estado de gelatório não finalizados), quanto para a UX seria semelhante a do <a class="reference external" href="https://pt.overleaf.com/">overleaf</a>:</p>
+<p><strong>Proposta de Mudança</strong>
+Mudar a página principal da área de trabalho a página de relatórios gerados para um molde de relatórios gerados. Quando você acessar um relatório criado ou apertar para criar um novo relatório você será redirecionado para uma página responsável pela edição daquele documento.</p>
+<ul class="simple">
+<li><p>Ao criar o relatório decidimos o template (o que remove o problema de poder trocar de template no meio da edição de um relatório)</p></li>
+<li><p>Isso permite uma separação entre o que é menu da página e edição do documento</p></li>
+<li><p>Isso também libera mais espaço na página de edição, o que permite uma repaginação mais eficiente</p></li>
+<li><p>O salvamento de estados de edição é mais direto e claro, tanto no backend quanto no frontend.</p></li>
+</ul>
+<p>O funcionamento é semelhante a maioria dos aplicativos de edição de documentos - como o google docs ou o overleaf.</p>
+</section>
+</section>
+<section id="metodos">
+<h2>🔹Métodos<a class="headerlink" href="#metodos" title="Link to this heading">¶</a></h2>
+<section id="changechapter-idx-number-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">changeChapter(idx:</span> <span class="pre">number)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code><a class="headerlink" href="#changechapter-idx-number-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: torna o capítulo de índice <code class="docutils literal notranslate"><span class="pre">idx</span></code> o capítulo ativo, atualizando <code class="docutils literal notranslate"><span class="pre">selectedChapter</span></code> e <code class="docutils literal notranslate"><span class="pre">selectedChapterIdx</span></code>.</p>
+<p>Também recarrega as imagens e links que eram utilizados nesse relatório.
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">void</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="reloadlastreport-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">reloadLastReport()</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code><a class="headerlink" href="#reloadlastreport-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: Executa <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/AreaDeTrabalho/lastReport</span></code> para pegar o último relatório não completado no banco de dados.
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">void</span></code>.</p>
+<p class="rubric" id="savechapter-chapter-chapter-promise-void">🔸<code class="docutils literal notranslate"><span class="pre">saveChapter(chapter?:</span> <span class="pre">Chapter)</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code></p>
+<p><strong>Descrição</strong>: salva o conteúdo do capítulo fornecido (ou do capítulo ativo, se omitido) no backend. Consolida <code class="docutils literal notranslate"><span class="pre">text</span></code>, <code class="docutils literal notranslate"><span class="pre">files</span></code> e <code class="docutils literal notranslate"><span class="pre">links</span></code>.</p>
+<p>O salvamento do capítulo automático ou manual é adicionado a <code class="docutils literal notranslate"><span class="pre">saveQueue</span></code> e então processados em ordem. Esse comportamento evita sobreposição de salvamentos.</p>
+<p><strong>Parâmetros</strong>: <code class="docutils literal notranslate"><span class="pre">chapter</span></code> opcional (se ausente, usa <code class="docutils literal notranslate"><span class="pre">selectedChapter</span></code>).<br />
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">Promise&lt;void&gt;</span></code>.<br />
+<strong>Efeitos</strong>: atualiza o capítulo em <code class="docutils literal notranslate"><span class="pre">selectedModel.chapters</span></code>; quando aplicável, define <code class="docutils literal notranslate"><span class="pre">chapter.filled</span> <span class="pre">=</span> <span class="pre">true</span></code>; em caso de erro, popula <code class="docutils literal notranslate"><span class="pre">errorMessage</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="savereport-promise-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">saveReport()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code><a class="headerlink" href="#savereport-promise-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: salva o relatório gerado ou atualiza um relatório que já foi enviado nessa seção.
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">Promise&lt;void&gt;</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="runautosave-promise-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">runAutoSave()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code><a class="headerlink" href="#runautosave-promise-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: executa auto-salvamento sequencial percorrendo <code class="docutils literal notranslate"><span class="pre">selectedModel.chapters</span></code>, chamando <code class="docutils literal notranslate"><span class="pre">saveChapter</span></code> <strong>com <code class="docutils literal notranslate"><span class="pre">await</span></code></strong> para cada item.<br />
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">Promise&lt;void&gt;</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="gerartexto-promise-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">gerarTexto()</span> <span class="pre">-&gt;</span> <span class="pre">Promise&lt;void&gt;</span></code><a class="headerlink" href="#gerartexto-promise-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: garante persistência do capítulo ativo e solicita geração de texto ao backend.<br />
+<strong>Fluxo</strong>:</p>
+<ol class="arabic simple">
+<li><p>Define <code class="docutils literal notranslate"><span class="pre">isGenerating</span> <span class="pre">=</span> <span class="pre">true</span></code>.</p></li>
+<li><p>Executa <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">saveChapter()</span></code> para sincronizar estado.</p></li>
+<li><p>Chama <code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/AI/tests/{report_title}/{selectedChapter.title}</span></code>.</p></li>
+<li><p>Atualiza <code class="docutils literal notranslate"><span class="pre">selectedChapter.text</span></code> com a resposta.</p></li>
+<li><p>Restaura <code class="docutils literal notranslate"><span class="pre">isGenerating</span> <span class="pre">=</span> <span class="pre">false</span></code>; define <code class="docutils literal notranslate"><span class="pre">successMessage</span></code>/<code class="docutils literal notranslate"><span class="pre">errorMessage</span></code> conforme o resultado.<br />
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">Promise&lt;void&gt;</span></code>.</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="onfileschange-files-file-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">onFilesChange(files:</span> <span class="pre">File[])</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code><a class="headerlink" href="#onfileschange-files-file-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: manipula o evento emitido por <strong>InputFields</strong> ao alterar anexos; associa <code class="docutils literal notranslate"><span class="pre">files</span></code> ao capítulo ativo.<br />
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">void</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="onlinkschange-links-array-void">
+<h3>🔸<code class="docutils literal notranslate"><span class="pre">onLinksChange(links:</span> <span class="pre">Array)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code><a class="headerlink" href="#onlinkschange-links-array-void" title="Link to this heading">¶</a></h3>
+<blockquote>
+<div><p><strong>Descrição</strong>: manipula o evento emitido por <strong>InputFields</strong> ao alterar links; associa <code class="docutils literal notranslate"><span class="pre">links</span></code> ao capítulo ativo.<br />
+<strong>Retorno</strong>: <code class="docutils literal notranslate"><span class="pre">void</span></code>.</p>
+</div></blockquote>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+<section id="inputfields-interno-a-areadetrabalho">
+<h1>🔷 InputFields (interno a AreaDeTrabalho)<a class="headerlink" href="#inputfields-interno-a-areadetrabalho" title="Link to this heading">¶</a></h1>
+<p>Gerencia <strong>insumos</strong> do capítulo ativo: seleção/remoção de <strong>arquivos</strong> e captura de <strong>links</strong>. Dispara eventos de alteração para o pai (<strong>AreaDeTrabalho</strong>) salva o estado e inclui esses dados em operações de <strong>salvar</strong> e <strong>gerar</strong>.</p>
+<p>Aplica um algoritmo de <strong>slugify</strong> para padronização do nome dos arquivos enviados. Como esse processo é realizado assim que o arquivo é carregado, para todos os efeitos (incluindo o banco de dados) o nome do arquivo é aquele produzido pelo <strong>slugify</strong>.</p>
+<section id="protocolo-de-dados">
+<h2>🔹Protocolo de dados<a class="headerlink" href="#protocolo-de-dados" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Emissões</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">files-change:</span> <span class="pre">File[]</span></code> — lista completa atualizada de arquivos.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">links-change:</span> <span class="pre">Array</span></code> — coleção atualizada de links/referências.</p></li>
+</ul>
+</li>
+<li><p><strong>Comportamento</strong>:</p>
+<ul>
+<li><p>Normalização de nomes de arquivos com <strong>slugify</strong> antes de emitir.</p></li>
+<li><p>Limpeza de seletores após seleção para permitir reenvio do mesmo arquivo.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="comportamento-principal">
+<h2>🔹Comportamento principal<a class="headerlink" href="#comportamento-principal" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Adiciona arquivos à coleção atual, emite <code class="docutils literal notranslate"><span class="pre">files-change</span></code>.</p></li>
+<li><p>Remove arquivos individuais, emite <code class="docutils literal notranslate"><span class="pre">files-change</span></code>.</p></li>
+<li><p>Captura e valida formato básico de links, emite <code class="docutils literal notranslate"><span class="pre">links-change</span></code>.</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="promptfields-interno-a-areadetrabalho">
+<h1>🔷 PromptFields (interno a AreaDeTrabalho)<a class="headerlink" href="#promptfields-interno-a-areadetrabalho" title="Link to this heading">¶</a></h1>
+<p>Centraliza o <strong>prompt</strong> usado na geração de texto para o capítulo ativo e expõe a ação de <strong>gerar</strong>. Pode incluir visualizações auxiliares (ex.: tamanho do prompt) e bloqueios quando <code class="docutils literal notranslate"><span class="pre">isGenerating</span></code> é verdadeiro.</p>
+<section id="id1">
+<h2>🔹Protocolo de dados<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Entradas</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">modelTitle?:</span> <span class="pre">string</span></code> — título do modelo atual (para exibição contextual).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chapterTitle?:</span> <span class="pre">string</span></code> — título do capítulo ativo.</p></li>
+</ul>
+</li>
+<li><p><strong>Emissões</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">generate</span></code> — sinaliza ao pai para executar <code class="docutils literal notranslate"><span class="pre">gerarTexto()</span></code> com o estado atual.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prompt-change:</span> <span class="pre">string</span></code> — texto do prompt atualizado (se o pai persistir/observar o prompt).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id2">
+<h2>🔹Comportamento principal<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Mantém o valor do <strong>prompt</strong> corrente do capítulo ativo.</p></li>
+<li><p>Desabilita controles de geração quando <code class="docutils literal notranslate"><span class="pre">isGenerating</span></code> é verdadeiro.</p></li>
+<li><p>Ao acionar <strong>Gerar</strong>, emite <code class="docutils literal notranslate"><span class="pre">generate</span></code>; o pai (AreaDeTrabalho) coordena salvar + chamada de IA + atualização do texto.</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="modelosRelatorios.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">🔷 Modelos de Relatórios</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../../backend/backend.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">🔵 Backend</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, P&D-IA</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials"></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../_static/documentation_options.js?v=5ffef437"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/shibuya.js?v=e730760c"></script></body>
+</html>
